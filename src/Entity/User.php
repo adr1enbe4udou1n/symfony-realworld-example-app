@@ -4,13 +4,21 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ *
+ * @UniqueEntity("email", message="user.email.unique")
  */
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -24,7 +32,7 @@ class User
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -42,16 +50,6 @@ class User
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -118,27 +116,30 @@ class User
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getUserIdentifier(): string
     {
-        return $this->createdAt;
+        return $this->username ?? '';
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function getUsername(): string
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        return $this->getUserIdentifier();
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    /**
+     * @return string[]
+     */
+    public function getRoles(): array
     {
-        return $this->updatedAt;
+        return ['ROLE_USER'];
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function getSalt(): ?string
     {
-        $this->updatedAt = $updatedAt;
+        return null;
+    }
 
-        return $this;
+    public function eraseCredentials(): void
+    {
     }
 }

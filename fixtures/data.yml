@@ -1,0 +1,7 @@
+App\Entity\User:
+    user_{1..50}:
+        name: '<name()>'
+        email: '<email()>'
+        password: '\$2y\$13\$IgpFZESKj.9WwhX7cNAGR.PmAnHIKLgVBzjAK3/xbElTyeVKXMvbq'
+        image: 'https://randomuser.me/api/portraits/men/<numberBetween(1, 99)>.jpg'
+        bio: '<text(60)>'
