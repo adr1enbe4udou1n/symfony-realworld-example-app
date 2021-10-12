@@ -5,3 +5,17 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    formats:
+        json: ['application/json']
+        html: ['text/html']
+    title: 'Conduit API'
+    description: 'Conduit API'
+    version: '1.0.0'
+    openapi:
+        contact:
+            name: RealWorld - Website
+            url: https://realworld.io/
+            email: contact@realworld.io
+        license:
+            name: MIT Licence
+            url: https://opensource.org/licenses/MIT

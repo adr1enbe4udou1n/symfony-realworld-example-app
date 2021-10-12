@@ -8,7 +8,7 @@ class RegisterTest extends ApiTestCase
 {
     public function testSomething(): void
     {
-        $response = static::createClient()->request('GET', '/');
+        $response = static::createClient()->request('POST', '/user');
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains(['@id' => '/']);
