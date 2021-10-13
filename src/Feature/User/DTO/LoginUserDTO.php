@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO;
+namespace App\Feature\User\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class NewUserDTO
+class LoginUserDTO
 {
     #[Assert\NotBlank]
     #[Assert\Email]
@@ -13,7 +13,4 @@ class NewUserDTO
     #[Assert\NotBlank]
     #[Assert\Length(min: 8)]
     public string $password;
-
-    #[Assert\NotBlank]
-    public string $username;
 }

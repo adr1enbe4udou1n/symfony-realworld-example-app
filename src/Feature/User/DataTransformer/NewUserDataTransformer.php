@@ -1,11 +1,11 @@
 <?php
 
-namespace App\DataTransformer;
+namespace App\Feature\User\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\DTO\NewUserRequest;
 use App\Entity\User;
+use App\Feature\User\Request\NewUserRequest;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class NewUserDataTransformer implements DataTransformerInterface

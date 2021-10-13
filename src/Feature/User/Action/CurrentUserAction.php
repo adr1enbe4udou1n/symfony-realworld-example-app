@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\User;
+namespace App\Feature\User\Action;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

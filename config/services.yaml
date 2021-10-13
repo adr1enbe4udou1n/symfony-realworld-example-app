@@ -25,7 +25,7 @@ services:
     # please note that last definitions always *replace* previous ones
     App\OpenApi\OpenApiFactory:
         decorates: 'api_platform.openapi.factory'
-    App\DataTransformer\NewUserDataTransformer: ~
-    App\DataTransformer\LoginUserDataTransformer: ~
-    App\DataTransformer\UpdateUserDataTransformer: ~
-    App\DataTransformer\UserDataTransformer: ~
+    App\Feature\User\DataTransformer\NewUserDataTransformer: ~
+    App\Feature\User\DataTransformer\LoginUserDataTransformer: ~
+    App\Feature\User\DataTransformer\UpdateUserDataTransformer: ~
+    App\Feature\User\DataTransformer\UserDataTransformer: ~

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\DataTransformer;
+namespace App\Feature\User\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\DTO\UpdateUserRequest;
 use App\Entity\User;
+use App\Feature\User\Request\UpdateUserRequest;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class UpdateUserDataTransformer implements DataTransformerInterface
@@ -18,7 +18,6 @@ final class UpdateUserDataTransformer implements DataTransformerInterface
 
     /**
      * @param UpdateUserRequest $data
-     *                                {@inheritdoc}
      */
     public function transform($data, string $to, array $context = []): User
     {

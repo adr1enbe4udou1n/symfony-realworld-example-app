@@ -1,11 +1,11 @@
 <?php
 
-namespace App\DataTransformer;
+namespace App\Feature\User\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
-use App\DTO\UserDTO;
-use App\DTO\UserResponse;
 use App\Entity\User;
+use App\Feature\User\DTO\UserDTO;
+use App\Feature\User\Response\UserResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 final class UserDataTransformer implements DataTransformerInterface

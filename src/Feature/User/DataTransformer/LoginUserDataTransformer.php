@@ -1,12 +1,12 @@
 <?php
 
-namespace App\DataTransformer;
+namespace App\Feature\User\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\DTO\LoginUserDTO;
-use App\DTO\LoginUserRequest;
 use App\Entity\User;
+use App\Feature\User\DTO\LoginUserDTO;
+use App\Feature\User\Request\LoginUserRequest;
 
 final class LoginUserDataTransformer implements DataTransformerInterface
 {
@@ -17,7 +17,6 @@ final class LoginUserDataTransformer implements DataTransformerInterface
 
     /**
      * @param LoginUserRequest $data
-     *                               {@inheritdoc}
      */
     public function transform($data, string $to, array $context = []): LoginUserDTO
     {

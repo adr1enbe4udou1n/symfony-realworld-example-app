@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\User;
+namespace App\Feature\User\Action;
 
-use App\DTO\LoginUserDTO;
+use App\Feature\User\DTO\LoginUserDTO;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
