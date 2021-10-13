@@ -6,9 +6,15 @@ use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use App\DTO\UserDTO;
 use App\DTO\UserResponse;
 use App\Entity\User;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 final class UserDataTransformer implements DataTransformerInterface
 {
+    public function __construct(
+        private JWTTokenManagerInterface $jwtManager,
+    ) {
+    }
+
     /**
      * @param User $data
      */
@@ -17,10 +23,10 @@ final class UserDataTransformer implements DataTransformerInterface
         $output = new UserResponse();
         $output->user = new UserDTO();
         $output->user->email = $data->email;
-        $output->user->username = $data->username;
+        $output->user->username = $data->name;
         $output->user->bio = $data->bio;
         $output->user->image = $data->image;
-        $output->user->token = 'token';
+        $output->user->token = $this->jwtManager->create($data);
 
         return $output;
     }
@@ -30,6 +36,6 @@ final class UserDataTransformer implements DataTransformerInterface
      */
     public function supportsTransformation($data, string $to, array $context = []): bool
     {
-        return UserDTO::class === $to && $data instanceof User;
+        return UserResponse::class === $to && $data instanceof User;
     }
 }

@@ -4,8 +4,13 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\RegisterUserAction;
+use App\Controller\User\CurrentUserAction;
+use App\Controller\User\LoginUserAction;
+use App\Controller\User\RegisterUserAction;
+use App\Controller\User\UpdateUserAction;
+use App\DTO\LoginUserRequest;
 use App\DTO\NewUserRequest;
+use App\DTO\UpdateUserRequest;
 use App\DTO\UserResponse;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,13 +22,30 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: 'public.user')]
 #[UniqueEntity('email', message: 'user.email.unique')]
 #[ApiResource(
+    output: UserResponse::class,
     collectionOperations: [
         'register' => [
             'method' => 'POST',
             'path' => '/users',
             'controller' => RegisterUserAction::class,
             'input' => NewUserRequest::class,
-            'output' => UserResponse::class,
+        ],
+        'login' => [
+            'method' => 'POST',
+            'path' => '/users/login',
+            'controller' => LoginUserAction::class,
+            'input' => LoginUserRequest::class,
+        ],
+        'current' => [
+            'method' => 'GET',
+            'path' => '/user',
+            'controller' => CurrentUserAction::class,
+        ],
+        'update' => [
+            'method' => 'PUT',
+            'path' => '/user',
+            'controller' => UpdateUserAction::class,
+            'input' => UpdateUserRequest::class,
         ],
     ],
     itemOperations: [
@@ -65,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->username ?? '';
+        return $this->email ?? '';
     }
 
     public function getUsername(): string

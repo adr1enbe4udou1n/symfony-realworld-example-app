@@ -1,7 +1,5 @@
 <?php
 
-// src/DataTransformer/BookInputDataTransformer.php
-
 namespace App\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
@@ -29,7 +27,7 @@ final class NewUserDataTransformer implements DataTransformerInterface
         $user = new User();
         $user->name = $data->user->username;
         $user->password = $this->userPasswordHasher->hashPassword($user, $data->user->password);
-        $user->email = $data->user->username;
+        $user->email = $data->user->email;
 
         return $user;
     }
@@ -43,6 +41,6 @@ final class NewUserDataTransformer implements DataTransformerInterface
             return false;
         }
 
-        return User::class === $to && null !== ($context['input']['class'] ?? null);
+        return NewUserRequest::class === ($context['input']['class'] ?? null);
     }
 }

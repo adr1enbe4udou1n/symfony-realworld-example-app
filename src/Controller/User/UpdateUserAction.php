@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\User;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class RegisterUserAction extends AbstractController
+class UpdateUserAction extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private UserRepository $users,
     ) {
     }
 
