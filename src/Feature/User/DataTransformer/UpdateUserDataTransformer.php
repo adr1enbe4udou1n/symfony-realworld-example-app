@@ -23,6 +23,7 @@ final class UpdateUserDataTransformer implements DataTransformerInterface
     {
         $this->validator->validate($data->user);
 
+        /** @var User */
         $user = $this->token->getToken()->getUser();
         $user->name = $data->user->username ?? $user->name;
         $user->email = $data->user->email ?? $user->email;
