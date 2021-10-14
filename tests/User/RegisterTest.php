@@ -2,15 +2,32 @@
 
 namespace App\Tests\User;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use App\Entity\User;
+use App\Tests\AbstractTest;
 
-class RegisterTest extends ApiTestCase
+class RegisterTest extends AbstractTest
 {
-    public function testSomething(): void
+    public function testUserCanRegister(): void
     {
-        $response = static::createClient()->request('POST', '/user');
+        $this->getClient()->request('POST', '/api/users', [
+            'json' => [
+                'user' => [
+                    'email' => 'john.doe@example.com',
+                    'password' => 'password',
+                    'username' => 'John Doe',
+                ],
+            ],
+        ]);
 
         $this->assertResponseIsSuccessful();
-        $this->assertJsonContains(['@id' => '/']);
+        $this->assertJsonContains(['user' => [
+            'email' => 'john.doe@example.com',
+            'username' => 'John Doe',
+        ]]);
+
+        $this->assertNotNull(
+            static::getContainer()->get('doctrine')
+                ->getRepository(User::class)->findOneBy(['email' => 'john.doe@example.com'])
+        );
     }
 }
