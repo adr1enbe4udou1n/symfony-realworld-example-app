@@ -5,6 +5,7 @@ namespace App\OpenApi;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\Model;
 use ApiPlatform\Core\OpenApi\Model\Operation;
+use ApiPlatform\Core\OpenApi\Model\Parameter;
 use ApiPlatform\Core\OpenApi\Model\PathItem;
 use ApiPlatform\Core\OpenApi\Model\Response;
 use ApiPlatform\Core\OpenApi\Model\Server;
@@ -46,11 +47,15 @@ final class OpenApiFactory implements OpenApiFactoryInterface
 
             if ($path->equalsTo('/user')) {
                 $pathItem = $pathItem
-                    ->withGet($this->cleanupSuccessResponses($pathItem->getGet())->withSecurity([['apiKey' => []]]))
+                    ->withGet($this->removeResourceIdentifier(
+                        $this->cleanupSuccessResponses($pathItem->getGet()))->withSecurity([['apiKey' => []]])
+                    )
                     ->withPut(
-                        $this
-                            ->setRequestBodyDoc($pathItem->getPut(), 'User details to update. At least one field is required.')
-                            ->withSecurity([['apiKey' => []]])
+                        $this->removeResourceIdentifier(
+                            $this
+                                ->setRequestBodyDoc($pathItem->getPut(), 'User details to update. At least one field is required.')
+                                ->withSecurity([['apiKey' => []]])
+                        )
                     );
             }
 
@@ -63,6 +68,21 @@ final class OpenApiFactory implements OpenApiFactoryInterface
                 new Server('/api'),
             ])
             ->withSecurity([]);
+    }
+
+    private function removeResourceIdentifier(Operation $operation): Operation
+    {
+        $parameters = [];
+
+        /** @var Parameter $parameter */
+        foreach ($operation->getParameters() as $parameter) {
+            if ('Resource identifier' === $parameter->getDescription()) {
+                continue;
+            }
+            $parameters[] = $parameter;
+        }
+
+        return $operation->withParameters($parameters);
     }
 
     private function cleanupSuccessResponses(Operation $operation): Operation

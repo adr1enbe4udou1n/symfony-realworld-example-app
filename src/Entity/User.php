@@ -48,6 +48,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'method' => 'GET',
             'path' => '/user',
             'controller' => CurrentUserAction::class,
+            'read' => false,
             'openapi_context' => [
                 'summary' => 'Get current user',
                 'description' => 'Gets the currently logged-in user',
@@ -57,6 +58,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'path' => '/user',
             'controller' => UpdateUserAction::class,
             'input' => UpdateUserRequest::class,
+            'read' => false,
             'openapi_context' => [
                 'summary' => 'Update current user',
                 'description' => 'Updated user information for current user',
