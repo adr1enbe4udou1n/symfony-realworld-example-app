@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\User\Action\CurrentUserAction;
 use App\Feature\User\Action\LoginUserAction;
@@ -24,35 +23,44 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ApiResource(
     output: UserResponse::class,
     collectionOperations: [
-        'register' => [
-            'method' => 'POST',
+        'post' => [
             'path' => '/users',
             'controller' => RegisterUserAction::class,
             'input' => NewUserRequest::class,
+            'openapi_context' => [
+                'summary' => 'Register a new user',
+                'description' => 'Register a new user',
+            ],
         ],
         'login' => [
             'method' => 'POST',
             'path' => '/users/login',
             'controller' => LoginUserAction::class,
             'input' => LoginUserRequest::class,
-        ],
-        'current' => [
-            'method' => 'GET',
-            'path' => '/user',
-            'controller' => CurrentUserAction::class,
-        ],
-        'update' => [
-            'method' => 'PUT',
-            'path' => '/user',
-            'controller' => UpdateUserAction::class,
-            'input' => UpdateUserRequest::class,
+            'openapi_context' => [
+                'summary' => 'Existing user login',
+                'description' => 'Login for existing user',
+            ],
         ],
     ],
     itemOperations: [
         'get' => [
-            'controller' => NotFoundAction::class,
-            'read' => false,
-            'output' => false,
+            'method' => 'GET',
+            'path' => '/user',
+            'controller' => CurrentUserAction::class,
+            'openapi_context' => [
+                'summary' => 'Get current user',
+                'description' => 'Gets the currently logged-in user',
+            ],
+        ],
+        'put' => [
+            'path' => '/user',
+            'controller' => UpdateUserAction::class,
+            'input' => UpdateUserRequest::class,
+            'openapi_context' => [
+                'summary' => 'Update current user',
+                'description' => 'Updated user information for current user',
+            ],
         ],
     ],
 )]
