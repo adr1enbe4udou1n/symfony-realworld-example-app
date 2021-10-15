@@ -12,55 +12,51 @@ abstract class AbstractTest extends ApiTestCase
 {
     use RefreshDatabaseTrait;
 
-    private ?string $token = null;
+    protected ?Client $client = null;
 
     public function setUp(): void
     {
         static::$dbPopulated = true;
-    }
 
-    protected function getClient(array $headers = []): Client
-    {
-        if ($this->token) {
-            $headers += [
-                'authorization' => 'Token '.$this->token,
-            ];
-        }
-
-        return static::createClient([], ['headers' => [
+        $this->client = static::createClient([], ['headers' => [
             'Accept' => 'application/json',
-        ] + $headers]);
+        ]]);
     }
 
-    protected function createUser($user = null): User
+    protected function createUser($user): User
     {
-        if (!$user) {
-            $user = new User();
-            $user->name = 'John Doe';
-            $user->email = 'john.doe@example.com';
-            $user->password = static::getContainer()
-                ->get(UserPasswordHasherInterface::class)
-                ->hashPassword($user, 'password');
-            $user->bio = 'John Bio';
-            $user->image = 'https://randomuser.me/api/portraits/men/1.jpg';
-        }
-
         $em = static::getContainer()->get('doctrine')->getManager();
 
         $em->persist($user);
         $em->flush();
 
+        $this->client->setDefaultOptions([
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => 'Token '.static::getContainer()
+                    ->get('lexik_jwt_authentication.jwt_manager')
+                    ->create($user),
+            ],
+        ]);
+
         return $user;
     }
 
-    protected function actingAs($user = null): User
+    protected function createDefaultUser(?string $password = null): User
     {
-        $user = $this->createUser($user);
+        $user = new User();
+        $user->name = 'John Doe';
+        $user->email = 'john.doe@example.com';
 
-        $this->token = static::getContainer()
-            ->get('lexik_jwt_authentication.jwt_manager')
-            ->create($user);
+        $user->bio = 'John Bio';
+        $user->image = 'https://randomuser.me/api/portraits/men/1.jpg';
 
-        return $user;
+        if ($password) {
+            $user->password = static::getContainer()
+                ->get(UserPasswordHasherInterface::class)
+                ->hashPassword($user, $password);
+        }
+
+        return $this->createUser($user);
     }
 }
