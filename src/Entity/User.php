@@ -37,10 +37,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'output' => UserResponse::class,
             'read' => false,
             'write' => false,
-            'openapi_context' => [
-                'summary' => 'Register a new user',
-                'description' => 'Register a new user',
-            ],
         ],
         'login' => [
             'method' => 'POST',
@@ -50,10 +46,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'output' => UserResponse::class,
             'read' => false,
             'write' => false,
-            'openapi_context' => [
-                'summary' => 'Existing user login',
-                'description' => 'Login for existing user',
-            ],
         ],
     ],
     itemOperations: [
@@ -64,10 +56,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'read' => false,
             'write' => false,
             'output' => UserResponse::class,
-            'openapi_context' => [
-                'summary' => 'Get current user',
-                'description' => 'Gets the currently logged-in user',
-            ],
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'update' => [
@@ -78,10 +66,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'read' => false,
             'write' => false,
             'output' => UserResponse::class,
-            'openapi_context' => [
-                'summary' => 'Update current user',
-                'description' => 'Updated user information for current user',
-            ],
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'profile' => [
@@ -92,10 +76,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'write' => false,
             'input' => false,
             'output' => ProfileResponse::class,
-            'openapi_context' => [
-                'summary' => 'Get a profile',
-                'description' => 'Get a profile of a user of the system. Auth is optional',
-            ],
         ],
         'follow' => [
             'method' => 'POST',
@@ -106,10 +86,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'write' => false,
             'input' => false,
             'output' => ProfileResponse::class,
-            'openapi_context' => [
-                'summary' => 'Follow a user',
-                'description' => 'Follow a user by username',
-            ],
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'unfollow' => [
@@ -120,10 +96,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'read' => false,
             'write' => false,
             'output' => ProfileResponse::class,
-            'openapi_context' => [
-                'summary' => 'Unfollow a user',
-                'description' => 'Unfollow a user by username',
-            ],
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
     ],
