@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Feature\Profile\Action\ProfileGetAction;
+use App\Feature\Profile\Response\ProfileResponse;
 use App\Feature\User\Action\CurrentUserAction;
 use App\Feature\User\Action\LoginUserAction;
 use App\Feature\User\Action\RegisterUserAction;
@@ -12,6 +14,8 @@ use App\Feature\User\Request\NewUserRequest;
 use App\Feature\User\Request\UpdateUserRequest;
 use App\Feature\User\Response\UserResponse;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -21,12 +25,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: 'public.user')]
 #[UniqueEntity('email', message: 'user.email.unique')]
 #[ApiResource(
-    output: UserResponse::class,
     collectionOperations: [
-        'post' => [
+        'register' => [
+            'method' => 'POST',
             'path' => '/users',
             'controller' => RegisterUserAction::class,
             'input' => NewUserRequest::class,
+            'output' => UserResponse::class,
             'openapi_context' => [
                 'summary' => 'Register a new user',
                 'description' => 'Register a new user',
@@ -37,6 +42,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'path' => '/users/login',
             'controller' => LoginUserAction::class,
             'input' => LoginUserRequest::class,
+            'output' => UserResponse::class,
             'openapi_context' => [
                 'summary' => 'Existing user login',
                 'description' => 'Login for existing user',
@@ -44,24 +50,38 @@ use Symfony\Component\Security\Core\User\UserInterface;
         ],
     ],
     itemOperations: [
-        'get' => [
+        'current' => [
             'method' => 'GET',
             'path' => '/user',
             'controller' => CurrentUserAction::class,
             'read' => false,
+            'output' => UserResponse::class,
             'openapi_context' => [
                 'summary' => 'Get current user',
                 'description' => 'Gets the currently logged-in user',
             ],
         ],
-        'put' => [
+        'update' => [
+            'method' => 'PUT',
             'path' => '/user',
             'controller' => UpdateUserAction::class,
             'input' => UpdateUserRequest::class,
             'read' => false,
+            'output' => UserResponse::class,
             'openapi_context' => [
                 'summary' => 'Update current user',
                 'description' => 'Updated user information for current user',
+            ],
+        ],
+        'profile' => [
+            'method' => 'GET',
+            'path' => '/profiles/celeb_{username}',
+            'controller' => ProfileGetAction::class,
+            'read' => false,
+            'output' => ProfileResponse::class,
+            'openapi_context' => [
+                'summary' => 'Get a profile',
+                'description' => 'Get a profile of a user of the system. Auth is optional',
             ],
         ],
     ],
@@ -94,6 +114,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'datetime')]
     public \DateTime $updatedAt;
+
+    /**
+     * @var Collection|User[]
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="followers")
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'followers')]
+    public Collection $following;
+
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'following')]
+    #[ORM\JoinTable(name: 'follower_user')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'follower_id', referencedColumnName: 'id')]
+    public Collection $followers;
+
+    public function __construct()
+    {
+        $this->following = new ArrayCollection();
+        $this->followers = new ArrayCollection();
+    }
 
     public function getUserIdentifier(): string
     {
@@ -138,5 +178,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function follow(User $user): void
+    {
+        if ($user->followers->contains($this)) {
+            return;
+        }
+
+        $user->followers->add($this);
+    }
+
+    public function unfollow(User $user): void
+    {
+        if (!$user->followers->contains($this)) {
+            return;
+        }
+
+        $user->followers->removeElement($this);
     }
 }
