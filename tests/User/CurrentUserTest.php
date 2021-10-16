@@ -10,7 +10,7 @@ class CurrentUserTest extends AbstractTest
     {
         $this->createDefaultUser();
 
-        $this->client->request('GET', '/api/user');
+        $this->act(fn () => $this->client->request('GET', '/api/user'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains(['user' => [
@@ -21,7 +21,7 @@ class CurrentUserTest extends AbstractTest
 
     public function testGuestUserCannotFetchInfos(): void
     {
-        $this->client->request('GET', '/api/user');
+        $this->act(fn () => $this->client->request('GET', '/api/user'));
 
         $this->assertResponseStatusCodeSame(401);
     }

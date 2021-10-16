@@ -6,9 +6,14 @@ use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use App\Entity\User;
 use App\Feature\Profile\DTO\ProfileDTO;
 use App\Feature\Profile\Response\ProfileResponse;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class ProfileDataTransformer implements DataTransformerInterface
 {
+    public function __construct(private TokenStorageInterface $token)
+    {
+    }
+
     /**
      * @param User $data
      */
@@ -19,7 +24,12 @@ final class ProfileDataTransformer implements DataTransformerInterface
         $output->profile->username = $data->name;
         $output->profile->bio = $data->bio;
         $output->profile->image = $data->image;
-        $output->profile->following = false;
+
+        if ($token = $this->token->getToken()) {
+            /** @var User */
+            $user = $token->getUser();
+            $output->profile->following = $user->following->contains($data);
+        }
 
         return $output;
     }

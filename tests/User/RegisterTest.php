@@ -31,18 +31,18 @@ class RegisterTest extends AbstractTest
      */
     public function testUserCannotLoginWithInvalidData($data)
     {
-        $this->client->request('POST', '/api/users', [
+        $this->act(fn () => $this->client->request('POST', '/api/users', [
             'json' => [
                 'user' => $data,
             ],
-        ]);
+        ]));
 
         $this->assertResponseStatusCodeSame(422);
     }
 
     public function testUserCanRegister(): void
     {
-        $this->client->request('POST', '/api/users', [
+        $this->act(fn () => $this->client->request('POST', '/api/users', [
             'json' => [
                 'user' => [
                     'email' => 'john.doe@example.com',
@@ -50,7 +50,7 @@ class RegisterTest extends AbstractTest
                     'username' => 'John Doe',
                 ],
             ],
-        ]);
+        ]));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains(['user' => [
@@ -67,7 +67,7 @@ class RegisterTest extends AbstractTest
     {
         $this->createDefaultUser();
 
-        $this->client->request('POST', '/api/users', [
+        $this->act(fn () => $this->client->request('POST', '/api/users', [
             'json' => [
                 'user' => [
                     'email' => 'john.doe@example.com',
@@ -75,7 +75,7 @@ class RegisterTest extends AbstractTest
                     'username' => 'John Doe',
                 ],
             ],
-        ]);
+        ]));
 
         $this->assertResponseStatusCodeSame(422);
     }

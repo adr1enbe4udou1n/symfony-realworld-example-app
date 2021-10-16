@@ -6,7 +6,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProfileValueResolver implements ArgumentValueResolverInterface
 {
@@ -25,7 +25,7 @@ class ProfileValueResolver implements ArgumentValueResolverInterface
         $user = $this->users->findOneBy(['name' => $request->attributes->get('username')]);
 
         if (!$user) {
-            throw new BadRequestHttpException('Not existing profile', null, 404);
+            throw new NotFoundHttpException('Not existing profile');
         }
 
         yield $user;

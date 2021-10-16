@@ -26,11 +26,11 @@ class LoginTest extends AbstractTest
     {
         $this->createDefaultUser('password');
 
-        $this->client->request('POST', '/api/users/login', [
+        $this->act(fn () => $this->client->request('POST', '/api/users/login', [
             'json' => [
                 'user' => $credentials,
             ],
-        ]);
+        ]));
 
         $this->assertResponseStatusCodeSame(400);
     }
@@ -39,14 +39,14 @@ class LoginTest extends AbstractTest
     {
         $this->createDefaultUser('password');
 
-        $this->client->request('POST', '/api/users/login', [
+        $this->act(fn () => $this->client->request('POST', '/api/users/login', [
             'json' => [
                 'user' => [
                     'email' => 'john.doe@example.com',
                     'password' => 'password',
                 ],
             ],
-        ]);
+        ]));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains(['user' => [

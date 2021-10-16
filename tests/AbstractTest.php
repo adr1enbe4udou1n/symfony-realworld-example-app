@@ -5,6 +5,7 @@ namespace App\Tests;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use App\Entity\User;
+use Closure;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
@@ -63,5 +64,12 @@ abstract class AbstractTest extends ApiTestCase
         }
 
         return $this->createUser($user);
+    }
+
+    public function act(Closure $act)
+    {
+        $this->orm->getManager()->clear();
+
+        return $act();
     }
 }
