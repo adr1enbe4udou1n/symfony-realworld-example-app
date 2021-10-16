@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Feature\Profile\Action\ProfileFollowAction;
 use App\Feature\Profile\Action\ProfileGetAction;
+use App\Feature\Profile\Action\ProfileUnfollowAction;
 use App\Feature\Profile\Response\ProfileResponse;
 use App\Feature\User\Action\CurrentUserAction;
 use App\Feature\User\Action\LoginUserAction;
@@ -18,6 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -32,6 +35,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'controller' => RegisterUserAction::class,
             'input' => NewUserRequest::class,
             'output' => UserResponse::class,
+            'read' => false,
+            'write' => false,
             'openapi_context' => [
                 'summary' => 'Register a new user',
                 'description' => 'Register a new user',
@@ -43,6 +48,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'controller' => LoginUserAction::class,
             'input' => LoginUserRequest::class,
             'output' => UserResponse::class,
+            'read' => false,
+            'write' => false,
             'openapi_context' => [
                 'summary' => 'Existing user login',
                 'description' => 'Login for existing user',
@@ -55,11 +62,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'path' => '/user',
             'controller' => CurrentUserAction::class,
             'read' => false,
+            'write' => false,
             'output' => UserResponse::class,
             'openapi_context' => [
                 'summary' => 'Get current user',
                 'description' => 'Gets the currently logged-in user',
             ],
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'update' => [
             'method' => 'PUT',
@@ -67,22 +76,55 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'controller' => UpdateUserAction::class,
             'input' => UpdateUserRequest::class,
             'read' => false,
+            'write' => false,
             'output' => UserResponse::class,
             'openapi_context' => [
                 'summary' => 'Update current user',
                 'description' => 'Updated user information for current user',
             ],
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'profile' => [
             'method' => 'GET',
             'path' => '/profiles/celeb_{username}',
             'controller' => ProfileGetAction::class,
             'read' => false,
+            'write' => false,
+            'tag' => 'Profile',
             'output' => ProfileResponse::class,
             'openapi_context' => [
                 'summary' => 'Get a profile',
                 'description' => 'Get a profile of a user of the system. Auth is optional',
             ],
+        ],
+        'follow' => [
+            'method' => 'POST',
+            'path' => '/profiles/celeb_{username}/follow',
+            'controller' => ProfileFollowAction::class,
+            'read' => false,
+            'write' => false,
+            'tag' => 'Profile',
+            'output' => ProfileResponse::class,
+            'openapi_context' => [
+                'summary' => 'Follow a user',
+                'description' => 'Follow a user by username',
+            ],
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+        'unfollow' => [
+            'method' => 'DELETE',
+            'status' => Response::HTTP_OK,
+            'path' => '/profiles/celeb_{username}/follow',
+            'controller' => ProfileUnfollowAction::class,
+            'read' => false,
+            'write' => false,
+            'tag' => 'Profile',
+            'output' => ProfileResponse::class,
+            'openapi_context' => [
+                'summary' => 'Unfollow a user',
+                'description' => 'Unfollow a user by username',
+            ],
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
     ],
 )]
@@ -101,13 +143,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public string $email;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    public ?string $password;
+    public ?string $password = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    public ?string $bio;
+    public ?string $bio = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    public ?string $image;
+    public ?string $image = null;
 
     #[ORM\Column(type: 'datetime')]
     public \DateTime $createdAt;

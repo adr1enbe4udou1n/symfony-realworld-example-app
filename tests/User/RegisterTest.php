@@ -77,6 +77,6 @@ class RegisterTest extends AbstractTest
             ],
         ]));
 
-        $this->assertResponseStatusCodeSame(422);
+        $this->assertResponseStatusCodeSame(400);
     }
 }

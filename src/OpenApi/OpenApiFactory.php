@@ -10,7 +10,6 @@ use ApiPlatform\Core\OpenApi\Model\PathItem;
 use ApiPlatform\Core\OpenApi\Model\Response;
 use ApiPlatform\Core\OpenApi\Model\Server;
 use ApiPlatform\Core\OpenApi\OpenApi;
-use Symfony\Component\String\UnicodeString;
 
 final class OpenApiFactory implements OpenApiFactoryInterface
 {
@@ -31,21 +30,21 @@ final class OpenApiFactory implements OpenApiFactoryInterface
 
         /** @var PathItem $pathItem */
         foreach ($paths as $path => $pathItem) {
-            $path = (new UnicodeString($path))->trimStart('/api')->prepend('/');
+            $path = str_replace('/api', '', $path);
 
-            if ($path->equalsTo('/users/{id}')) {
+            if ('/users/{id}' === $path) {
                 continue;
             }
 
-            if ($path->equalsTo('/users')) {
+            if ('/users' === $path) {
                 $pathItem = $pathItem->withPost($this->setRequestBodyDoc($pathItem->getPost(), 'Details of the new user to register'));
             }
 
-            if ($path->equalsTo('/users/login')) {
+            if ('/users/login' === $path) {
                 $pathItem = $pathItem->withPost($this->setRequestBodyDoc($pathItem->getPost(), 'Credentials to use.'));
             }
 
-            if ($path->equalsTo('/user')) {
+            if ('/user' === $path) {
                 $pathItem = $pathItem
                     ->withGet($this->removeResourceIdentifier(
                         $this->cleanupSuccessResponses($pathItem->getGet()))->withSecurity([['apiKey' => []]])
