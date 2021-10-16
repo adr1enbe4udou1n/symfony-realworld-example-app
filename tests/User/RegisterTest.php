@@ -7,7 +7,7 @@ use App\Tests\AbstractTest;
 
 class RegisterTest extends AbstractTest
 {
-    public function getInvalidRegisterData()
+    public function getInvalidData()
     {
         yield [[
             'email' => 'john.doe',
@@ -27,7 +27,7 @@ class RegisterTest extends AbstractTest
     }
 
     /**
-     * @dataProvider getInvalidRegisterData
+     * @dataProvider getInvalidData
      */
     public function testUserCannotLoginWithInvalidData($data)
     {
@@ -42,7 +42,7 @@ class RegisterTest extends AbstractTest
 
     public function testUserCanRegister(): void
     {
-        $response = $this->client->request('POST', '/api/users', [
+        $this->client->request('POST', '/api/users', [
             'json' => [
                 'user' => [
                     'email' => 'john.doe@example.com',
@@ -59,8 +59,7 @@ class RegisterTest extends AbstractTest
         ]]);
 
         $this->assertNotNull(
-            static::getContainer()->get('doctrine')
-                ->getRepository(User::class)->findOneBy(['email' => 'john.doe@example.com'])
+            $this->orm->getRepository(User::class)->findOneBy(['email' => 'john.doe@example.com'])
         );
     }
 

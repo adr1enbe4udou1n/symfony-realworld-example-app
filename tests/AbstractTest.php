@@ -5,6 +5,8 @@ namespace App\Tests;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use App\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ObjectManager;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -13,6 +15,8 @@ abstract class AbstractTest extends ApiTestCase
     use RefreshDatabaseTrait;
 
     protected ?Client $client = null;
+    protected ?Registry $orm = null;
+    protected ?ObjectManager $em = null;
 
     public function setUp(): void
     {
@@ -21,14 +25,15 @@ abstract class AbstractTest extends ApiTestCase
         $this->client = static::createClient([], ['headers' => [
             'Accept' => 'application/json',
         ]]);
+
+        $this->orm = static::getContainer()->get('doctrine');
+        $this->em = $this->orm->getManager();
     }
 
     protected function createUser($user): User
     {
-        $em = static::getContainer()->get('doctrine')->getManager();
-
-        $em->persist($user);
-        $em->flush();
+        $this->em->persist($user);
+        $this->em->flush();
 
         $this->client->setDefaultOptions([
             'headers' => [

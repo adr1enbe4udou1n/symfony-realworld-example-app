@@ -6,7 +6,7 @@ use App\Tests\AbstractTest;
 
 class LoginTest extends AbstractTest
 {
-    public function getInvalidCredentials()
+    public function getInvalidData()
     {
         yield [[
             'email' => 'jane.doe@example.com',
@@ -20,7 +20,7 @@ class LoginTest extends AbstractTest
     }
 
     /**
-     * @dataProvider getInvalidCredentials
+     * @dataProvider getInvalidData
      */
     public function testUserCannotLoginWithInvalidData($credentials)
     {
