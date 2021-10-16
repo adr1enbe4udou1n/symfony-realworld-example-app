@@ -90,7 +90,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'controller' => ProfileGetAction::class,
             'read' => false,
             'write' => false,
-            'tag' => 'Profile',
+            'input' => false,
             'output' => ProfileResponse::class,
             'openapi_context' => [
                 'summary' => 'Get a profile',
@@ -99,11 +99,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
         ],
         'follow' => [
             'method' => 'POST',
+            'status' => Response::HTTP_OK,
             'path' => '/profiles/celeb_{username}/follow',
             'controller' => ProfileFollowAction::class,
             'read' => false,
             'write' => false,
-            'tag' => 'Profile',
+            'input' => false,
             'output' => ProfileResponse::class,
             'openapi_context' => [
                 'summary' => 'Follow a user',
@@ -118,7 +119,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'controller' => ProfileUnfollowAction::class,
             'read' => false,
             'write' => false,
-            'tag' => 'Profile',
             'output' => ProfileResponse::class,
             'openapi_context' => [
                 'summary' => 'Unfollow a user',

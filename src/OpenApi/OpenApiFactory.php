@@ -58,6 +58,21 @@ final class OpenApiFactory implements OpenApiFactoryInterface
                     );
             }
 
+            if ('/profiles/celeb_{username}' === $path) {
+                $pathItem = $pathItem->withGet(
+                    $this->addUsernameParameter($pathItem->getGet()->withTags(['Profile']), 'Username of the profile to get')
+                );
+            }
+
+            if ('/profiles/celeb_{username}/follow' === $path) {
+                $pathItem = $pathItem->withPost(
+                    $this->addUsernameParameter($pathItem->getPost()->withTags(['Profile']), 'Username of the profile you want to follow')->withSecurity([['apiKey' => []]])
+                );
+                $pathItem = $pathItem->withDelete(
+                    $this->addUsernameParameter($pathItem->getDelete()->withTags(['Profile']), 'Username of the profile you want to unfollow')->withSecurity([['apiKey' => []]])
+                );
+            }
+
             $filteredPaths->addPath($path, $pathItem);
         }
 
@@ -82,6 +97,13 @@ final class OpenApiFactory implements OpenApiFactoryInterface
         }
 
         return $operation->withParameters($parameters);
+    }
+
+    private function addUsernameParameter(Operation $operation, string $description): Operation
+    {
+        return $this->removeResourceIdentifier($operation->withParameters([
+            new Parameter('username', 'path', $description),
+        ]));
     }
 
     private function cleanupSuccessResponses(Operation $operation): Operation
