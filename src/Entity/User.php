@@ -31,6 +31,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
     collectionOperations: [
         'register' => [
             'method' => 'POST',
+            'status' => Response::HTTP_OK,
             'path' => '/users',
             'controller' => RegisterUserAction::class,
             'input' => NewUserRequest::class,
@@ -40,6 +41,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
         ],
         'login' => [
             'method' => 'POST',
+            'status' => Response::HTTP_OK,
             'path' => '/users/login',
             'controller' => LoginUserAction::class,
             'input' => LoginUserRequest::class,
