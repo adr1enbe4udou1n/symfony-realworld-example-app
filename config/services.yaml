@@ -29,3 +29,8 @@ services:
     # please note that last definitions always *replace* previous ones
     App\OpenApi\OpenApiFactory:
         decorates: 'api_platform.openapi.factory'
+
+    App\EntityListener\ArticleEntityListener:
+        tags:
+            - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\Article' }
+            - { name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'App\Entity\Article' }

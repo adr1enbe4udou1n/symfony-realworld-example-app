@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Feature\Article\Action\ArticleCreateAction;
+use App\Feature\Article\Request\NewArticleRequest;
+use App\Feature\Article\Response\SingleArticleResponse;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,7 +17,26 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     collectionOperations: [],
-    itemOperations: []
+    itemOperations: [
+        'get' => [
+            'method' => 'GET',
+            'path' => '/articles/{slug}',
+            'controller' => ArticleGetAction::class,
+            'output' => SingleArticleResponse::class,
+            'read' => false,
+            'write' => false,
+        ],
+        'create' => [
+            'method' => 'POST',
+            'path' => '/articles',
+            'controller' => ArticleCreateAction::class,
+            'input' => NewArticleRequest::class,
+            'output' => SingleArticleResponse::class,
+            'read' => false,
+            'write' => false,
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+    ]
 )]
 class Article
 {
@@ -33,7 +55,7 @@ class Article
     public string $body;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    public string $slug;
+    public ?string $slug = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     public User $author;

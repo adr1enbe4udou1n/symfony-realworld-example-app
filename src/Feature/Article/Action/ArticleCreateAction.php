@@ -3,25 +3,30 @@
 namespace App\Feature\Article\Action;
 
 use App\Entity\Article;
-use App\Feature\Article\DTO\ArticleDTO;
-use App\Feature\Article\Response\SingleArticleResponse;
 use App\Repository\ArticleRepository;
 use App\Repository\TagRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ArticleCreateAction extends AbstractController
 {
     public function __construct(
+        private EntityManagerInterface $em,
         private ArticleRepository $articles,
         private TagRepository $tags,
     ) {
     }
 
-    public function __invoke(Article $article)
+    public function __invoke(Article $data)
     {
-        $response = new SingleArticleResponse();
-        $response->article = new ArticleDTO();
+        if ($this->articles->findOneBy(['title' => $data->title])) {
+            return new JsonResponse('Article with this title already exist', 400);
+        }
 
-        return $response;
+        $this->em->persist($data);
+        $this->em->flush();
+
+        return $data;
     }
 }

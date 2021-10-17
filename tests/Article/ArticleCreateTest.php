@@ -33,16 +33,17 @@ class ArticleCreateTest extends AbstractTest
      */
     public function testCannotCreateArticleWithInvalidData($article)
     {
+        $this->createDefaultUser();
+
         $this->act(fn () => $this->client->request('POST', '/api/articles', [
-            'json' => $article,
+            'json' => [
+                'article' => $article,
+            ],
         ]));
 
         $this->assertResponseStatusCodeSame(422);
     }
 
-    /**
-     * @dataProvider getInvalidData
-     */
     public function testCannotCreateArticleWithSameTitle()
     {
         $this->em->persist((new Article())
@@ -52,14 +53,59 @@ class ArticleCreateTest extends AbstractTest
         );
         $this->em->flush();
 
+        $this->createDefaultUser();
+
         $this->act(fn () => $this->client->request('POST', '/api/articles', [
             'json' => [
-                'title' => 'Existing Title',
-                'description' => 'Test Description',
-                'body' => 'Test Body',
+                'article' => [
+                    'title' => 'Existing Title',
+                    'description' => 'Test Description',
+                    'body' => 'Test Body',
+                ],
             ],
         ]));
 
         $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testGuestCannotCreateArticle()
+    {
+        $this->act(fn () => $this->client->request('POST', '/api/articles', [
+            'json' => [],
+        ]));
+
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testCanCreateArticle()
+    {
+        $this->createDefaultUser();
+
+        $this->act(fn () => $this->client->request('POST', '/api/articles', [
+            'json' => [
+                'article' => [
+                    'title' => 'Test Title',
+                    'description' => 'Test Description',
+                    'body' => 'Test Body',
+                ],
+            ],
+        ]));
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertJsonContains(['article' => [
+            'title' => 'Test Title',
+            'description' => 'Test Description',
+            'body' => 'Test Body',
+            // 'author' => [
+            //     'username' => 'John Doe',
+            //     'bio' => 'John Bio',
+            //     'image' => 'https://randomuser.me/api/portraits/women/1.jpg',
+            // ],
+        ]]);
+
+        $this->assertNotNull(
+            $this->orm->getRepository(Article::class)->findOneBy(['slug' => 'test-title'])
+        );
     }
 }

@@ -8,11 +8,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ArticleEntityListener
 {
-    private $slugger;
-
-    public function __construct(SluggerInterface $slugger)
-    {
-        $this->slugger = $slugger;
+    public function __construct(
+        private SluggerInterface $slugger
+    ) {
     }
 
     public function prePersist(Article $article, LifecycleEventArgs $event)

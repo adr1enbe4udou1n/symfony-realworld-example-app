@@ -18,7 +18,6 @@ final class NewUserDataTransformer implements DataTransformerInterface
 
     /**
      * @param NewUserRequest $data
-     *                             {@inheritdoc}
      */
     public function transform($data, string $to, array $context = []): User
     {
