@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'public.user')]
+#[ORM\Table(name: 'public.users')]
 #[UniqueEntity('email', message: 'user.email.unique')]
 #[ApiResource(
     collectionOperations: [
@@ -139,16 +139,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'followers')]
     public Collection $following;
 
+    /**
+     * @var Collection|User[]
+     */
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'following')]
     #[ORM\JoinTable(name: 'follower_user')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'follower_id', referencedColumnName: 'id')]
     public Collection $followers;
 
+    /**
+     * @var Collection|Article[]
+     */
+    #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'favoritedBy')]
+    #[ORM\JoinTable(name: 'article_favorite')]
+    public Collection $favoriteArticles;
+
+    /**
+     * @var Collection|Article[]
+     */
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
+    public Collection $articles;
+
+    /**
+     * @var Collection|Comment[]
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
+    public Collection $comments;
+
     public function __construct()
     {
+        $this->articles = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->following = new ArrayCollection();
         $this->followers = new ArrayCollection();
+        $this->favoriteArticles = new ArrayCollection();
     }
 
     public function getUserIdentifier(): string
