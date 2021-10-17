@@ -22,9 +22,10 @@ class TagRepository extends ServiceEntityRepository
     public function list()
     {
         return $this->createQueryBuilder('t')
+            ->select('t.name')
             ->orderBy('t.name', 'ASC')
             ->getQuery()
-            ->getResult()
+            ->getSingleColumnResult()
         ;
     }
 }

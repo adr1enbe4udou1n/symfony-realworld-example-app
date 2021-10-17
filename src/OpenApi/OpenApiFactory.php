@@ -126,7 +126,17 @@ final class OpenApiFactory implements OpenApiFactoryInterface
                         new Parameter('username', 'path', 'Username of the profile you want to unfollow'),
                     ])
                     ->withResponses(
-                        $this->getResponses($openApi->getPaths()->getPath('/api/profiles/celeb_{username}/follow')->getDelete())
+                        $this->getResponses($openApi->getPaths()->getPath('/api/profiles/celeb_{username}/follow')->getPost())
+                    )
+            )
+        );
+        $paths->addPath('/tags', (new PathItem())
+            ->withGet(
+                (new Operation('tags', ['Tags']))
+                    ->withSummary('Get tags')
+                    ->withDescription('Get tags. Auth not required')
+                    ->withResponses(
+                        $this->getResponses($openApi->getPaths()->getPath('/api/tags')->getGet())
                     )
             )
         );
@@ -145,7 +155,9 @@ final class OpenApiFactory implements OpenApiFactoryInterface
 
         /** @var Response $response */
         foreach ($operation->getResponses() as $code => $response) {
-            $responses[$code] = in_array($code, [200, 201], true) ? new Response('Success', $response->getContent()) : $response;
+            if (200 === $code) {
+                $responses[$code] = new Response('Success', $response->getContent());
+            }
         }
 
         return $responses;

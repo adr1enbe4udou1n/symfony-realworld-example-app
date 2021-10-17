@@ -2,6 +2,7 @@
 
 namespace App\Feature\Tag\Action;
 
+use App\Feature\Tag\Response\TagResponse;
 use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -14,6 +15,9 @@ class TagListAction extends AbstractController
 
     public function __invoke()
     {
-        return $this->tags->list();
+        $response = new TagResponse();
+        $response->tags = $this->tags->list();
+
+        return $response;
     }
 }

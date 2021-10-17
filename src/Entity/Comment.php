@@ -2,12 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\Table(name: 'public.comments')]
 #[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    collectionOperations: [],
+    itemOperations: []
+)]
 class Comment
 {
     #[ORM\Id]

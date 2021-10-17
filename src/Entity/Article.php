@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\Table(name: 'public.articles')]
 #[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    collectionOperations: [],
+    itemOperations: []
+)]
 class Article
 {
     #[ORM\Id]
