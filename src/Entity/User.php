@@ -175,6 +175,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->favoriteArticles = new ArrayCollection();
     }
 
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function setBio(string $bio): self
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
     public function getUserIdentifier(): string
     {
         return $this->email ?? '';

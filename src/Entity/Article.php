@@ -76,6 +76,27 @@ class Article
         }
     }
 
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function setBody(string $body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {

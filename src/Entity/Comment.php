@@ -35,6 +35,13 @@ class Comment
     #[ORM\Column(type: 'datetime')]
     public \DateTime $updatedAt;
 
+    public function setBody(string $body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
