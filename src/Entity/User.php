@@ -238,4 +238,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         $user->followers->removeElement($this);
     }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

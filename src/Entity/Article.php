@@ -67,7 +67,7 @@ class Article
     public function computeSlug(SluggerInterface $slugger)
     {
         if (!$this->slug) {
-            $this->slug = (string) $slugger->slug($this->title)->lower();
+            $this->slug = (string) $slugger->slug((string) $this)->lower();
         }
     }
 
@@ -82,5 +82,10 @@ class Article
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
     }
 }

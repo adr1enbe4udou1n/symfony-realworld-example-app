@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211017103723 extends AbstractMigration
+final class Version20211017110736 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,10 +20,6 @@ final class Version20211017103723 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE articles_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE comments_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE tags_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE users_id_seq CASCADE');
         $this->addSql('CREATE SEQUENCE public.articles_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE public.comments_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE public.tags_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -74,10 +70,6 @@ final class Version20211017103723 extends AbstractMigration
         $this->addSql('DROP SEQUENCE public.comments_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE public.tags_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE public.users_id_seq CASCADE');
-        $this->addSql('CREATE SEQUENCE articles_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE comments_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE tags_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE users_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('DROP TABLE public.articles');
         $this->addSql('DROP TABLE public.comments');
         $this->addSql('DROP TABLE public.tags');
