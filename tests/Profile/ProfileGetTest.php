@@ -54,7 +54,7 @@ class ProfileGetTest extends AbstractTest
 
         $user->follow($followed);
 
-        $this->createUser($user);
+        $this->actingAs($user);
 
         $this->act(fn () => $this->client->request('GET', '/api/profiles/celeb_Jane Doe'));
 

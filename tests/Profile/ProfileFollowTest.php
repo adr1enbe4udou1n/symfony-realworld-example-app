@@ -34,7 +34,7 @@ class ProfileFollowTest extends AbstractTest
             ->setEmail('alice@example.com')
         );
 
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_Jane Doe/follow', [
             'json' => [],
@@ -65,7 +65,7 @@ class ProfileFollowTest extends AbstractTest
         $user->following->add($toUnfollow);
         $user->following->add($other);
 
-        $this->createUser($user);
+        $this->actingAs($user);
 
         $this->act(fn () => $this->client->request('DELETE', '/api/profiles/celeb_Jane Doe/follow', [
             'json' => [],

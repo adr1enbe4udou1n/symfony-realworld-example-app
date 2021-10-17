@@ -19,7 +19,7 @@ class ArticleUpdateTest extends AbstractTest
 
     public function testGuestCannotUpdateNonExistentArticle()
     {
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
             'json' => [
@@ -48,7 +48,7 @@ class ArticleUpdateTest extends AbstractTest
      */
     public function testCannotUpdateArticleWithInvalidData($article)
     {
-        $user = $this->createDefaultUser();
+        $user = $this->actingAs();
 
         $this->em->persist((new Article())
                 ->setTitle('Test Title')
@@ -69,7 +69,7 @@ class ArticleUpdateTest extends AbstractTest
 
     public function testCannotUpdateArticleWithSameTitle()
     {
-        $user = $this->createDefaultUser();
+        $user = $this->actingAs();
 
         $this->em->persist((new Article())
             ->setTitle('Existing Title')
@@ -100,7 +100,7 @@ class ArticleUpdateTest extends AbstractTest
 
     public function testCannotUpdateArticleOfOtherAuthor()
     {
-        $user = $this->createDefaultUser();
+        $user = $this->actingAs();
 
         $this->em->persist((new Article())
             ->setTitle('Test Title')
@@ -110,7 +110,7 @@ class ArticleUpdateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $user = $this->createUser((new User())
+        $user = $this->actingAs((new User())
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com')
         );
@@ -130,7 +130,7 @@ class ArticleUpdateTest extends AbstractTest
 
     public function testCanUpdateOwnArticle()
     {
-        $user = $this->createDefaultUser();
+        $user = $this->actingAs();
 
         $this->em->persist((new Article())
             ->setTitle('Test Title')

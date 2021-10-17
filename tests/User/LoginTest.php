@@ -3,6 +3,7 @@
 namespace App\Tests\User;
 
 use App\Tests\AbstractTest;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoginTest extends AbstractTest
 {
@@ -24,7 +25,14 @@ class LoginTest extends AbstractTest
      */
     public function testUserCannotLoginWithInvalidData($credentials)
     {
-        $this->createDefaultUser('password');
+        $user = $this->createDefaultUser();
+
+        $user->password = static::getContainer()
+            ->get(UserPasswordHasherInterface::class)
+            ->hashPassword($user, 'password');
+
+        $this->em->persist($user);
+        $this->em->flush();
 
         $this->act(fn () => $this->client->request('POST', '/api/users/login', [
             'json' => [
@@ -37,7 +45,14 @@ class LoginTest extends AbstractTest
 
     public function testUserCanLogin(): void
     {
-        $this->createDefaultUser('password');
+        $user = $this->createDefaultUser();
+
+        $user->password = static::getContainer()
+            ->get(UserPasswordHasherInterface::class)
+            ->hashPassword($user, 'password');
+
+        $this->em->persist($user);
+        $this->em->flush();
 
         $this->act(fn () => $this->client->request('POST', '/api/users/login', [
             'json' => [

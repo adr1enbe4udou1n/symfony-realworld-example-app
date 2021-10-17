@@ -65,7 +65,7 @@ class RegisterTest extends AbstractTest
 
     public function testUserCannotRegisterTwice(): void
     {
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('POST', '/api/users', [
             'json' => [

@@ -2,26 +2,22 @@
 
 namespace App\Feature\Comment\Action;
 
-use App\Entity\Article;
-use App\Feature\Comment\DTO\CommentDTO;
-use App\Feature\Comment\Response\SingleCommentResponse;
-use App\Repository\ArticleRepository;
-use App\Repository\TagRepository;
+use App\Entity\Comment;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommentCreateAction extends AbstractController
 {
     public function __construct(
-        private ArticleRepository $articles,
-        private TagRepository $tags,
+        private EntityManagerInterface $em,
     ) {
     }
 
-    public function __invoke(Article $article)
+    public function __invoke(Comment $data)
     {
-        $response = new SingleCommentResponse();
-        $response->comment = new CommentDTO();
+        $this->em->persist($data);
+        $this->em->flush();
 
-        return $response;
+        return $data;
     }
 }

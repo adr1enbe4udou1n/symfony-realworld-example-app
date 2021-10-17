@@ -6,5 +6,5 @@ use App\Feature\Comment\DTO\NewCommentDTO;
 
 class NewCommentRequest
 {
-    public NewCommentDTO $article;
+    public NewCommentDTO $comment;
 }

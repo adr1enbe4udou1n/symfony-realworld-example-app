@@ -34,7 +34,7 @@ class ArticleCreateTest extends AbstractTest
      */
     public function testCannotCreateArticleWithInvalidData($article)
     {
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('POST', '/api/articles', [
             'json' => [
@@ -47,7 +47,7 @@ class ArticleCreateTest extends AbstractTest
 
     public function testCannotCreateArticleWithSameTitle()
     {
-        $user = $this->createDefaultUser();
+        $user = $this->actingAs();
 
         $this->em->persist((new Article())
             ->setTitle('Existing Title')
@@ -84,7 +84,7 @@ class ArticleCreateTest extends AbstractTest
         $this->em->persist((new Tag())->setName('Existing Tag'));
         $this->em->flush();
 
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('POST', '/api/articles', [
             'json' => [

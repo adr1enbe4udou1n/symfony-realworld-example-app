@@ -8,7 +8,7 @@ class CurrentUserTest extends AbstractTest
 {
     public function testUserCanFetchInfos(): void
     {
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('GET', '/api/user'));
 

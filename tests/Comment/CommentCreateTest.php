@@ -3,13 +3,20 @@
 namespace App\Test\Comment;
 
 use App\Entity\Article;
+use App\Entity\Comment;
+use App\Entity\User;
 use App\Tests\AbstractTest;
 
 class CommentCreateTest extends AbstractTest
 {
     private function createArticle()
     {
-        $user = $this->createDefaultUser();
+        $user = (new User())
+            ->setName('Jane Doe')
+            ->setEmail('jane.doe@example.com')
+            ->setBio('Jane Bio')
+            ->setImage('https://randomuser.me/api/portraits/women/1.jpg');
+        $this->em->persist($user);
 
         $this->em->persist((new Article())
             ->setTitle('Test Title')
@@ -32,11 +39,21 @@ class CommentCreateTest extends AbstractTest
      */
     public function testCannotCreateCommentWithInvalidData($comment)
     {
+        $this->createArticle();
+        $this->actingAs();
+
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
+            'json' => [
+                'comment' => $comment,
+            ],
+        ]));
+
+        $this->assertResponseStatusCodeSame(422);
     }
 
     public function testCannotCreateCommentToNonExistentArticle()
     {
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
             'json' => [],
@@ -58,5 +75,30 @@ class CommentCreateTest extends AbstractTest
 
     public function testCanCreateComment()
     {
+        $this->createArticle();
+        $this->actingAs();
+
+        $response = $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
+            'json' => [
+                'comment' => [
+                    'body' => 'New Comment',
+                ],
+            ],
+        ]));
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertJsonContains(['comment' => [
+            'body' => 'New Comment',
+            'author' => [
+                'username' => 'John Doe',
+                'bio' => 'John Bio',
+                'image' => 'https://randomuser.me/api/portraits/men/1.jpg',
+            ],
+        ]]);
+
+        $this->assertNotNull(
+            $this->em->getRepository(Comment::class)->find($response->toArray()['comment']['id'])
+        );
     }
 }

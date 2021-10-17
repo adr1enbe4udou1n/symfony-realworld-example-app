@@ -4,12 +4,12 @@ namespace App\Tests;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
+use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Response;
 use App\Entity\User;
 use Closure;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 abstract class AbstractTest extends ApiTestCase
 {
@@ -31,8 +31,21 @@ abstract class AbstractTest extends ApiTestCase
         $this->em = $this->orm->getManager();
     }
 
-    protected function createUser($user): User
+    protected function createDefaultUser()
     {
+        return (new User())
+            ->setName('John Doe')
+            ->setEmail('john.doe@example.com')
+            ->setBio('John Bio')
+            ->setImage('https://randomuser.me/api/portraits/men/1.jpg');
+    }
+
+    protected function actingAs($user = null): User
+    {
+        if (!$user) {
+            $user = $this->createDefaultUser();
+        }
+
         $this->em->persist($user);
         $this->em->flush();
 
@@ -48,24 +61,7 @@ abstract class AbstractTest extends ApiTestCase
         return $user;
     }
 
-    protected function createDefaultUser(?string $password = null): User
-    {
-        $user = (new User())
-            ->setName('John Doe')
-            ->setEmail('john.doe@example.com')
-            ->setBio('John Bio')
-            ->setImage('https://randomuser.me/api/portraits/men/1.jpg');
-
-        if ($password) {
-            $user->password = static::getContainer()
-                ->get(UserPasswordHasherInterface::class)
-                ->hashPassword($user, $password);
-        }
-
-        return $this->createUser($user);
-    }
-
-    public function act(Closure $act)
+    public function act(Closure $act): Response
     {
         $this->orm->getManager()->clear();
 

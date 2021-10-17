@@ -27,7 +27,7 @@ class UpdateUserTest extends AbstractTest
      */
     public function testCannotUpdateInfosWithInvalidData($data)
     {
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('PUT', '/api/user', [
             'json' => [
@@ -40,7 +40,7 @@ class UpdateUserTest extends AbstractTest
 
     public function testLoggedUserCanUpdateInfos(): void
     {
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('PUT', '/api/user', [
             'json' => [
@@ -78,7 +78,7 @@ class UpdateUserTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->createDefaultUser();
+        $this->actingAs();
 
         $this->act(fn () => $this->client->request('PUT', '/api/user', [
             'json' => [

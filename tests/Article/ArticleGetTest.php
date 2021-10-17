@@ -16,7 +16,7 @@ class ArticleGetTest extends AbstractTest
 
     public function testCanGetArticle()
     {
-        $user = $this->createDefaultUser();
+        $user = $this->actingAs();
 
         $this->em->persist((new Article())
             ->setTitle('Test Title')
