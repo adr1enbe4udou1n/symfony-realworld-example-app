@@ -50,12 +50,11 @@ abstract class AbstractTest extends ApiTestCase
 
     protected function createDefaultUser(?string $password = null): User
     {
-        $user = new User();
-        $user->name = 'John Doe';
-        $user->email = 'john.doe@example.com';
-
-        $user->bio = 'John Bio';
-        $user->image = 'https://randomuser.me/api/portraits/men/1.jpg';
+        $user = (new User())
+            ->setName('John Doe')
+            ->setEmail('john.doe@example.com')
+            ->setBio('John Bio')
+            ->setImage('https://randomuser.me/api/portraits/men/1.jpg');
 
         if ($password) {
             $user->password = static::getContainer()

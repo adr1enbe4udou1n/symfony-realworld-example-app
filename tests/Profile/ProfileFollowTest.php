@@ -9,11 +9,10 @@ class ProfileFollowTest extends AbstractTest
 {
     public function testGuestCannotFollowProfile()
     {
-        $toFollow = new User();
-        $toFollow->name = 'John Doe';
-        $toFollow->email = 'john.doe@example.com';
-
-        $this->em->persist($toFollow);
+        $this->em->persist((new User())
+            ->setName('John Doe')
+            ->setEmail('john.doe@example.com')
+        );
         $this->em->flush();
 
         $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_John Doe/follow', [
@@ -25,16 +24,15 @@ class ProfileFollowTest extends AbstractTest
 
     public function testCanFollowProfile()
     {
-        $toFollow = new User();
-        $toFollow->name = 'Jane Doe';
-        $toFollow->email = 'jane.doe@example.com';
+        $this->em->persist((new User())
+            ->setName('Jane Doe')
+            ->setEmail('jane.doe@example.com')
+        );
 
-        $other = new User();
-        $other->name = 'Alice Doe';
-        $other->email = 'alice@example.com';
-
-        $this->em->persist($toFollow);
-        $this->em->persist($other);
+        $this->em->persist((new User())
+            ->setName('Alice Doe')
+            ->setEmail('alice@example.com')
+        );
 
         $this->createDefaultUser();
 
@@ -53,20 +51,16 @@ class ProfileFollowTest extends AbstractTest
 
     public function testCanUnfollowProfile()
     {
-        $toUnfollow = new User();
-        $toUnfollow->name = 'Jane Doe';
-        $toUnfollow->email = 'jane.doe@example.com';
+        $this->em->persist($toUnfollow = (new User())
+            ->setName('Jane Doe')
+            ->setEmail('jane.doe@example.com'));
+        $this->em->persist($other = (new User())
+            ->setName('Alice')
+            ->setEmail('alice@example.com'));
 
-        $other = new User();
-        $other->name = 'Alice Doe';
-        $other->email = 'alice@example.com';
-
-        $this->em->persist($toUnfollow);
-        $this->em->persist($other);
-
-        $user = new User();
-        $user->name = 'John Doe';
-        $user->email = 'john.doe@example.com';
+        $user = (new User())
+            ->setName('John Doe')
+            ->setEmail('john.doe@example.com');
 
         $user->following->add($toUnfollow);
         $user->following->add($other);

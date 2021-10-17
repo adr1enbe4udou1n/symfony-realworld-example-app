@@ -9,12 +9,11 @@ class ProfileGetTest extends AbstractTest
 {
     public function testCanGetProfile()
     {
-        $user = new User();
-        $user->name = 'John Doe';
-        $user->email = 'john.doe@example.com';
-        $user->bio = 'My Bio';
-        $user->image = 'https://randomuser.me/api/portraits/men/1.jpg';
-        $this->em->persist($user);
+        $this->em->persist((new User())
+            ->setName('John Doe')
+            ->setEmail('john.doe@example.com')
+            ->setBio('My Bio')
+            ->setImage('https://randomuser.me/api/portraits/men/1.jpg'));
         $this->em->flush();
 
         $this->act(fn () => $this->client->request('GET', '/api/profiles/celeb_John Doe'));
@@ -39,20 +38,22 @@ class ProfileGetTest extends AbstractTest
 
     public function testCanGetFollowedProfile()
     {
-        $followed = new User();
-        $followed->name = 'Jane Doe';
-        $followed->email = 'jane.doe@example.com';
-        $followed->bio = 'My Bio';
-        $followed->image = 'https://randomuser.me/api/portraits/women/1.jpg';
-
-        $user = new User();
-        $user->name = 'John Doe';
-        $user->email = 'john.doe@example.com';
-        $user->bio = 'My Bio';
-        $user->image = 'https://randomuser.me/api/portraits/men/1.jpg';
-        $user->follow($followed);
+        $followed = (new User())
+            ->setName('Jane Doe')
+            ->setEmail('jane.doe@example.com')
+            ->setBio('Jane Bio')
+            ->setImage('https://randomuser.me/api/portraits/women/1.jpg');
 
         $this->em->persist($followed);
+
+        $user = (new User())
+            ->setName('John Doe')
+            ->setEmail('john.doe@example.com')
+            ->setBio('John Bio')
+            ->setImage('https://randomuser.me/api/portraits/men/1.jpg');
+
+        $user->follow($followed);
+
         $this->createUser($user);
 
         $this->act(fn () => $this->client->request('GET', '/api/profiles/celeb_Jane Doe'));
@@ -61,7 +62,7 @@ class ProfileGetTest extends AbstractTest
         $this->assertJsonContains([
             'profile' => [
                 'username' => 'Jane Doe',
-                'bio' => 'My Bio',
+                'bio' => 'Jane Bio',
                 'image' => 'https://randomuser.me/api/portraits/women/1.jpg',
                 'following' => true,
             ],

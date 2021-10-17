@@ -72,10 +72,10 @@ class UpdateUserTest extends AbstractTest
 
     public function testLoggedUserCannotUpdateWithAlreadyUsedEmail(): void
     {
-        $user = new User();
-        $user->name = 'Jane Doe';
-        $user->email = 'jane.doe@example.com';
-        $this->em->persist($user);
+        $this->em->persist((new User())
+            ->setName('Jane Doe')
+            ->setEmail('jane.doe@example.com')
+        );
         $this->em->flush();
 
         $this->createDefaultUser();
