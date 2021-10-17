@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Feature\Comment\Action\CommentCreateAction;
+use App\Feature\Comment\Request\NewCommentRequest;
+use App\Feature\Comment\Response\SingleCommentResponse;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +14,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     collectionOperations: [],
-    itemOperations: []
+    itemOperations: [
+        'create' => [
+            'method' => 'POST',
+            'path' => '/articles/{slug}/comments',
+            'controller' => CommentCreateAction::class,
+            'input' => NewCommentRequest::class,
+            'output' => SingleCommentResponse::class,
+            'read' => false,
+            'write' => false,
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+    ]
 )]
 class Comment
 {
