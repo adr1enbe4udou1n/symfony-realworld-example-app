@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Article\Action\ArticleCreateAction;
+use App\Feature\Article\Action\ArticleDeleteAction;
 use App\Feature\Article\Action\ArticleGetAction;
 use App\Feature\Article\Action\ArticleUpdateAction;
 use App\Feature\Article\Request\NewArticleRequest;
@@ -45,6 +46,14 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'controller' => ArticleUpdateAction::class,
             'input' => UpdateArticleRequest::class,
             'output' => SingleArticleResponse::class,
+            'read' => false,
+            'write' => false,
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+        'delete' => [
+            'method' => 'DELETE',
+            'path' => '/articles/{slug}',
+            'controller' => ArticleDeleteAction::class,
             'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",

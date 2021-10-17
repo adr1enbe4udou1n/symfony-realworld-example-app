@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Comment\Action\CommentCreateAction;
+use App\Feature\Comment\Action\CommentDeleteAction;
 use App\Feature\Comment\Request\NewCommentRequest;
 use App\Feature\Comment\Response\SingleCommentResponse;
 use App\Repository\CommentRepository;
@@ -21,6 +22,14 @@ use Doctrine\ORM\Mapping as ORM;
             'controller' => CommentCreateAction::class,
             'input' => NewCommentRequest::class,
             'output' => SingleCommentResponse::class,
+            'read' => false,
+            'write' => false,
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+        'delete' => [
+            'method' => 'DELETE',
+            'path' => '/articles/{slug}/comments/{id}',
+            'controller' => CommentDeleteAction::class,
             'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
