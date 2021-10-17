@@ -28,7 +28,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: 'public.users')]
 #[UniqueEntity('email', message: 'user.email.unique')]
 #[ApiResource(
-    collectionOperations: [
+    collectionOperations: [],
+    itemOperations: [
         'register' => [
             'method' => 'POST',
             'status' => Response::HTTP_OK,
@@ -49,8 +50,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'read' => false,
             'write' => false,
         ],
-    ],
-    itemOperations: [
         'current' => [
             'method' => 'GET',
             'path' => '/user',
