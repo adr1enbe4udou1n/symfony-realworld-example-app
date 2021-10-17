@@ -24,9 +24,11 @@ class Comment
     public string $body;
 
     #[ORM\ManyToOne(targetEntity: Article::class)]
+    #[ORM\JoinColumn(nullable: false)]
     public Article $article;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     public User $author;
 
     #[ORM\Column(type: 'datetime')]
@@ -38,6 +40,20 @@ class Comment
     public function setBody(string $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    public function setArticle(Article $article): self
+    {
+        $this->article = $article;
+
+        return $this;
+    }
+
+    public function setAuthor(User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

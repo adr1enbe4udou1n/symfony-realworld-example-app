@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Profile\Action\ProfileFollowAction;
 use App\Feature\Profile\Action\ProfileGetAction;
 use App\Feature\Profile\Action\ProfileUnfollowAction;
+use App\Feature\Profile\DTO\ProfileDTO;
 use App\Feature\Profile\Response\ProfileResponse;
 use App\Feature\User\Action\CurrentUserAction;
 use App\Feature\User\Action\LoginUserAction;
@@ -21,6 +22,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -271,6 +273,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $user->followers->removeElement($this);
+    }
+
+    public function getProfile(TokenStorageInterface $token): ProfileDTO
+    {
+        $profile = new ProfileDTO();
+        $profile->username = $this->name;
+        $profile->bio = $this->bio;
+        $profile->image = $this->image;
+
+        if ($token = $token->getToken()) {
+            /** @var User */
+            $user = $token->getUser();
+            $profile->following = $user->following->contains($this);
+        }
+
+        return $profile;
     }
 
     public function __toString(): string

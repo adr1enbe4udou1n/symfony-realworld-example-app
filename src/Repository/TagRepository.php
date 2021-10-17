@@ -28,4 +28,14 @@ class TagRepository extends ServiceEntityRepository
             ->getSingleColumnResult()
         ;
     }
+
+    public function byNames(array $names)
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.name IN (:names)')
+            ->setParameter('names', $names)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -22,9 +22,9 @@ final class UpdateArticleDataTransformer implements DataTransformerInterface
         $this->validator->validate($data->article);
 
         $article = new Article();
-        $article->title = $data->article->title;
-        $article->description = $data->article->description;
-        $article->body = $data->article->body;
+        $article->title = $data->article->title ?? $article->title;
+        $article->description = $data->article->description ?? $article->description;
+        $article->body = $data->article->body ?? $article->body;
 
         return $article;
     }

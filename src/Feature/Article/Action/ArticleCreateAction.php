@@ -4,7 +4,6 @@ namespace App\Feature\Article\Action;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,7 +13,6 @@ class ArticleCreateAction extends AbstractController
     public function __construct(
         private EntityManagerInterface $em,
         private ArticleRepository $articles,
-        private TagRepository $tags,
     ) {
     }
 

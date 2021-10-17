@@ -7,9 +7,14 @@ use App\Entity\Article;
 use App\Entity\Tag;
 use App\Feature\Article\DTO\ArticleDTO;
 use App\Feature\Article\Response\SingleArticleResponse;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class ArticleDataTransformer implements DataTransformerInterface
 {
+    public function __construct(private TokenStorageInterface $token)
+    {
+    }
+
     /**
      * @param Article $data
      */
@@ -24,6 +29,7 @@ final class ArticleDataTransformer implements DataTransformerInterface
         $output->article->createdAt = $data->createdAt;
         $output->article->updatedAt = $data->updatedAt;
 
+        $output->article->author = $data->author->getProfile($this->token);
         $output->article->tagList = $data->tags->map(fn (Tag $t) => $t->name)->toArray();
         $output->article->favorited = false;
         $output->article->favoritesCount = 0;

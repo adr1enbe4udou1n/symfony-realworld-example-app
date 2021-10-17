@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211017110736 extends AbstractMigration
+final class Version20211017154819 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,10 +24,10 @@ final class Version20211017110736 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE public.comments_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE public.tags_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE public.users_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE public.articles (id INT NOT NULL, author_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, description TEXT NOT NULL, body TEXT NOT NULL, slug VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE public.articles (id INT NOT NULL, author_id INT NOT NULL, title VARCHAR(255) NOT NULL, description TEXT NOT NULL, body TEXT NOT NULL, slug VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7D31EA01989D9B62 ON public.articles (slug)');
         $this->addSql('CREATE INDEX IDX_7D31EA01F675F31B ON public.articles (author_id)');
-        $this->addSql('CREATE TABLE public.comments (id INT NOT NULL, article_id INT DEFAULT NULL, author_id INT DEFAULT NULL, body TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE public.comments (id INT NOT NULL, article_id INT NOT NULL, author_id INT NOT NULL, body TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9D724D437294869C ON public.comments (article_id)');
         $this->addSql('CREATE INDEX IDX_9D724D43F675F31B ON public.comments (author_id)');
         $this->addSql('CREATE TABLE public.tags (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');

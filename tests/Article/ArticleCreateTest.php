@@ -3,6 +3,7 @@
 namespace App\Tests\Article;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use App\Tests\AbstractTest;
 
 class ArticleCreateTest extends AbstractTest
@@ -46,14 +47,15 @@ class ArticleCreateTest extends AbstractTest
 
     public function testCannotCreateArticleWithSameTitle()
     {
+        $user = $this->createDefaultUser();
+
         $this->em->persist((new Article())
             ->setTitle('Existing Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
+            ->setAuthor($user)
         );
         $this->em->flush();
-
-        $this->createDefaultUser();
 
         $this->act(fn () => $this->client->request('POST', '/api/articles', [
             'json' => [
@@ -79,6 +81,9 @@ class ArticleCreateTest extends AbstractTest
 
     public function testCanCreateArticle()
     {
+        $this->em->persist((new Tag())->setName('Existing Tag'));
+        $this->em->flush();
+
         $this->createDefaultUser();
 
         $this->act(fn () => $this->client->request('POST', '/api/articles', [
@@ -87,6 +92,7 @@ class ArticleCreateTest extends AbstractTest
                     'title' => 'Test Title',
                     'description' => 'Test Description',
                     'body' => 'Test Body',
+                    'tagList' => ['Test Tag 1', 'Test Tag 2', 'Existing Tag'],
                 ],
             ],
         ]));
@@ -97,15 +103,20 @@ class ArticleCreateTest extends AbstractTest
             'title' => 'Test Title',
             'description' => 'Test Description',
             'body' => 'Test Body',
-            // 'author' => [
-            //     'username' => 'John Doe',
-            //     'bio' => 'John Bio',
-            //     'image' => 'https://randomuser.me/api/portraits/women/1.jpg',
-            // ],
+            'author' => [
+                'username' => 'John Doe',
+                'bio' => 'John Bio',
+                'image' => 'https://randomuser.me/api/portraits/men/1.jpg',
+            ],
+            'tagList' => ['Test Tag 1', 'Test Tag 2', 'Existing Tag'],
         ]]);
 
         $this->assertNotNull(
             $this->orm->getRepository(Article::class)->findOneBy(['slug' => 'test-title'])
+        );
+
+        $this->assertCount(
+            3, $this->orm->getRepository(Tag::class)->findAll()
         );
     }
 }

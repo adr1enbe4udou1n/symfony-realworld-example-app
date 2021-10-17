@@ -58,6 +58,7 @@ class Article
     public ?string $slug = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
     public User $author;
 
     #[ORM\Column(type: 'datetime')]
@@ -69,7 +70,7 @@ class Article
     /**
      * @var Collection|Tag[]
      */
-    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'articles')]
+    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'articles', cascade: ['persist'])]
     public Collection $tags;
 
     /**
@@ -115,6 +116,13 @@ class Article
     public function setBody(string $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    public function setAuthor(User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
