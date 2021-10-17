@@ -7,11 +7,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UpdateArticleDTO
 {
     #[Assert\NotBlank(allowNull: true)]
-    public string $title;
+    public ?string $title = null;
 
     #[Assert\NotBlank(allowNull: true)]
-    public string $description;
+    public ?string $description = null;
 
     #[Assert\NotBlank(allowNull: true)]
-    public string $body;
+    public ?string $body = null;
 }

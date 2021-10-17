@@ -6,11 +6,16 @@ use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\Article;
 use App\Feature\Article\Request\UpdateArticleRequest;
+use App\Repository\ArticleRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class UpdateArticleDataTransformer implements DataTransformerInterface
 {
     public function __construct(
+        private ArticleRepository $articles,
         private ValidatorInterface $validator,
+        private RequestStack $request,
     ) {
     }
 
@@ -19,9 +24,14 @@ final class UpdateArticleDataTransformer implements DataTransformerInterface
      */
     public function transform($data, string $to, array $context = []): Article
     {
+        $article = $this->articles->findOneBy(['slug' => $this->request->getCurrentRequest()->attributes->get('slug')]);
+
+        if (!$article) {
+            throw new NotFoundHttpException('Not existing article');
+        }
+
         $this->validator->validate($data->article);
 
-        $article = new Article();
         $article->title = $data->article->title ?? $article->title;
         $article->description = $data->article->description ?? $article->description;
         $article->body = $data->article->body ?? $article->body;

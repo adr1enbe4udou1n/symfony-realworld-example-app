@@ -4,7 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Article\Action\ArticleCreateAction;
+use App\Feature\Article\Action\ArticleGetAction;
+use App\Feature\Article\Action\ArticleUpdateAction;
 use App\Feature\Article\Request\NewArticleRequest;
+use App\Feature\Article\Request\UpdateArticleRequest;
 use App\Feature\Article\Response\SingleArticleResponse;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,6 +34,16 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'path' => '/articles',
             'controller' => ArticleCreateAction::class,
             'input' => NewArticleRequest::class,
+            'output' => SingleArticleResponse::class,
+            'read' => false,
+            'write' => false,
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+        'update' => [
+            'method' => 'PUT',
+            'path' => '/articles/{slug}',
+            'controller' => ArticleUpdateAction::class,
+            'input' => UpdateArticleRequest::class,
             'output' => SingleArticleResponse::class,
             'read' => false,
             'write' => false,
