@@ -5,7 +5,9 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Article\Action\ArticleCreateAction;
 use App\Feature\Article\Action\ArticleDeleteAction;
+use App\Feature\Article\Action\ArticleFavoriteAction;
 use App\Feature\Article\Action\ArticleGetAction;
+use App\Feature\Article\Action\ArticleUnfavoriteAction;
 use App\Feature\Article\Action\ArticleUpdateAction;
 use App\Feature\Article\Request\NewArticleRequest;
 use App\Feature\Article\Request\UpdateArticleRequest;
@@ -14,6 +16,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -54,6 +57,26 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'method' => 'DELETE',
             'path' => '/articles/{slug}',
             'controller' => ArticleDeleteAction::class,
+            'read' => false,
+            'write' => false,
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+        'favorite' => [
+            'method' => 'POST',
+            'status' => Response::HTTP_OK,
+            'path' => '/articles/{slug}/favorite',
+            'controller' => ArticleFavoriteAction::class,
+            'output' => SingleArticleResponse::class,
+            'read' => false,
+            'write' => false,
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+        'unfavorite' => [
+            'method' => 'DELETE',
+            'status' => Response::HTTP_OK,
+            'path' => '/articles/{slug}/favorite',
+            'controller' => ArticleUnfavoriteAction::class,
+            'output' => SingleArticleResponse::class,
             'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
@@ -104,7 +127,7 @@ class Article
     /**
      * @var Collection|User[]
      */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favoriteArticles')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favoriteArticles', cascade: ['persist'])]
     public Collection $favoritedBy;
 
     public function __construct()

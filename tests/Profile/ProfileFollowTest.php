@@ -9,12 +9,6 @@ class ProfileFollowTest extends AbstractTest
 {
     public function testGuestCannotFollowProfile()
     {
-        $this->em->persist((new User())
-            ->setName('John Doe')
-            ->setEmail('john.doe@example.com')
-        );
-        $this->em->flush();
-
         $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_John Doe/follow', [
             'json' => [],
         ]));
@@ -24,6 +18,8 @@ class ProfileFollowTest extends AbstractTest
 
     public function testCanFollowProfile()
     {
+        $this->actingAs();
+
         $this->em->persist((new User())
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com')
@@ -34,7 +30,7 @@ class ProfileFollowTest extends AbstractTest
             ->setEmail('alice@example.com')
         );
 
-        $this->actingAs();
+        $this->em->flush();
 
         $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_Jane Doe/follow', [
             'json' => [],
@@ -51,25 +47,18 @@ class ProfileFollowTest extends AbstractTest
 
     public function testCanUnfollowProfile()
     {
-        $this->em->persist($toUnfollow = (new User())
+        $user = $this->actingAs();
+
+        $user->following->add((new User())
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com'));
-        $this->em->persist($other = (new User())
+        $user->following->add((new User())
             ->setName('Alice')
             ->setEmail('alice@example.com'));
 
-        $user = (new User())
-            ->setName('John Doe')
-            ->setEmail('john.doe@example.com');
+        $this->em->flush();
 
-        $user->following->add($toUnfollow);
-        $user->following->add($other);
-
-        $this->actingAs($user);
-
-        $this->act(fn () => $this->client->request('DELETE', '/api/profiles/celeb_Jane Doe/follow', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('DELETE', '/api/profiles/celeb_Jane Doe/follow'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([

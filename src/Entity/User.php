@@ -56,9 +56,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'method' => 'GET',
             'path' => '/user',
             'controller' => CurrentUserAction::class,
+            'output' => UserResponse::class,
             'read' => false,
             'write' => false,
-            'output' => UserResponse::class,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'update' => [
@@ -66,29 +66,27 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'path' => '/user',
             'controller' => UpdateUserAction::class,
             'input' => UpdateUserRequest::class,
+            'output' => UserResponse::class,
             'read' => false,
             'write' => false,
-            'output' => UserResponse::class,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'profile' => [
             'method' => 'GET',
             'path' => '/profiles/celeb_{username}',
             'controller' => ProfileGetAction::class,
+            'output' => ProfileResponse::class,
             'read' => false,
             'write' => false,
-            'input' => false,
-            'output' => ProfileResponse::class,
         ],
         'follow' => [
             'method' => 'POST',
             'status' => Response::HTTP_OK,
             'path' => '/profiles/celeb_{username}/follow',
             'controller' => ProfileFollowAction::class,
+            'output' => ProfileResponse::class,
             'read' => false,
             'write' => false,
-            'input' => false,
-            'output' => ProfileResponse::class,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'unfollow' => [
@@ -96,9 +94,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'status' => Response::HTTP_OK,
             'path' => '/profiles/celeb_{username}/follow',
             'controller' => ProfileUnfollowAction::class,
+            'output' => ProfileResponse::class,
             'read' => false,
             'write' => false,
-            'output' => ProfileResponse::class,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
     ],
@@ -134,16 +132,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var Collection|User[]
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="followers")
      */
-    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'followers')]
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'followers', cascade: ['persist'])]
     public Collection $following;
 
     /**
      * @var Collection|User[]
      */
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'following')]
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'following', cascade: ['persist'])]
     #[ORM\JoinTable(name: 'follower_user')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'follower_id', referencedColumnName: 'id')]
@@ -152,7 +148,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection|Article[]
      */
-    #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'favoritedBy')]
+    #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'favoritedBy', cascade: ['persist'])]
     #[ORM\JoinTable(name: 'article_favorite')]
     public Collection $favoriteArticles;
 
@@ -266,6 +262,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $user->followers->removeElement($this);
+    }
+
+    public function favorite(Article $article): void
+    {
+        if ($this->favoriteArticles->contains($article)) {
+            return;
+        }
+
+        $this->favoriteArticles->add($article);
+    }
+
+    public function unfavorite(Article $article): void
+    {
+        if (!$this->favoriteArticles->contains($article)) {
+            return;
+        }
+
+        $this->favoriteArticles->removeElement($article);
     }
 
     public function getProfile(TokenStorageInterface $token): ProfileDTO
