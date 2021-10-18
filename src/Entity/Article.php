@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Article\Action\ArticleCreateAction;
 use App\Feature\Article\Action\ArticleDeleteAction;
@@ -30,8 +31,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'path' => '/articles/{slug}',
             'controller' => ArticleGetAction::class,
             'output' => SingleArticleResponse::class,
-            'read' => false,
-            'write' => false,
         ],
         'create' => [
             'method' => 'POST',
@@ -49,7 +48,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'controller' => ArticleUpdateAction::class,
             'input' => UpdateArticleRequest::class,
             'output' => SingleArticleResponse::class,
-            'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
@@ -57,7 +55,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'method' => 'DELETE',
             'path' => '/articles/{slug}',
             'controller' => ArticleDeleteAction::class,
-            'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
@@ -67,7 +64,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'path' => '/articles/{slug}/favorite',
             'controller' => ArticleFavoriteAction::class,
             'output' => SingleArticleResponse::class,
-            'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
@@ -77,7 +73,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'path' => '/articles/{slug}/favorite',
             'controller' => ArticleUnfavoriteAction::class,
             'output' => SingleArticleResponse::class,
-            'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
@@ -88,6 +83,7 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[ApiProperty(identifier: false)]
     public $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -100,9 +96,10 @@ class Article
     public string $body;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[ApiProperty(identifier: true)]
     public ?string $slug = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     public User $author;
 

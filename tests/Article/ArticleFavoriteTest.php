@@ -9,6 +9,16 @@ class ArticleFavoriteTest extends AbstractTest
 {
     public function testGuestCannotFavoriteArticle()
     {
+        $user = $this->createDefaultUser();
+
+        $this->em->persist((new Article())
+            ->setTitle('Test Title')
+            ->setDescription('Test Description')
+            ->setBody('Test Body')
+            ->setAuthor($user)
+        );
+        $this->em->flush();
+
         $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite', [
             'json' => [],
         ]));

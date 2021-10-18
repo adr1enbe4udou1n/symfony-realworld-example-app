@@ -9,6 +9,12 @@ class ProfileFollowTest extends AbstractTest
 {
     public function testGuestCannotFollowProfile()
     {
+        $this->em->persist((new User())
+            ->setName('John Doe')
+            ->setEmail('john.doe@example.com')
+        );
+        $this->em->flush();
+
         $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_John Doe/follow', [
             'json' => [],
         ]));

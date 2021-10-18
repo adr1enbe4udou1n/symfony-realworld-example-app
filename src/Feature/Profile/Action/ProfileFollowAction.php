@@ -13,11 +13,11 @@ class ProfileFollowAction extends AbstractController
     ) {
     }
 
-    public function __invoke(User $profile)
+    public function __invoke(User $data)
     {
-        $this->getUser()->follow($profile);
+        $this->getUser()->follow($data);
         $this->em->flush();
 
-        return $profile;
+        return $data;
     }
 }

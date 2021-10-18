@@ -11,7 +11,21 @@ class CommentDeleteTest extends AbstractTest
 {
     public function testGuestCannotDeleteComment()
     {
-        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title/comments/1'));
+        $user = $this->createDefaultUser();
+
+        $this->em->persist($comment = (new Comment())
+            ->setBody('Test Body John')
+            ->setAuthor($user)
+            ->setArticle((new Article())
+                ->setTitle('Test Title')
+                ->setDescription('Test Description')
+                ->setBody('Test Body')
+                ->setAuthor($user)
+            )
+        );
+        $this->em->flush();
+
+        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(401);
     }

@@ -16,14 +16,14 @@ class ArticleFavoriteAction extends AbstractController
     ) {
     }
 
-    public function __invoke(Article $article)
+    public function __invoke(Article $data)
     {
         /** @var User */
         $user = $this->token->getToken()->getUser();
 
-        $user->favorite($article);
+        $user->favorite($data);
         $this->em->flush();
 
-        return $article;
+        return $data;
     }
 }

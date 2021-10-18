@@ -2,13 +2,13 @@
 
 namespace App\Feature\Comment\Action;
 
-use App\Entity\Article;
+use App\Entity\Comment;
 use App\Entity\User;
-use App\Repository\CommentRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CommentDeleteAction extends AbstractController
@@ -16,30 +16,31 @@ class CommentDeleteAction extends AbstractController
     public function __construct(
         private TokenStorageInterface $token,
         private EntityManagerInterface $em,
-        private CommentRepository $comments,
+        private ArticleRepository $articles,
+        private RequestStack $request,
     ) {
     }
 
-    public function __invoke(Article $article, Request $request)
+    public function __invoke(Comment $data)
     {
-        $comment = $this->comments->find($request->attributes->get('id'));
+        $article = $this->articles->findOneBy(['slug' => $this->request->getCurrentRequest()->attributes->get('slug')]);
 
-        if (!$comment) {
-            return new JsonResponse('No comment of this id found', 404);
+        if (!$article) {
+            return new JsonResponse('No article of this slug found', 404);
         }
 
-        if ($comment->article->id !== $article->id) {
+        if ($data->article->id !== $article->id) {
             return new JsonResponse('This comment is not associate with requested article', 400);
         }
 
         /** @var User */
         $user = $this->token->getToken()->getUser();
 
-        if ($comment->author->id !== $user->id && $article->author->id !== $user->id) {
+        if ($data->author->id !== $user->id && $article->author->id !== $user->id) {
             return new JsonResponse('You cannot delete this comment', 400);
         }
 
-        $this->em->remove($comment);
+        $this->em->remove($data);
         $this->em->flush();
     }
 }

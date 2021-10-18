@@ -16,14 +16,14 @@ class ArticleUnfavoriteAction extends AbstractController
     ) {
     }
 
-    public function __invoke(Article $article)
+    public function __invoke(Article $data)
     {
         /** @var User */
         $user = $this->token->getToken()->getUser();
 
-        $user->unfavorite($article);
+        $user->unfavorite($data);
         $this->em->flush();
 
-        return $article;
+        return $data;
     }
 }

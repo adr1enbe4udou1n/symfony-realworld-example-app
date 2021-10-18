@@ -100,7 +100,7 @@ final class OpenApiFactory implements OpenApiFactoryInterface
                         new Parameter('username', 'path', 'Username of the profile to get'),
                     ])
                     ->withResponses(
-                        $this->getResponses($openApi->getPaths()->getPath('/api/profiles/celeb_{username}')->getGet())
+                        $this->getResponses($openApi->getPaths()->getPath('/api/profiles/celeb_{name}')->getGet())
                     )
             )
         );
@@ -114,7 +114,7 @@ final class OpenApiFactory implements OpenApiFactoryInterface
                         new Parameter('username', 'path', 'Username of the profile you want to follow'),
                     ])
                     ->withResponses(
-                        $this->getResponses($openApi->getPaths()->getPath('/api/profiles/celeb_{username}/follow')->getPost())
+                        $this->getResponses($openApi->getPaths()->getPath('/api/profiles/celeb_{name}/follow')->getPost())
                     )
             )
             ->withDelete(
@@ -126,7 +126,7 @@ final class OpenApiFactory implements OpenApiFactoryInterface
                         new Parameter('username', 'path', 'Username of the profile you want to unfollow'),
                     ])
                     ->withResponses(
-                        $this->getResponses($openApi->getPaths()->getPath('/api/profiles/celeb_{username}/follow')->getPost())
+                        $this->getResponses($openApi->getPaths()->getPath('/api/profiles/celeb_{name}/follow')->getPost())
                     )
             )
         );

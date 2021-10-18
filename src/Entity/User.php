@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Profile\Action\ProfileFollowAction;
 use App\Feature\Profile\Action\ProfileGetAction;
@@ -58,7 +59,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
             'controller' => CurrentUserAction::class,
             'output' => UserResponse::class,
             'read' => false,
-            'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'update' => [
@@ -73,29 +73,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
         ],
         'profile' => [
             'method' => 'GET',
-            'path' => '/profiles/celeb_{username}',
+            'path' => '/profiles/celeb_{name}',
             'controller' => ProfileGetAction::class,
             'output' => ProfileResponse::class,
-            'read' => false,
-            'write' => false,
         ],
         'follow' => [
             'method' => 'POST',
             'status' => Response::HTTP_OK,
-            'path' => '/profiles/celeb_{username}/follow',
+            'path' => '/profiles/celeb_{name}/follow',
             'controller' => ProfileFollowAction::class,
             'output' => ProfileResponse::class,
-            'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
         'unfollow' => [
             'method' => 'DELETE',
             'status' => Response::HTTP_OK,
-            'path' => '/profiles/celeb_{username}/follow',
+            'path' => '/profiles/celeb_{name}/follow',
             'controller' => ProfileUnfollowAction::class,
             'output' => ProfileResponse::class,
-            'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
@@ -107,9 +103,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[ApiProperty(identifier: false)]
     public ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[ApiProperty(identifier: true)]
     public string $name;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]

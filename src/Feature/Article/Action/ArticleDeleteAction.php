@@ -19,16 +19,16 @@ class ArticleDeleteAction extends AbstractController
     ) {
     }
 
-    public function __invoke(Article $article)
+    public function __invoke(Article $data)
     {
         /** @var User */
         $user = $this->token->getToken()->getUser();
 
-        if ($article->author->id !== $user->id) {
+        if ($data->author->id !== $user->id) {
             return new JsonResponse('You cannot delete this article', 400);
         }
 
-        $this->em->remove($article);
+        $this->em->remove($data);
         $this->em->flush();
     }
 }

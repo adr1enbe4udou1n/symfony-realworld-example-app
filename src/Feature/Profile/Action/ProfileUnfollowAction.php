@@ -13,11 +13,11 @@ class ProfileUnfollowAction extends AbstractController
     ) {
     }
 
-    public function __invoke(User $profile)
+    public function __invoke(User $data)
     {
-        $this->getUser()->unfollow($profile);
+        $this->getUser()->unfollow($data);
         $this->em->flush();
 
-        return $profile;
+        return $data;
     }
 }

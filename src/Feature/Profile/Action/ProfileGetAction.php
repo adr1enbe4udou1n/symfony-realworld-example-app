@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProfileGetAction extends AbstractController
 {
-    public function __invoke(User $profile)
+    public function __invoke(User $data)
     {
-        return $profile;
+        return $data;
     }
 }

@@ -11,6 +11,16 @@ class ArticleDeleteTest extends AbstractTest
 {
     public function testGuestCannotDeleteArticle()
     {
+        $user = $this->createDefaultUser();
+
+        $this->em->persist((new Article())
+            ->setTitle('Test Title')
+            ->setDescription('Test Description')
+            ->setBody('Test Body')
+            ->setAuthor($user)
+        );
+        $this->em->flush();
+
         $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(401);

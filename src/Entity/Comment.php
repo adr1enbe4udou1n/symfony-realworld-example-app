@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Comment\Action\CommentCreateAction;
 use App\Feature\Comment\Action\CommentDeleteAction;
@@ -24,7 +25,6 @@ use Doctrine\ORM\Mapping as ORM;
             'controller' => CommentListAction::class,
             'output' => MultipleCommentsResponse::class,
             'read' => false,
-            'write' => false,
         ],
         'create' => [
             'method' => 'POST',
@@ -40,7 +40,6 @@ use Doctrine\ORM\Mapping as ORM;
             'method' => 'DELETE',
             'path' => '/articles/{slug}/comments/{id}',
             'controller' => CommentDeleteAction::class,
-            'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
@@ -51,16 +50,17 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[ApiProperty(identifier: true)]
     public $id;
 
     #[ORM\Column(type: 'text')]
     public string $body;
 
-    #[ORM\ManyToOne(targetEntity: Article::class)]
+    #[ORM\ManyToOne(targetEntity: Article::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     public Article $article;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     public User $author;
 

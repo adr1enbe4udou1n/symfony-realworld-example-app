@@ -10,6 +10,17 @@ class ArticleUpdateTest extends AbstractTest
 {
     public function testGuestCannotUpdateArticle()
     {
+        $this->em->persist((new Article())
+                ->setTitle('Test Title')
+                ->setDescription('Test Description')
+                ->setBody('Test Body')
+                ->setAuthor((new User())
+                    ->setName('John Doe')
+                    ->setEmail('john.doe@example.com')
+                )
+            );
+        $this->em->flush();
+
         $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
             'json' => [],
         ]));
