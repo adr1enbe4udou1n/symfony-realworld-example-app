@@ -5,7 +5,9 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Comment\Action\CommentCreateAction;
 use App\Feature\Comment\Action\CommentDeleteAction;
+use App\Feature\Comment\Action\CommentListAction;
 use App\Feature\Comment\Request\NewCommentRequest;
+use App\Feature\Comment\Response\MultipleCommentsResponse;
 use App\Feature\Comment\Response\SingleCommentResponse;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,6 +18,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
     collectionOperations: [],
     itemOperations: [
+        'list' => [
+            'method' => 'GET',
+            'path' => '/articles/{slug}/comments',
+            'controller' => CommentListAction::class,
+            'output' => MultipleCommentsResponse::class,
+            'read' => false,
+            'write' => false,
+        ],
         'create' => [
             'method' => 'POST',
             'path' => '/articles/{slug}/comments',
