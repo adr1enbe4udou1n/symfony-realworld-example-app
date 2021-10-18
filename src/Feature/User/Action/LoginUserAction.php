@@ -3,6 +3,7 @@
 namespace App\Feature\User\Action;
 
 use App\Feature\User\DTO\LoginUserDTO;
+use App\Feature\User\Response\UserResponse;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,6 +25,6 @@ class LoginUserAction extends AbstractController
             return new JsonResponse(['message' => 'Bad credentials'], 400);
         }
 
-        return $user;
+        return new UserResponse($user);
     }
 }

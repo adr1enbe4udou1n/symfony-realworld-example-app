@@ -3,6 +3,7 @@
 namespace App\Feature\User\Action;
 
 use App\Entity\User;
+use App\Feature\User\Response\UserResponse;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +26,6 @@ class UpdateUserAction extends AbstractController
         $this->em->persist($data);
         $this->em->flush();
 
-        return $data;
+        return new UserResponse($data);
     }
 }

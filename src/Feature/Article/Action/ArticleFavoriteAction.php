@@ -4,6 +4,7 @@ namespace App\Feature\Article\Action;
 
 use App\Entity\Article;
 use App\Entity\User;
+use App\Feature\Article\Response\SingleArticleResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -24,6 +25,6 @@ class ArticleFavoriteAction extends AbstractController
         $user->favorite($data);
         $this->em->flush();
 
-        return $data;
+        return new SingleArticleResponse($data);
     }
 }

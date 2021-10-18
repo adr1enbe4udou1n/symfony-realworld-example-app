@@ -3,6 +3,7 @@
 namespace App\Feature\Profile\Action;
 
 use App\Entity\User;
+use App\Feature\Profile\Response\ProfileResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -18,6 +19,6 @@ class ProfileFollowAction extends AbstractController
         $this->getUser()->follow($data);
         $this->em->flush();
 
-        return $data;
+        return new ProfileResponse($data);
     }
 }

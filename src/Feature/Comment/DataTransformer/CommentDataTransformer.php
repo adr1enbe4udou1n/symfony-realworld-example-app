@@ -5,7 +5,6 @@ namespace App\Feature\Comment\DataTransformer;
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use App\Entity\Comment;
 use App\Feature\Comment\DTO\CommentDTO;
-use App\Feature\Comment\Response\SingleCommentResponse;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class CommentDataTransformer implements DataTransformerInterface
@@ -17,19 +16,18 @@ final class CommentDataTransformer implements DataTransformerInterface
     /**
      * @param Comment $data
      */
-    public function transform($data, string $to, array $context = []): SingleCommentResponse
+    public function transform($data, string $to, array $context = []): CommentDTO
     {
-        $output = new SingleCommentResponse();
-        $output->comment = new CommentDTO();
+        $comment = new CommentDTO();
 
-        $output->comment->id = $data->id;
-        $output->comment->body = $data->body;
-        $output->comment->createdAt = $data->createdAt;
-        $output->comment->updatedAt = $data->updatedAt;
+        $comment->id = $data->id;
+        $comment->body = $data->body;
+        $comment->createdAt = $data->createdAt;
+        $comment->updatedAt = $data->updatedAt;
 
-        $output->comment->author = $data->author->getProfile($this->token);
+        $comment->author = $data->author->getProfile($this->token);
 
-        return $output;
+        return $comment;
     }
 
     /**
@@ -37,6 +35,6 @@ final class CommentDataTransformer implements DataTransformerInterface
      */
     public function supportsTransformation($data, string $to, array $context = []): bool
     {
-        return SingleCommentResponse::class === $to && $data instanceof Comment;
+        return $data instanceof Comment;
     }
 }

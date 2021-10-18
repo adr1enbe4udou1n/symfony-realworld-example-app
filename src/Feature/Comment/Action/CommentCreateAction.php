@@ -3,6 +3,7 @@
 namespace App\Feature\Comment\Action;
 
 use App\Entity\Comment;
+use App\Feature\Comment\Response\SingleCommentResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -18,6 +19,6 @@ class CommentCreateAction extends AbstractController
         $this->em->persist($data);
         $this->em->flush();
 
-        return $data;
+        return new SingleCommentResponse($data);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Feature\Profile\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use App\Entity\User;
+use App\Feature\Profile\DTO\ProfileDTO;
 use App\Feature\Profile\Response\ProfileResponse;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -16,12 +17,9 @@ final class ProfileDataTransformer implements DataTransformerInterface
     /**
      * @param User $data
      */
-    public function transform($data, string $to, array $context = []): ProfileResponse
+    public function transform($data, string $to, array $context = []): ProfileDTO
     {
-        $output = new ProfileResponse();
-        $output->profile = $data->getProfile($this->token);
-
-        return $output;
+        return $data->getProfile($this->token);
     }
 
     /**

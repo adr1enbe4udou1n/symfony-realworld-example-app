@@ -18,17 +18,16 @@ final class UserDataTransformer implements DataTransformerInterface
     /**
      * @param User $data
      */
-    public function transform($data, string $to, array $context = []): UserResponse
+    public function transform($data, string $to, array $context = []): UserDTO
     {
-        $output = new UserResponse();
-        $output->user = new UserDTO();
-        $output->user->email = $data->email;
-        $output->user->username = $data->name;
-        $output->user->bio = $data->bio;
-        $output->user->image = $data->image;
-        $output->user->token = $this->jwtManager->create($data);
+        $user = new UserDTO();
+        $user->email = $data->email;
+        $user->username = $data->name;
+        $user->bio = $data->bio;
+        $user->image = $data->image;
+        $user->token = $this->jwtManager->create($data);
 
-        return $output;
+        return $user;
     }
 
     /**

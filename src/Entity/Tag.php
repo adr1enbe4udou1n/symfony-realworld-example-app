@@ -13,17 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: 'public.tags')]
 #[ApiResource(
-    collectionOperations: [],
-    itemOperations: [
+    collectionOperations: [
         'list' => [
             'method' => 'GET',
             'path' => '/tags',
             'controller' => TagListAction::class,
             'output' => TagResponse::class,
-            'read' => false,
-            'write' => false,
         ],
-    ]
+    ],
 )]
 class Tag
 {

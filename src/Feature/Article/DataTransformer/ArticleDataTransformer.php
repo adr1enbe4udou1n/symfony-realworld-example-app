@@ -19,26 +19,25 @@ final class ArticleDataTransformer implements DataTransformerInterface
     /**
      * @param Article $data
      */
-    public function transform($data, string $to, array $context = []): SingleArticleResponse
+    public function transform($data, string $to, array $context = []): ArticleDTO
     {
-        $output = new SingleArticleResponse();
-        $output->article = new ArticleDTO();
+        $article = new ArticleDTO();
 
-        $output->article->title = $data->title;
-        $output->article->description = $data->description;
-        $output->article->body = $data->body;
-        $output->article->createdAt = $data->createdAt;
-        $output->article->updatedAt = $data->updatedAt;
+        $article->title = $data->title;
+        $article->description = $data->description;
+        $article->body = $data->body;
+        $article->createdAt = $data->createdAt;
+        $article->updatedAt = $data->updatedAt;
 
         /** @var User */
         $user = $this->token->getToken()->getUser();
 
-        $output->article->author = $data->author->getProfile($this->token);
-        $output->article->tagList = $data->tags->map(fn (Tag $t) => $t->name)->toArray();
-        $output->article->favorited = $data->favoritedBy->contains($user);
-        $output->article->favoritesCount = $data->favoritedBy->count();
+        $article->author = $data->author->getProfile($this->token);
+        $article->tagList = $data->tags->map(fn (Tag $t) => $t->name)->toArray();
+        $article->favorited = $data->favoritedBy->contains($user);
+        $article->favoritesCount = $data->favoritedBy->count();
 
-        return $output;
+        return $article;
     }
 
     /**

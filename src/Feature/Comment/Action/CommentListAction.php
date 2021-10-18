@@ -2,7 +2,6 @@
 
 namespace App\Feature\Comment\Action;
 
-use App\Entity\Article;
 use App\Feature\Comment\Response\MultipleCommentsResponse;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,10 +24,6 @@ class CommentListAction extends AbstractController
             return new JsonResponse('No article of this slug found', 404);
         }
 
-        $response = new MultipleCommentsResponse();
-        $response->comments = [];
-        // $response->comments = $this->comments->findBy(['article_id' => $article->id]);
-
-        return $response;
+        return new MultipleCommentsResponse($article->comments->toArray());
     }
 }

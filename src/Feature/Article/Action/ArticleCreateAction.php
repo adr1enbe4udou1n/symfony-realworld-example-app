@@ -3,6 +3,7 @@
 namespace App\Feature\Article\Action;
 
 use App\Entity\Article;
+use App\Feature\Article\Response\SingleArticleResponse;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +26,6 @@ class ArticleCreateAction extends AbstractController
         $this->em->persist($data);
         $this->em->flush();
 
-        return $data;
+        return new SingleArticleResponse($data);
     }
 }

@@ -15,9 +15,6 @@ class TagListAction extends AbstractController
 
     public function __invoke()
     {
-        $response = new TagResponse();
-        $response->tags = $this->tags->list();
-
-        return $response;
+        return new TagResponse($this->tags->list());
     }
 }
