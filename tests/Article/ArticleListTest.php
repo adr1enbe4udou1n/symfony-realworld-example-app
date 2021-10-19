@@ -35,6 +35,7 @@ class ArticleListTest extends AbstractTest
         $jane->favorite($johnArticles[3]);
         $jane->favorite($johnArticles[7]);
         $jane->favorite($johnArticles[15]);
+        $jane->follow($johnArticles[0]->author);
         $this->em->flush();
 
         $this->actingAs($jane);
@@ -162,5 +163,25 @@ class ArticleListTest extends AbstractTest
 
     public function testCanPaginateArticlesOfFollowedAuthors()
     {
+        $this->createArticles();
+
+        $response = $this->act(fn () => $this->client->request('GET', '/api/articles/feed?limit=10&offset=0'));
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertCount(10, $response->toArray()['articles']);
+        $this->assertEquals(30, $response->toArray()['articlesCount']);
+
+        $this->assertJsonContains(['articles' => [
+            0 => [
+                'title' => 'John Doe - Test Title 30',
+                'description' => 'Test Description',
+                'body' => 'Test Body',
+                'author' => [
+                    'username' => 'John Doe',
+                ],
+                'tagList' => ['Test Tag 1', 'Test Tag 2', 'Tag John Doe'],
+            ],
+        ]]);
     }
 }

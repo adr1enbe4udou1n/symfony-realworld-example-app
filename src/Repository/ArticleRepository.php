@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -46,6 +47,21 @@ class ArticleRepository extends ServiceEntityRepository
                 ->where('LOWER(fu.name) LIKE :user')
                 ->setParameter('user', "%{$favorited}%");
         }
+
+        return new Paginator($queryBuilder
+            ->orderBy('a.id', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults(min(self::MAX_ITEMS_PER_PAGE, $limit)));
+    }
+
+    public function feed(User $user, int $limit = 20, int $offset = 0)
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        $queryBuilder
+            ->leftJoin('a.author', 'u')
+            ->where(':user MEMBER OF u.followers')
+            ->setParameter('user', $user);
 
         return new Paginator($queryBuilder
             ->orderBy('a.id', 'DESC')
