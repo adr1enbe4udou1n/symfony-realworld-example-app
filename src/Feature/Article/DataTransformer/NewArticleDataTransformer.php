@@ -42,11 +42,11 @@ final class NewArticleDataTransformer implements DataTransformerInterface
             $tags = array_filter($existingTags, fn (Tag $t) => $t->name === $tagName);
 
             if (empty($tags)) {
-                $article->tags->add((new Tag())->setName($tagName));
+                $article->addTag((new Tag())->setName($tagName));
                 continue;
             }
 
-            $article->tags->add(reset($tags));
+            $article->addTag(reset($tags));
         }
 
         return $article;

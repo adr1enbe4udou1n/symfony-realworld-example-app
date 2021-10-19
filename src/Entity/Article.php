@@ -117,7 +117,7 @@ class Article
     #[ApiProperty(identifier: true)]
     public ?string $slug = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     public User $author;
 
@@ -130,7 +130,7 @@ class Article
     /**
      * @var Collection|Tag[]
      */
-    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'articles', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'articles', cascade: ['persist'], fetch: 'EAGER')]
     public Collection $tags;
 
     /**
@@ -184,6 +184,30 @@ class Article
     public function setAuthor(User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if ($tag->articles->contains($this)) {
+            return $this;
+        }
+
+        $tag->articles->add($this);
+        $this->tags->add($tag);
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if (!$tag->articles->contains($this)) {
+            return $this;
+        }
+
+        $tag->articles->removeElement($this);
+        $this->tags->removeElement($tag);
 
         return $this;
     }

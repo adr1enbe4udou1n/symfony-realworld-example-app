@@ -3,6 +3,7 @@
 namespace App\Tests\Article;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use App\Tests\AbstractTest;
 
 class ArticleGetTest extends AbstractTest
@@ -23,6 +24,9 @@ class ArticleGetTest extends AbstractTest
             ->setDescription('Test Description')
             ->setBody('Test Body')
             ->setAuthor($user)
+            ->addTag((new Tag())->setName('Test Tag 1'))
+            ->addTag((new Tag())->setName('Test Tag 2'))
+            ->addTag((new Tag())->setName('Tag John Doe'))
         );
         $this->em->flush();
 
@@ -39,6 +43,7 @@ class ArticleGetTest extends AbstractTest
                 'bio' => 'John Bio',
                 'image' => 'https://randomuser.me/api/portraits/men/1.jpg',
             ],
+            'tagList' => ['Test Tag 1', 'Test Tag 2', 'Tag John Doe'],
         ]]);
     }
 }

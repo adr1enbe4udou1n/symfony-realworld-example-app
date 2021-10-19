@@ -244,40 +244,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedAt = new \DateTime();
     }
 
-    public function follow(User $user): void
+    public function follow(User $user): self
     {
         if ($user->followers->contains($this)) {
-            return;
+            return $this;
         }
 
         $user->followers->add($this);
+
+        return $this;
     }
 
-    public function unfollow(User $user): void
+    public function unfollow(User $user): self
     {
         if (!$user->followers->contains($this)) {
-            return;
+            return $this;
         }
 
         $user->followers->removeElement($this);
+
+        return $this;
     }
 
-    public function favorite(Article $article): void
+    public function favorite(Article $article): self
     {
         if ($this->favoriteArticles->contains($article)) {
-            return;
+            return $this;
         }
 
         $this->favoriteArticles->add($article);
+
+        return $this;
     }
 
-    public function unfavorite(Article $article): void
+    public function unfavorite(Article $article): self
     {
         if (!$this->favoriteArticles->contains($article)) {
-            return;
+            return $this;
         }
 
         $this->favoriteArticles->removeElement($article);
+
+        return $this;
     }
 
     public function getProfile(TokenStorageInterface $token): ProfileDTO

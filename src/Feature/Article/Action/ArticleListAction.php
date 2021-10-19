@@ -13,7 +13,10 @@ class ArticleListAction extends AbstractController
     {
         $paginator = $articles->list(
             (int) $request->query->get('limit', (string) ArticleRepository::MAX_ITEMS_PER_PAGE),
-            (int) $request->query->get('offset', '0')
+            (int) $request->query->get('offset', '0'),
+            $request->query->get('author'),
+            $request->query->get('tag'),
+            $request->query->get('favorited'),
         );
 
         return new MultipleArticlesResponse($paginator->getQuery()->getResult(), $paginator->count());
