@@ -246,21 +246,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function follow(User $user): self
     {
-        if ($user->followers->contains($this)) {
-            return $this;
+        if (!$this->followers->contains($this)) {
+            $user->followers[] = $this;
         }
-
-        $user->followers->add($this);
 
         return $this;
     }
 
     public function unfollow(User $user): self
     {
-        if (!$user->followers->contains($this)) {
-            return $this;
-        }
-
         $user->followers->removeElement($this);
 
         return $this;
@@ -268,21 +262,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function favorite(Article $article): self
     {
-        if ($this->favoriteArticles->contains($article)) {
-            return $this;
+        if (!$this->favoriteArticles->contains($article)) {
+            $this->favoriteArticles[] = $article;
         }
-
-        $this->favoriteArticles->add($article);
 
         return $this;
     }
 
     public function unfavorite(Article $article): self
     {
-        if (!$this->favoriteArticles->contains($article)) {
-            return $this;
-        }
-
         $this->favoriteArticles->removeElement($article);
 
         return $this;
