@@ -32,11 +32,7 @@ class Tag
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     public string $name;
 
-    /**
-     * @var Collection|Article[]
-     */
-    #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'tags')]
-    #[ORM\JoinTable(name: 'article_tag')]
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'tags')]
     public Collection $articles;
 
     public function __construct()
@@ -54,5 +50,24 @@ class Tag
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            $article->removeTag($this);
+        }
+
+        return $this;
     }
 }

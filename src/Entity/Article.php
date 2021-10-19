@@ -127,10 +127,7 @@ class Article
     #[ORM\Column(type: 'datetime')]
     public \DateTime $updatedAt;
 
-    /**
-     * @var Collection|Tag[]
-     */
-    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'articles', cascade: ['persist'], fetch: 'EAGER')]
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', cascade: ['persist'])]
     public Collection $tags;
 
     /**
@@ -188,30 +185,6 @@ class Article
         return $this;
     }
 
-    public function addTag(Tag $tag): self
-    {
-        if ($tag->articles->contains($this)) {
-            return $this;
-        }
-
-        $tag->articles->add($this);
-        $this->tags->add($tag);
-
-        return $this;
-    }
-
-    public function removeTag(Tag $tag): self
-    {
-        if (!$tag->articles->contains($this)) {
-            return $this;
-        }
-
-        $tag->articles->removeElement($this);
-        $this->tags->removeElement($tag);
-
-        return $this;
-    }
-
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -223,6 +196,22 @@ class Article
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tags->removeElement($tag);
+
+        return $this;
     }
 
     public function __toString(): string
