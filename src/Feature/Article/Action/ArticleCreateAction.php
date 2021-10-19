@@ -11,20 +11,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ArticleCreateAction extends AbstractController
 {
-    public function __construct(
-        private EntityManagerInterface $em,
-        private ArticleRepository $articles,
-    ) {
-    }
-
-    public function __invoke(Article $data)
+    public function __invoke(Article $data, EntityManagerInterface $em, ArticleRepository $articles)
     {
-        if ($this->articles->findOneBy(['title' => $data->title])) {
+        if ($articles->findOneBy(['title' => $data->title])) {
             return new JsonResponse('Article with this title already exist', 400);
         }
 
-        $this->em->persist($data);
-        $this->em->flush();
+        $em->persist($data);
+        $em->flush();
 
         return new SingleArticleResponse($data);
     }

@@ -9,15 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProfileUnfollowAction extends AbstractController
 {
-    public function __construct(
-        private EntityManagerInterface $em,
-    ) {
-    }
-
-    public function __invoke(User $data)
+    public function __invoke(User $data, EntityManagerInterface $em)
     {
         $this->getUser()->unfollow($data);
-        $this->em->flush();
+        $em->flush();
 
         return new ProfileResponse($data);
     }

@@ -12,25 +12,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class ArticleUpdateAction extends AbstractController
 {
-    public function __construct(
-        private EntityManagerInterface $em,
-        private ArticleRepository $articles,
-        private TokenStorageInterface $token,
-    ) {
-    }
-
-    public function __invoke(Article $data)
+    public function __invoke(Article $data, EntityManagerInterface $em, ArticleRepository $articles, TokenStorageInterface $token)
     {
-        if ($this->articles->findOneBy(['title' => $data->title])) {
+        if ($articles->findOneBy(['title' => $data->title])) {
             return new JsonResponse('Article with this title already exist', 400);
         }
 
-        if ($this->token->getToken()->getUser()->getUserIdentifier() !== $data->author->getUserIdentifier()) {
+        if ($token->getToken()->getUser()->getUserIdentifier() !== $data->author->getUserIdentifier()) {
             return new JsonResponse('You cannot not edit article of other authors', 400);
         }
 
-        $this->em->persist($data);
-        $this->em->flush();
+        $em->persist($data);
+        $em->flush();
 
         return new SingleArticleResponse($data);
     }

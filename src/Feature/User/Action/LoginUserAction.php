@@ -11,17 +11,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoginUserAction extends AbstractController
 {
-    public function __construct(
-        private UserRepository $users,
-        private UserPasswordHasherInterface $userPasswordHasher
-    ) {
-    }
-
-    public function __invoke(LoginUserDTO $data)
+    public function __invoke(LoginUserDTO $data, UserRepository $users, UserPasswordHasherInterface $userPasswordHasher)
     {
-        $user = $this->users->findOneBy(['email' => $data->email]);
+        $user = $users->findOneBy(['email' => $data->email]);
 
-        if (null === $user || !$this->userPasswordHasher->isPasswordValid($user, $data->password)) {
+        if (null === $user || !$userPasswordHasher->isPasswordValid($user, $data->password)) {
             return new JsonResponse(['message' => 'Bad credentials'], 400);
         }
 

@@ -9,15 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommentCreateAction extends AbstractController
 {
-    public function __construct(
-        private EntityManagerInterface $em,
-    ) {
-    }
-
-    public function __invoke(Comment $data)
+    public function __invoke(Comment $data, EntityManagerInterface $em)
     {
-        $this->em->persist($data);
-        $this->em->flush();
+        $em->persist($data);
+        $em->flush();
 
         return new SingleCommentResponse($data);
     }

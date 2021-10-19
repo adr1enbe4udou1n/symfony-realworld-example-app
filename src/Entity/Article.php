@@ -7,11 +7,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Feature\Article\Action\ArticleCreateAction;
 use App\Feature\Article\Action\ArticleDeleteAction;
 use App\Feature\Article\Action\ArticleFavoriteAction;
+use App\Feature\Article\Action\ArticleFeedAction;
 use App\Feature\Article\Action\ArticleGetAction;
+use App\Feature\Article\Action\ArticleListAction;
 use App\Feature\Article\Action\ArticleUnfavoriteAction;
 use App\Feature\Article\Action\ArticleUpdateAction;
 use App\Feature\Article\Request\NewArticleRequest;
 use App\Feature\Article\Request\UpdateArticleRequest;
+use App\Feature\Article\Response\MultipleArticlesResponse;
 use App\Feature\Article\Response\SingleArticleResponse;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,7 +28,21 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[ORM\Table(name: 'public.articles')]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
-    collectionOperations: [],
+    collectionOperations: [
+        'list' => [
+            'method' => 'GET',
+            'path' => '/articles',
+            'controller' => ArticleListAction::class,
+            'output' => MultipleArticlesResponse::class,
+        ],
+        'feed' => [
+            'method' => 'GET',
+            'path' => '/articles/feed',
+            'controller' => ArticleFeedAction::class,
+            'output' => MultipleArticlesResponse::class,
+            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+    ],
     itemOperations: [
         'get' => [
             'method' => 'GET',

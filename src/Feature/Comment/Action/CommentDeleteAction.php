@@ -8,22 +8,14 @@ use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CommentDeleteAction extends AbstractController
 {
-    public function __construct(
-        private TokenStorageInterface $token,
-        private EntityManagerInterface $em,
-        private ArticleRepository $articles,
-        private RequestStack $request,
-    ) {
-    }
-
-    public function __invoke(Comment $data)
+    public function __invoke(Comment $data, TokenStorageInterface $token, EntityManagerInterface $em, ArticleRepository $articles, Request $request)
     {
-        $article = $this->articles->findOneBy(['slug' => $this->request->getCurrentRequest()->attributes->get('slug')]);
+        $article = $articles->findOneBy(['slug' => $request->attributes->get('slug')]);
 
         if (!$article) {
             return new JsonResponse('No article of this slug found', 404);
@@ -34,13 +26,13 @@ class CommentDeleteAction extends AbstractController
         }
 
         /** @var User */
-        $user = $this->token->getToken()->getUser();
+        $user = $token->getToken()->getUser();
 
         if ($data->author->id !== $user->id && $article->author->id !== $user->id) {
             return new JsonResponse('You cannot delete this comment', 400);
         }
 
-        $this->em->remove($data);
-        $this->em->flush();
+        $em->remove($data);
+        $em->flush();
     }
 }

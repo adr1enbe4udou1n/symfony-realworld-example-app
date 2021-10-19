@@ -11,19 +11,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class ArticleUnfavoriteAction extends AbstractController
 {
-    public function __construct(
-        private EntityManagerInterface $em,
-        private TokenStorageInterface $token,
-    ) {
-    }
-
-    public function __invoke(Article $data)
+    public function __invoke(Article $data, EntityManagerInterface $em, TokenStorageInterface $token)
     {
         /** @var User */
-        $user = $this->token->getToken()->getUser();
+        $user = $token->getToken()->getUser();
 
         $user->unfavorite($data);
-        $this->em->flush();
+        $em->flush();
 
         return new SingleArticleResponse($data);
     }

@@ -6,19 +6,13 @@ use App\Feature\Comment\Response\MultipleCommentsResponse;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 
 class CommentListAction extends AbstractController
 {
-    public function __construct(
-        private ArticleRepository $articles,
-        private RequestStack $request,
-    ) {
-    }
-
-    public function __invoke()
+    public function __invoke(ArticleRepository $articles, Request $request)
     {
-        $article = $this->articles->findOneBy(['slug' => $this->request->getCurrentRequest()->attributes->get('slug')]);
+        $article = $articles->findOneBy(['slug' => $request->attributes->get('slug')]);
 
         if (!$article) {
             return new JsonResponse('No article of this slug found', 404);
