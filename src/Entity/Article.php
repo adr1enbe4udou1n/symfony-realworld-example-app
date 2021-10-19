@@ -42,14 +42,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'output' => MultipleArticlesResponse::class,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
-    ],
-    itemOperations: [
-        'get' => [
-            'method' => 'GET',
-            'path' => '/articles/{slug}',
-            'controller' => ArticleGetAction::class,
-            'output' => SingleArticleResponse::class,
-        ],
         'create' => [
             'method' => 'POST',
             'path' => '/articles',
@@ -59,6 +51,14 @@ use Symfony\Component\String\Slugger\SluggerInterface;
             'read' => false,
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'method' => 'GET',
+            'path' => '/articles/{slug}',
+            'controller' => ArticleGetAction::class,
+            'output' => SingleArticleResponse::class,
         ],
         'update' => [
             'method' => 'PUT',

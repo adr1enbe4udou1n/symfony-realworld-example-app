@@ -17,8 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'public.comments')]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
-    collectionOperations: [],
-    itemOperations: [
+    collectionOperations: [
         'list' => [
             'method' => 'GET',
             'path' => '/articles/{slug}/comments',
@@ -36,6 +35,8 @@ use Doctrine\ORM\Mapping as ORM;
             'write' => false,
             'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
         ],
+    ],
+    itemOperations: [
         'delete' => [
             'method' => 'DELETE',
             'path' => '/articles/{slug}/comments/{id}',
