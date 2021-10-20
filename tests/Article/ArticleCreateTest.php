@@ -72,9 +72,7 @@ class ArticleCreateTest extends AbstractTest
 
     public function testGuestCannotCreateArticle()
     {
-        $this->act(fn () => $this->client->request('POST', '/api/articles', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('POST', '/api/articles'));
 
         $this->assertResponseStatusCodeSame(401);
     }

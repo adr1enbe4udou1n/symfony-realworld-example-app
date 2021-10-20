@@ -15,9 +15,7 @@ class ProfileFollowTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_John Doe/follow', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_John Doe/follow'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -38,9 +36,7 @@ class ProfileFollowTest extends AbstractTest
 
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_Jane Doe/follow', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('POST', '/api/profiles/celeb_Jane Doe/follow'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([

@@ -21,9 +21,7 @@ class ArticleUpdateTest extends AbstractTest
             );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(401);
     }

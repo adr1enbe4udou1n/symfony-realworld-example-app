@@ -3,6 +3,8 @@
 namespace App\Feature\Article\DTO;
 
 use App\Feature\Profile\DTO\ProfileDTO;
+use Symfony\Component\Serializer\Annotation\Context;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 class ArticleDTO
 {
@@ -14,8 +16,10 @@ class ArticleDTO
 
     public string $body;
 
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d\TH:i:s.u\Z'])]
     public \DateTime $createdAt;
 
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d\TH:i:s.u\Z'])]
     public \DateTime $updatedAt;
 
     /**
@@ -25,7 +29,7 @@ class ArticleDTO
 
     public ProfileDTO $author;
 
-    public bool $favorited;
+    public bool $favorited = false;
 
-    public int $favoritesCount;
+    public int $favoritesCount = 0;
 }

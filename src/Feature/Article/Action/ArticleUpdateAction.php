@@ -14,7 +14,7 @@ class ArticleUpdateAction extends AbstractController
 {
     public function __invoke(Article $data, EntityManagerInterface $em, ArticleRepository $articles, TokenStorageInterface $token)
     {
-        if ($articles->findOneBy(['title' => $data->title])) {
+        if (($article = $articles->findOneBy(['title' => $data->title])) && $article->id !== $data->id) {
             return new JsonResponse('Article with this title already exist', 400);
         }
 

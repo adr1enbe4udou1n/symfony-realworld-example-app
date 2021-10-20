@@ -19,9 +19,7 @@ class ArticleFavoriteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -30,9 +28,7 @@ class ArticleFavoriteTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -49,9 +45,7 @@ class ArticleFavoriteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite'));
 
         $this->assertResponseIsSuccessful();
 

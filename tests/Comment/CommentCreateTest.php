@@ -55,9 +55,7 @@ class CommentCreateTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -66,9 +64,7 @@ class CommentCreateTest extends AbstractTest
     {
         $this->createArticle();
 
-        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
-            'json' => [],
-        ]));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments'));
 
         $this->assertResponseStatusCodeSame(401);
     }

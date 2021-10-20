@@ -8,12 +8,16 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UpdateUserAction extends AbstractController
 {
-    public function __invoke(User $data, EntityManagerInterface $em, UserRepository $users)
+    public function __invoke(User $data, EntityManagerInterface $em, UserRepository $users, TokenStorageInterface $token)
     {
-        if ($users->findOneBy(['email' => $data->email])) {
+        /** @var User */
+        $currentUser = $token->getToken()->getUser();
+
+        if (($user = $users->findOneBy(['email' => $data->email])) && $user->id !== $currentUser->id) {
             return new JsonResponse('User with this email already exist', 400);
         }
 
