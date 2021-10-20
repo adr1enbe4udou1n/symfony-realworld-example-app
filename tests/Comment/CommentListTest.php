@@ -27,7 +27,7 @@ class CommentListTest extends AbstractTest
         );
 
         for ($i = 1; $i <= 5; ++$i) {
-            $article->comments->add((new Comment())
+            $article->addComment((new Comment())
                 ->setBody("Test Comment $i")
                 ->setArticle($article)
                 ->setAuthor($user));

@@ -7,7 +7,6 @@ use App\Feature\Tag\Action\TagListAction;
 use App\Feature\Tag\Response\TagResponse;
 use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
@@ -33,7 +32,7 @@ class Tag
     public string $name;
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'tags')]
-    public Collection $articles;
+    public $articles;
 
     public function __construct()
     {

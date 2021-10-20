@@ -128,20 +128,20 @@ class Article
     public \DateTime $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', cascade: ['persist'])]
-    public Collection $tags;
+    public $tags;
 
     /**
      * @var Collection|Comment[]
      */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article', cascade: ['persist', 'remove'])]
     #[OrderBy(['id' => 'DESC'])]
-    public Collection $comments;
+    public $comments;
 
     /**
      * @var Collection|User[]
      */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favoriteArticles', cascade: ['persist'])]
-    public Collection $favoritedBy;
+    public $favoritedBy;
 
     public function __construct()
     {
@@ -196,6 +196,22 @@ class Article
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        $this->comments->removeElement($comment);
+
+        return $this;
     }
 
     public function addTag(Tag $tag): self

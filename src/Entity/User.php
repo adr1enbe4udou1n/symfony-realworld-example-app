@@ -133,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection|User[]
      */
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'followers', cascade: ['persist'])]
-    public Collection $following;
+    public $following;
 
     /**
      * @var Collection|User[]
@@ -142,26 +142,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name: 'follower_user')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'follower_id', referencedColumnName: 'id')]
-    public Collection $followers;
+    public $followers;
 
     /**
      * @var Collection|Article[]
      */
     #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'favoritedBy', cascade: ['persist'])]
     #[ORM\JoinTable(name: 'article_favorite')]
-    public Collection $favoriteArticles;
+    public $favoriteArticles;
 
     /**
      * @var Collection|Article[]
      */
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'author')]
-    public Collection $articles;
+    public $articles;
 
     /**
      * @var Collection|Comment[]
      */
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
-    public Collection $comments;
+    public $comments;
 
     public function __construct()
     {

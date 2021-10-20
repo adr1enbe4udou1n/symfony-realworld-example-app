@@ -1,7 +1,33 @@
 App\Entity\User:
-    user_{1..50}:
+    user1{1..25}:
         name: '<name()>'
         email: '<email()>'
         password: '\$2y\$13\$IgpFZESKj.9WwhX7cNAGR.PmAnHIKLgVBzjAK3/xbElTyeVKXMvbq'
         image: 'https://randomuser.me/api/portraits/men/<numberBetween(1, 99)>.jpg'
         bio: '<text(60)>'
+    user2{1..25}:
+        name: '<name()>'
+        email: '<email()>'
+        password: '\$2y\$13\$IgpFZESKj.9WwhX7cNAGR.PmAnHIKLgVBzjAK3/xbElTyeVKXMvbq'
+        image: 'https://randomuser.me/api/portraits/men/<numberBetween(1, 99)>.jpg'
+        bio: '<text(60)>'
+        followers: '5x @user1*'
+        favoriteArticles: '<numberBetween(10, 20)>x @article*'
+
+App\Entity\Tag:
+    tag{1..30}:
+        name: '<word()><numberBetween(1, 100)>'
+
+App\Entity\Article:
+    article{1..500}:
+        title: '<words(5, true)>'
+        description: '<text(60)>'
+        body: '<text(500)>'
+        author: '@user*'
+        tags: '<numberBetween(2, 5)>x @tag*'
+
+App\Entity\Comment:
+    comment{1..5000}:
+        body: '<text(60)>'
+        article: '@article*'
+        author: '@user*'
