@@ -57,6 +57,11 @@ steps:
 #     script:
 #       - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld:latest symfonyrealworld_app --with-registry-auth
 
+volumes:
+- name: cache
+  host:
+    path: /tmp/cache
+
 services:
 - name: db
   image: postgres:14
@@ -64,6 +69,9 @@ services:
     POSTGRES_USER: main
     POSTGRES_PASSWORD: main
     POSTGRES_DB: main_test
+
+image_pull_secrets:
+- dockerconfig
 
 trigger:
   event:
