@@ -14,7 +14,7 @@ steps:
     - ./vendor
 
 - name: build
-  image: registry.okami101.io/adr1enbe4udou1n/php-8.0-qa
+  image: registry.okami101.io/adr1enbe4udou1n/php-qa:8.0
   environment:
     DATABASE_URL: postgresql://main:main@db/main?serverVersion=14&charset=utf8
     JWT_PASSPHRASE: secret-key
@@ -46,16 +46,16 @@ steps:
     mount:
     - ./vendor
 
-- name: deploy
-  image: appleboy/drone-ssh
-  settings:
-    host: front.okami101.io
-    port: 2222
-    username: okami
-    key:
-      from_secret: swarm_ssh_key
-    script:
-      - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld:latest symfonyrealworld_app --with-registry-auth
+# - name: deploy
+#   image: appleboy/drone-ssh
+#   settings:
+#     host: front.okami101.io
+#     port: 2222
+#     username: okami
+#     key:
+#       from_secret: swarm_ssh_key
+#     script:
+#       - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld:latest symfonyrealworld_app --with-registry-auth
 
 services:
 - name: db
