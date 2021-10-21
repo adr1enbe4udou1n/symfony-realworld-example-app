@@ -1,4 +1,4 @@
-FROM php:8.0-apache
+FROM php:8.0-fpm-alpine
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
@@ -15,8 +15,6 @@ COPY translations translations/
 COPY vendor vendor/
 COPY composer.json composer.lock ./
 
-RUN chown -R www-data:www-data var
+EXPOSE 9000
 
-EXPOSE 80
-
-ENTRYPOINT ["start-container"]
+CMD ["php-fpm"]
