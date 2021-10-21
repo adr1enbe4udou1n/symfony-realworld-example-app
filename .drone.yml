@@ -69,7 +69,7 @@ steps:
       from_secret: swarm_ssh_key
     script:
       - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld-app:latest symfonyrealworld_app --with-registry-auth
-      - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld-web:latest symfonyrealworld_app --with-registry-auth
+      - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld-web:latest symfonyrealworld_web --with-registry-auth
 
 volumes:
 - name: cache
