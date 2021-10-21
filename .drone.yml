@@ -59,16 +59,17 @@ steps:
     mount:
     - ./vendor
 
-# - name: deploy
-#   image: appleboy/drone-ssh
-#   settings:
-#     host: front.okami101.io
-#     port: 2222
-#     username: okami
-#     key:
-#       from_secret: swarm_ssh_key
-#     script:
-#       - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld-app:latest symfonyrealworld_app --with-registry-auth
+- name: deploy
+  image: appleboy/drone-ssh
+  settings:
+    host: front.okami101.io
+    port: 2222
+    username: okami
+    key:
+      from_secret: swarm_ssh_key
+    script:
+      - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld-app:latest symfonyrealworld_app --with-registry-auth
+      - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld-web:latest symfonyrealworld_app --with-registry-auth
 
 volumes:
 - name: cache
