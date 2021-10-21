@@ -13,7 +13,7 @@ COPY src src/
 COPY templates templates/
 COPY translations translations/
 COPY vendor vendor/
-COPY composer.json composer.lock ./
+COPY .env composer.json composer.lock ./
 
 EXPOSE 9000
 
