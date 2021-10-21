@@ -26,7 +26,7 @@ steps:
   - php bin/console lexik:jwt:generate-keypair -n
   - php bin/phpunit
 
-- name: image
+- name: image-app
   image: plugins/docker
   settings:
     registry: registry.okami101.io
@@ -36,6 +36,18 @@ steps:
       from_secret: registry_username
     password:
       from_secret: registry_password
+
+- name: image-web
+  image: plugins/docker
+  settings:
+    registry: registry.okami101.io
+    repo: registry.okami101.io/adr1enbe4udou1n/symfony-realworld-web
+    tags: latest
+    username:
+      from_secret: registry_username
+    password:
+      from_secret: registry_password
+    dockerfile: docker/nginx/Dockerfile
 
 - name: rebuild-cache
   image: drillster/drone-volume-cache
@@ -47,16 +59,16 @@ steps:
     mount:
     - ./vendor
 
-- name: deploy
-  image: appleboy/drone-ssh
-  settings:
-    host: front.okami101.io
-    port: 2222
-    username: okami
-    key:
-      from_secret: swarm_ssh_key
-    script:
-      - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld-app:latest symfonyrealworld_app --with-registry-auth
+# - name: deploy
+#   image: appleboy/drone-ssh
+#   settings:
+#     host: front.okami101.io
+#     port: 2222
+#     username: okami
+#     key:
+#       from_secret: swarm_ssh_key
+#     script:
+#       - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld-app:latest symfonyrealworld_app --with-registry-auth
 
 volumes:
 - name: cache
