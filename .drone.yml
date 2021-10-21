@@ -17,13 +17,13 @@ steps:
   image: registry.okami101.io/adr1enbe4udou1n/php-qa:8.0
   environment:
     DATABASE_URL: postgresql://main:main@db/main?serverVersion=14&charset=utf8
-    JWT_PASSPHRASE: secret-key
   commands:
   - composer install
   - ./vendor/bin/php-cs-fixer fix --dry-run
   - ./vendor/bin/phpstan analyse
   - sleep 10 # Wait for PostgreSQL service starting
   - php bin/console d:m:m --env=test -n
+  - php bin/console lexik:jwt:generate-keypair -n
   - php bin/phpunit
 
 - name: image
