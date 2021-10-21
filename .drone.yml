@@ -85,6 +85,9 @@ kind: pipeline
 type: docker
 name: image
 
+clone:
+  disable: true
+
 steps:
 
 - name: docker
