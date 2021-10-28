@@ -29,7 +29,10 @@ final class ArticleDataTransformer implements DataTransformerInterface
         $article->updatedAt = $data->updatedAt;
 
         $article->author = $data->author->getProfile($this->token);
-        $article->tagList = $data->tags->map(fn (Tag $t) => $t->name)->toArray();
+
+        $tags = $data->tags->map(fn (Tag $t) => $t->name)->toArray();
+        sort($tags);
+        $article->tagList = $tags;
 
         if ($user = $this->token->getToken()?->getUser()) {
             $article->favorited = $data->favoritedBy->contains($user);

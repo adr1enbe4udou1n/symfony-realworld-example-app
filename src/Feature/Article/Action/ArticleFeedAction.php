@@ -22,6 +22,6 @@ class ArticleFeedAction extends AbstractController
             (int) $request->query->get('offset', '0'),
         );
 
-        return new MultipleArticlesResponse($paginator->getQuery()->getResult(), $paginator->count());
+        return new MultipleArticlesResponse($paginator->getIterator()->getArrayCopy(), $paginator->count());
     }
 }

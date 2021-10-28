@@ -43,7 +43,7 @@ class ArticleGetTest extends AbstractTest
                 'bio' => 'John Bio',
                 'image' => 'https://randomuser.me/api/portraits/men/1.jpg',
             ],
-            'tagList' => ['Test Tag 1', 'Test Tag 2', 'Tag John Doe'],
+            'tagList' => ['Tag John Doe', 'Test Tag 1', 'Test Tag 2'],
         ]]);
     }
 }

@@ -82,7 +82,7 @@ class ArticleListTest extends AbstractTest
                 'author' => [
                     'username' => 'Jane Doe',
                 ],
-                'tagList' => ['Test Tag 1', 'Test Tag 2', 'Tag Jane Doe'],
+                'tagList' => ['Tag Jane Doe', 'Test Tag 1', 'Test Tag 2'],
             ],
         ]]);
     }
@@ -106,7 +106,7 @@ class ArticleListTest extends AbstractTest
                 'author' => [
                     'username' => 'John Doe',
                 ],
-                'tagList' => ['Test Tag 1', 'Test Tag 2', 'Tag John Doe'],
+                'tagList' => ['Tag John Doe', 'Test Tag 1', 'Test Tag 2'],
             ],
         ]]);
     }
@@ -130,7 +130,7 @@ class ArticleListTest extends AbstractTest
                 'author' => [
                     'username' => 'Jane Doe',
                 ],
-                'tagList' => ['Test Tag 1', 'Test Tag 2', 'Tag Jane Doe'],
+                'tagList' => ['Tag Jane Doe'],
             ],
         ]]);
     }
@@ -154,7 +154,7 @@ class ArticleListTest extends AbstractTest
                 'author' => [
                     'username' => 'John Doe',
                 ],
-                'tagList' => ['Test Tag 1', 'Test Tag 2', 'Tag John Doe'],
+                'tagList' => ['Tag John Doe', 'Test Tag 1', 'Test Tag 2'],
                 'favorited' => true,
                 'favoritesCount' => 1,
             ],
@@ -180,7 +180,7 @@ class ArticleListTest extends AbstractTest
                 'author' => [
                     'username' => 'John Doe',
                 ],
-                'tagList' => ['Test Tag 1', 'Test Tag 2', 'Tag John Doe'],
+                'tagList' => ['Tag John Doe', 'Test Tag 1', 'Test Tag 2'],
             ],
         ]]);
     }

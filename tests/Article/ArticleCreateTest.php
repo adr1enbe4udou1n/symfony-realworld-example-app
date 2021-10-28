@@ -106,7 +106,7 @@ class ArticleCreateTest extends AbstractTest
                 'bio' => 'John Bio',
                 'image' => 'https://randomuser.me/api/portraits/men/1.jpg',
             ],
-            'tagList' => ['Test Tag 1', 'Test Tag 2', 'Existing Tag'],
+            'tagList' => ['Existing Tag', 'Test Tag 1', 'Test Tag 2'],
         ]]);
 
         $this->assertNotNull(

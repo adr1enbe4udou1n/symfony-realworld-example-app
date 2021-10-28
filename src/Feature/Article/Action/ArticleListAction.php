@@ -19,6 +19,6 @@ class ArticleListAction extends AbstractController
             $request->query->get('favorited'),
         );
 
-        return new MultipleArticlesResponse($paginator->getQuery()->getResult(), $paginator->count());
+        return new MultipleArticlesResponse($paginator->getIterator()->getArrayCopy(), $paginator->count());
     }
 }

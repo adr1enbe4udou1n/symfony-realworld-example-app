@@ -117,7 +117,7 @@ class Article
     #[ApiProperty(identifier: true)]
     public ?string $slug = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], fetch: 'EAGER')]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     public User $author;
 
@@ -127,6 +127,9 @@ class Article
     #[ORM\Column(type: 'datetime')]
     public \DateTime $updatedAt;
 
+    /**
+     * @var Collection|Tag[]
+     */
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles', cascade: ['persist'])]
     public $tags;
 

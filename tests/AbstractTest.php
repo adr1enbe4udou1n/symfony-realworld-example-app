@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Response;
 use App\Entity\User;
 use Closure;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\Persistence\ObjectManager;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
@@ -18,6 +19,7 @@ abstract class AbstractTest extends ApiTestCase
     protected ?Client $client = null;
     protected ?Registry $orm = null;
     protected ?ObjectManager $em = null;
+    protected ?DebugStack $debugStack = null;
 
     public function setUp(): void
     {
@@ -29,6 +31,8 @@ abstract class AbstractTest extends ApiTestCase
 
         $this->orm = static::getContainer()->get('doctrine');
         $this->em = $this->orm->getManager();
+
+        $this->debugStack = new DebugStack();
     }
 
     protected function createDefaultUser()
@@ -65,6 +69,14 @@ abstract class AbstractTest extends ApiTestCase
     {
         $this->orm->getManager()->clear();
 
-        return $act();
+        $this->orm->getConnection()
+            ->getConfiguration()
+            ->setSQLLogger($this->debugStack);
+
+        $response = $act();
+
+        echo sprintf("Number of SQL queries : %d\n\n", count($this->debugStack->queries));
+
+        return $response;
     }
 }
