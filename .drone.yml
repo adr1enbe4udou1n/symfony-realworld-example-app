@@ -110,8 +110,7 @@ steps:
       from_secret: registry_username
     password:
       from_secret: registry_password
-    dockerfile: docker/Dockerfile
-    context: docker
+    dockerfile: docker/php/Dockerfile
 
 trigger:
   event:
