@@ -130,7 +130,7 @@ class ArticleListTest extends AbstractTest
                 'author' => [
                     'username' => 'Jane Doe',
                 ],
-                'tagList' => ['Tag Jane Doe'],
+                'tagList' => ['Tag Jane Doe', 'Test Tag 1', 'Test Tag 2'],
             ],
         ]]);
     }

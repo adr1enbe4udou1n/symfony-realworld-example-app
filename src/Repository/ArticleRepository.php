@@ -33,27 +33,32 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function list(int $limit = 20, int $offset = 0, $author = null, $tag = null, $favorited = null)
     {
-        $queryBuilder = $this->createQuery();
+        $queryBuilder = $this->createQueryBuilder('a')->select('a.id');
 
         if ($author) {
             $queryBuilder
+                ->leftJoin('a.author', 'u')
                 ->where('LOWER(u.name) LIKE :author')
                 ->setParameter('author', "%{$author}%");
         }
 
         if ($tag) {
             $queryBuilder
+                ->leftJoin('a.tags', 't')
                 ->where('LOWER(t.name) LIKE :tag')
                 ->setParameter('tag', "%{$tag}%");
         }
 
         if ($favorited) {
             $queryBuilder
+                ->leftJoin('a.favoritedBy', 'fu')
                 ->where('LOWER(fu.name) LIKE :user')
                 ->setParameter('user', "%{$favorited}%");
         }
 
-        return new Paginator($queryBuilder
+        return new Paginator($this->createQuery()
+            ->where('a.id IN (:ids)')
+            ->setParameter(':ids', $queryBuilder->getQuery()->getResult())
             ->orderBy('a.id', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults(min(self::MAX_ITEMS_PER_PAGE, $limit)));
