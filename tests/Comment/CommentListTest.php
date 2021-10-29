@@ -26,7 +26,7 @@ class CommentListTest extends AbstractTest
             ->setAuthor($user)
         );
 
-        for ($i = 1; $i <= 5; ++$i) {
+        for ($i = 1; $i <= 20; ++$i) {
             $article->addComment((new Comment())
                 ->setBody("Test Comment $i")
                 ->setArticle($article)
@@ -39,12 +39,12 @@ class CommentListTest extends AbstractTest
 
         $this->assertResponseIsSuccessful();
 
-        $this->assertCount(5, $response->toArray()['comments']);
+        $this->assertCount(20, $response->toArray()['comments']);
 
         $this->assertJsonContains([
             'comments' => [
                 0 => [
-                    'body' => 'Test Comment 5',
+                    'body' => 'Test Comment 20',
                     'author' => [
                         'username' => 'John Doe',
                         'bio' => 'John Bio',

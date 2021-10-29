@@ -161,6 +161,13 @@ class ArticleListTest extends AbstractTest
         ]]);
     }
 
+    public function testGuestCannotPaginateArticlesOfFollowedAuthors()
+    {
+        $this->act(fn () => $this->client->request('GET', '/api/articles/feed'));
+
+        $this->assertResponseStatusCodeSame(401);
+    }
+
     public function testCanPaginateArticlesOfFollowedAuthors()
     {
         $this->createArticles();

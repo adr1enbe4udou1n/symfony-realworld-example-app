@@ -23,7 +23,7 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function getQuery()
+    public function createQuery()
     {
         return $this->createQueryBuilder('a')
             ->leftJoin('a.author', 'u')->addSelect('u')
@@ -33,7 +33,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function list(int $limit = 20, int $offset = 0, $author = null, $tag = null, $favorited = null)
     {
-        $queryBuilder = $this->getQuery();
+        $queryBuilder = $this->createQuery();
 
         if ($author) {
             $queryBuilder
@@ -61,7 +61,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function feed(User $user, int $limit = 20, int $offset = 0)
     {
-        $queryBuilder = $this->getQuery()
+        $queryBuilder = $this->createQuery()
             ->where(':user MEMBER OF u.followers')
             ->setParameter('user', $user);
 
