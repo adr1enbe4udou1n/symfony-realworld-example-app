@@ -34,8 +34,6 @@ services:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest' }
         decorates: 'api_platform.listener.request.deserialize'
-        arguments:
-            $decorated: '@App\EventListener\DeserializeListener.inner'
 
     App\EntityListener\ArticleEntityListener:
         tags:
