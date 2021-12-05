@@ -5,3 +5,6 @@ parameters:
     - tests
   symfony:
     container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
+  ignoreErrors:
+    - message: '#^Service "[^"]+" is private.$#'
+      path: %rootDir%/../../../tests/
