@@ -11,7 +11,9 @@ class ProfileUnfollowAction extends AbstractController
 {
     public function __invoke(User $data, EntityManagerInterface $em)
     {
-        $this->getUser()->unfollow($data);
+        /** @var User */
+        $user = $this->getUser();
+        $user->unfollow($data);
         $em->flush();
 
         return new ProfileResponse($data);

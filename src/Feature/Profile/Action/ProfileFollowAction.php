@@ -11,7 +11,9 @@ class ProfileFollowAction extends AbstractController
 {
     public function __invoke(User $data, EntityManagerInterface $em)
     {
-        $this->getUser()->follow($data);
+        /** @var User */
+        $user = $this->getUser();
+        $user->follow($data);
         $em->flush();
 
         return new ProfileResponse($data);
