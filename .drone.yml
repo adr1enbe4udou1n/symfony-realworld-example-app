@@ -62,7 +62,7 @@ steps:
   - name: deploy
     image: appleboy/drone-ssh
     settings:
-      host: manager-01
+      host: front.okami101.io
       port: 2222
       username: okami
       key:
