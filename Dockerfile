@@ -1,5 +1,7 @@
 FROM registry.okami101.io/adr1enbe4udou1n/symfony-realworld
 
+WORKDIR /var/www/html
+
 COPY bin bin/
 COPY config config/
 COPY fixtures fixtures/
