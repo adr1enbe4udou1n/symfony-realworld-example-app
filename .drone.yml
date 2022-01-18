@@ -16,7 +16,7 @@ steps:
   - name: build
     image: registry.okami101.io/adr1enbe4udou1n/php-qa:8.1
     environment:
-      DATABASE_URL: postgresql://main:main@db/main?serverVersion=14&charset=utf8
+      DATABASE_URL: mysql://main:main@db/main?serverVersion=8.0&charset=utf8
     commands:
       - composer install
       - ./vendor/bin/php-cs-fixer fix --dry-run
