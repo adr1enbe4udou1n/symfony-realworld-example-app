@@ -24,7 +24,7 @@ steps:
       - sleep 10 # Wait for PostgreSQL service starting
       - php bin/console d:m:m --env=test -n
       - php bin/console lexik:jwt:generate-keypair -n
-      - php bin/phpunit
+      # - php bin/phpunit
 
   - name: image-app
     image: plugins/docker
