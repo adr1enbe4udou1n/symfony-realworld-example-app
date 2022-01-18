@@ -244,6 +244,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedAt = new \DateTime();
     }
 
+    public function setFollowers(array $data): self
+    {
+        $this->followers = new ArrayCollection($data);
+
+        return $this;
+    }
+
+    public function setFavoriteArticles(array $data): self
+    {
+        $this->favoriteArticles = new ArrayCollection($data);
+
+        return $this;
+    }
+
     public function follow(User $user): self
     {
         if (!$this->followers->contains($this)) {
