@@ -78,11 +78,12 @@ volumes:
 
 services:
   - name: db
-    image: postgres:14
+    image: mysql:8
     environment:
-      POSTGRES_USER: main
-      POSTGRES_PASSWORD: main
-      POSTGRES_DB: main_test
+      MYSQL_ROOT_PASSWORD: main
+      MYSQL_USER: main
+      MYSQL_PASSWORD: main
+      MYSQL_DATABASE: main_test
 
 image_pull_secrets:
   - dockerconfig

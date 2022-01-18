@@ -16,6 +16,6 @@ services:
       MYSQL_ROOT_PASSWORD: main
       MYSQL_USER: main
       MYSQL_PASSWORD: main
-      MYSQL_DATABASE: main
+      MYSQL_DATABASE: main_test
     ports:
       - 3308:3306
