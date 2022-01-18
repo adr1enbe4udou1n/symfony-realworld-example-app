@@ -28,7 +28,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'public.users')]
 #[UniqueEntity('email', message: 'user.email.unique')]
 #[ApiResource(
     collectionOperations: [

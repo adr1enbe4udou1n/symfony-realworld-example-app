@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
-#[ORM\Table(name: 'public.tags')]
 #[ApiResource(
     collectionOperations: [
         'list' => [

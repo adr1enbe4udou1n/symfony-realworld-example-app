@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
-#[ORM\Table(name: 'public.articles')]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     collectionOperations: [
