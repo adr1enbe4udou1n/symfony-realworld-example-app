@@ -1,4 +1,4 @@
-FROM registry.okami101.io/adr1enbe4udou1n/symfony-realworld
+FROM registry.okami101.io/adr1enbe4udou1n/php-fpm
 
 WORKDIR /var/www/html
 
