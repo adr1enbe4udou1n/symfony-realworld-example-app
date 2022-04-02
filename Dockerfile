@@ -1,6 +1,11 @@
-FROM registry.okami101.io/adr1enbe4udou1n/php-fpm:8.1
+FROM registry.okami101.io/adr1enbe4udou1n/php-apache:8.1
 
-WORKDIR /var/www/html
+ENV APACHE_DOCUMENT_ROOT /app/public
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+WORKDIR /app
 
 COPY bin bin/
 COPY config config/
@@ -12,7 +17,3 @@ COPY templates templates/
 COPY translations translations/
 COPY vendor vendor/
 COPY .env composer.json composer.lock ./
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
