@@ -17,3 +17,5 @@ COPY templates templates/
 COPY translations translations/
 COPY vendor vendor/
 COPY .env composer.json composer.lock ./
+
+RUN mkdir var && chown www-data:www-data var
