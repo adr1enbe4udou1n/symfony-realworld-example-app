@@ -24,7 +24,7 @@ App\Entity\Article:
         description: "<text(60)>"
         body: "<text(500)>"
         author: "@user*"
-        tags: "<numberBetween(2, 5)>x @tag*"
+        tags: "<numberBetween(1, 3)>x @tag*"
 
 App\Entity\Comment:
     comment{1..5000}:
