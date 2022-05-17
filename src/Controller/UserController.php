@@ -3,20 +3,28 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Feature\User\DTO\NewUserDTO;
 use App\Feature\User\DTO\UpdateUserDTO;
+use App\Feature\User\Request\NewUserRequest;
 use App\Feature\User\Response\UserResponse;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractController
 {
     public function __construct(
+        private EntityManagerInterface $em,
+        private UserRepository $users,
         private JWTTokenManagerInterface $jwtManager,
+        private ValidatorInterface $validator,
+        private UserPasswordHasherInterface $userPasswordHasher
     ) {
     }
 
@@ -28,7 +36,7 @@ class UserController extends AbstractController
         tags: ['User and Authentication'],
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
-                ref: new Model(type: NewUserDTO::class)
+                ref: new Model(type: NewUserRequest::class)
             )
         ),
         responses: [
@@ -41,9 +49,23 @@ class UserController extends AbstractController
             ),
         ]
     )]
-    public function register(NewUserDTO $data): Response
+    public function register(NewUserRequest $data): Response
     {
-        return $this->json([]);
+        $this->validator->validate($data->user);
+
+        $user = new User();
+        $user->name = $data->user->username;
+        $user->password = $this->userPasswordHasher->hashPassword($user, $data->user->password);
+        $user->email = $data->user->email;
+
+        if ($this->users->findOneBy(['email' => $data->user->email])) {
+            return $this->json('User with this email already exist', 400);
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $this->json(UserResponse::make($user, $this->jwtManager->create($user)));
     }
 
     #[Route('/users/login', methods: ['POST'])]
