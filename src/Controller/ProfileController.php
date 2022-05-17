@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,6 +47,7 @@ class ProfileController extends AbstractController
             ),
         ]
     )]
+    #[ParamConverter('user', options: ['mapping' => ['username' => 'name']])]
     public function get(User $user): Response
     {
         return $this->json(ProfileResponse::make($user, $this->token));
@@ -77,6 +79,7 @@ class ProfileController extends AbstractController
             ),
         ]
     )]
+    #[ParamConverter('user', options: ['mapping' => ['username' => 'name']])]
     public function follow(User $user): Response
     {
         /** @var User */
@@ -113,6 +116,7 @@ class ProfileController extends AbstractController
             ),
         ]
     )]
+    #[ParamConverter('user', options: ['mapping' => ['username' => 'name']])]
     public function unfollow(User $user): Response
     {
         /** @var User */

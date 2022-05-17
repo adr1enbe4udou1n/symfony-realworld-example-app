@@ -14,6 +14,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -92,6 +93,7 @@ class CommentController extends AbstractController
             ),
         ]
     )]
+    #[ParamConverter('data', converter: 'fos_rest.request_body')]
     public function create(Article $article, NewCommentRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
         if (count($validationErrors) > 0) {
@@ -145,6 +147,7 @@ class CommentController extends AbstractController
             ),
         ]
     )]
+    #[ParamConverter('comment', options: ['mapping' => ['commentId' => 'id']])]
     public function delete(Article $article, Comment $comment): Response
     {
         if ($comment->article->id !== $article->id) {

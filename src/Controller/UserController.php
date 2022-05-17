@@ -96,6 +96,7 @@ class UserController extends AbstractController
             ),
         ]
     )]
+    #[ParamConverter('data', converter: 'fos_rest.request_body')]
     public function login(LoginUserRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
         if (count($validationErrors) > 0) {
@@ -162,6 +163,7 @@ class UserController extends AbstractController
             ),
         ]
     )]
+    #[ParamConverter('data', converter: 'fos_rest.request_body')]
     public function update(UpdateUserRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
         if (count($validationErrors) > 0) {
@@ -169,13 +171,18 @@ class UserController extends AbstractController
         }
 
         /** @var User */
-        $currentUser = $this->getUser();
+        $user = $this->getUser();
 
-        if (($user = $this->users->findOneBy(['email' => $data->user->email])) && $user->id !== $currentUser->id) {
+        if (($existingUser = $this->users->findOneBy(['email' => $data->user->email])) && $existingUser->id !== $user->id) {
             return $this->json(['message' => 'User with this email already exist'], 400);
         }
 
-        $this->em->persist($data);
+        $user->name = $data->user->username ?? $user->name;
+        $user->email = $data->user->email ?? $user->email;
+        $user->bio = $data->user->bio ?? $user->bio;
+        $user->image = $data->user->image ?? $user->image;
+
+        $this->em->persist($user);
         $this->em->flush();
 
         return $this->json(UserResponse::make($user, $this->jwtManager->create($user)));
