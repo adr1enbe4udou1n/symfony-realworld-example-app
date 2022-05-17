@@ -1,10 +1,10 @@
 # ![RealWorld Example App](logo.png)
 
-Symfony API Platform codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
+Symfony codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
 
 ## [RealWorld](https://github.com/gothinkster/realworld)
 
-This codebase was created to demonstrate a fully fledged fullstack application built with Symfony API Platform (with Feature orientation) including CRUD operations, authentication, routing, pagination, and more.
+This codebase was created to demonstrate a fully fledged fullstack application built with Symfony including CRUD operations, authentication, routing, pagination, and more.
 
 We've gone to great lengths to adhere to the Symfony & PHP community styleguides & best practices.
 
