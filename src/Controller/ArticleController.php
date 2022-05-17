@@ -20,7 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[Route('/articles')]
@@ -29,7 +28,6 @@ class ArticleController extends AbstractController
     public function __construct(
         private ArticleRepository $articles,
         private TagRepository $tags,
-        private TokenStorageInterface $token,
         private EntityManagerInterface $em,
     ) {
     }
@@ -84,6 +82,9 @@ class ArticleController extends AbstractController
     )]
     public function list(Request $request): Response
     {
+        /** @var User */
+        $user = $this->getUser();
+
         $paginator = $this->articles->list(
             (int) $request->query->get('limit', (string) ArticleRepository::MAX_ITEMS_PER_PAGE),
             (int) $request->query->get('offset', '0'),
@@ -94,7 +95,7 @@ class ArticleController extends AbstractController
 
         return $this->json(
             MultipleArticlesResponse::make(
-                $paginator->getIterator()->getArrayCopy(), $paginator->count(), $this->token
+                $paginator->getIterator()->getArrayCopy(), $paginator->count(), $user
             )
         );
     }
@@ -144,7 +145,7 @@ class ArticleController extends AbstractController
 
         return $this->json(
             MultipleArticlesResponse::make(
-                $paginator->getIterator()->getArrayCopy(), $paginator->count(), $this->token
+                $paginator->getIterator()->getArrayCopy(), $paginator->count(), $user
             )
         );
     }
@@ -175,7 +176,10 @@ class ArticleController extends AbstractController
     )]
     public function get(Article $article): Response
     {
-        return $this->json(SingleArticleResponse::make($article, $this->token));
+        /** @var User */
+        $user = $this->getUser();
+
+        return $this->json(SingleArticleResponse::make($article, $user));
     }
 
     #[Route('', methods: ['POST'])]
@@ -237,7 +241,7 @@ class ArticleController extends AbstractController
         $this->em->persist($article);
         $this->em->flush();
 
-        return $this->json(SingleArticleResponse::make($article, $this->token));
+        return $this->json(SingleArticleResponse::make($article, $user));
     }
 
     #[Route('/{slug}', methods: ['PUT'])]
@@ -285,7 +289,10 @@ class ArticleController extends AbstractController
             return $this->json(['message' => 'Article with this title already exist'], 400);
         }
 
-        if ($this->getUser()->getUserIdentifier() !== $article->author->getUserIdentifier()) {
+        /** @var User */
+        $user = $this->getUser();
+
+        if ($user->id !== $article->author->id) {
             return $this->json(['message' => 'You cannot not edit article of other authors'], 400);
         }
 
@@ -296,7 +303,7 @@ class ArticleController extends AbstractController
         $this->em->persist($article);
         $this->em->flush();
 
-        return $this->json(SingleArticleResponse::make($article, $this->token));
+        return $this->json(SingleArticleResponse::make($article, $user));
     }
 
     #[Route('/{slug}', methods: ['DELETE'])]
@@ -374,7 +381,7 @@ class ArticleController extends AbstractController
         $user->favorite($article);
         $this->em->flush();
 
-        return $this->json(SingleArticleResponse::make($article, $this->token));
+        return $this->json(SingleArticleResponse::make($article, $user));
     }
 
     #[Route('/{slug}/favorite', methods: ['DELETE'])]
@@ -411,6 +418,6 @@ class ArticleController extends AbstractController
         $user->unfavorite($article);
         $this->em->flush();
 
-        return $this->json(SingleArticleResponse::make($article, $this->token));
+        return $this->json(SingleArticleResponse::make($article, $user));
     }
 }

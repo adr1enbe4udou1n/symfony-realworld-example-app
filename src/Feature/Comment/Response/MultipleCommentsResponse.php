@@ -3,8 +3,8 @@
 namespace App\Feature\Comment\Response;
 
 use App\Entity\Comment;
+use App\Entity\User;
 use App\Feature\Comment\DTO\CommentDTO;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class MultipleCommentsResponse
 {
@@ -16,10 +16,10 @@ class MultipleCommentsResponse
     /**
      * @param array<Comment> $comments
      */
-    public static function make(array $comments, TokenStorageInterface $token)
+    public static function make(array $comments, User $currentUser)
     {
         $response = new self();
-        $response->comments = array_map(fn (Comment $comment) => new CommentDTO($comment, $token), $comments);
+        $response->comments = array_map(fn (Comment $comment) => new CommentDTO($comment, $currentUser), $comments);
 
         return $response;
     }

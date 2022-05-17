@@ -12,13 +12,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[Route('/profiles/celeb_{username}')]
 class ProfileController extends AbstractController
 {
     public function __construct(
-        private TokenStorageInterface $token,
         private EntityManagerInterface $em,
     ) {
     }
@@ -50,7 +48,10 @@ class ProfileController extends AbstractController
     #[ParamConverter('user', options: ['mapping' => ['username' => 'name']])]
     public function get(User $user): Response
     {
-        return $this->json(ProfileResponse::make($user, $this->token));
+        /** @var User */
+        $currentUser = $this->getUser();
+
+        return $this->json(ProfileResponse::make($user, $currentUser));
     }
 
     #[Route('/follow', methods: ['POST'])]
@@ -87,7 +88,7 @@ class ProfileController extends AbstractController
         $currentUser->follow($user);
         $this->em->flush();
 
-        return $this->json(ProfileResponse::make($user, $this->token));
+        return $this->json(ProfileResponse::make($user, $currentUser));
     }
 
     #[Route('/follow', methods: ['DELETE'])]
@@ -124,6 +125,6 @@ class ProfileController extends AbstractController
         $currentUser->unfollow($user);
         $this->em->flush();
 
-        return $this->json(ProfileResponse::make($user, $this->token));
+        return $this->json(ProfileResponse::make($user, $currentUser));
     }
 }

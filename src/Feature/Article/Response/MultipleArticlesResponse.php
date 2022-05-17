@@ -3,8 +3,8 @@
 namespace App\Feature\Article\Response;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Feature\Article\DTO\ArticleDTO;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class MultipleArticlesResponse
 {
@@ -17,11 +17,11 @@ class MultipleArticlesResponse
     /**
      * @param array<Article> $articles
      */
-    public static function make(array $articles, int $articlesCount, TokenStorageInterface $token)
+    public static function make(array $articles, int $articlesCount, ?User $currentUser)
     {
         $response = new self();
 
-        $response->articles = array_map(fn (Article $article) => new ArticleDTO($article, $token), $articles);
+        $response->articles = array_map(fn (Article $article) => new ArticleDTO($article, $currentUser), $articles);
         $response->articlesCount = $articlesCount;
 
         return $response;

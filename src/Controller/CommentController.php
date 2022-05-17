@@ -18,7 +18,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[Route('/articles/{slug}/comments')]
@@ -26,7 +25,6 @@ class CommentController extends AbstractController
 {
     public function __construct(
         private CommentRepository $comments,
-        private TokenStorageInterface $token,
         private EntityManagerInterface $em,
     ) {
     }
@@ -57,8 +55,11 @@ class CommentController extends AbstractController
     )]
     public function list(Article $article): Response
     {
+        /** @var User */
+        $user = $this->getUser();
+
         return $this->json(
-            MultipleCommentsResponse::make($this->comments->findByArticle($article), $this->token)
+            MultipleCommentsResponse::make($this->comments->findByArticle($article), $user)
         );
     }
 
@@ -111,7 +112,7 @@ class CommentController extends AbstractController
         $this->em->persist($comment);
         $this->em->flush();
 
-        return $this->json(SingleCommentResponse::make($comment, $this->token));
+        return $this->json(SingleCommentResponse::make($comment, $user));
     }
 
     #[Route('/{commentId}', methods: ['DELETE'])]
