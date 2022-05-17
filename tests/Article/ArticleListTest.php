@@ -67,7 +67,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=20&offset=10'));
+        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles?limit=20&offset=10'));
 
         $this->assertResponseIsSuccessful();
 
@@ -91,7 +91,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=10&offset=0&author=john'));
+        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles?limit=10&offset=0&author=john'));
 
         $this->assertResponseIsSuccessful();
 
@@ -115,7 +115,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=10&offset=0&tag=jane'));
+        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles?limit=10&offset=0&tag=jane'));
 
         $this->assertResponseIsSuccessful();
 
@@ -139,7 +139,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=10&offset=0&favorited=jane'));
+        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles?limit=10&offset=0&favorited=jane'));
 
         $this->assertResponseIsSuccessful();
 
@@ -163,7 +163,7 @@ class ArticleListTest extends AbstractTest
 
     public function testGuestCannotPaginateArticlesOfFollowedAuthors()
     {
-        $this->act(fn () => $this->client->request('GET', '/api/articles/feed'));
+        $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/feed'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -172,7 +172,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->request('GET', '/api/articles/feed?limit=10&offset=0'));
+        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/feed?limit=10&offset=0'));
 
         $this->assertResponseIsSuccessful();
 

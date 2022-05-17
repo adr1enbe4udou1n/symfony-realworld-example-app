@@ -16,7 +16,7 @@ class ProfileGetTest extends AbstractTest
             ->setImage('https://randomuser.me/api/portraits/men/1.jpg'));
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('GET', '/api/profiles/celeb_John Doe'));
+        $this->act(fn () => $this->client->jsonRequest('GET', '/api/profiles/celeb_John Doe'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -31,7 +31,7 @@ class ProfileGetTest extends AbstractTest
 
     public function testCannotGetNonExistentProfile()
     {
-        $this->act(fn () => $this->client->request('GET', '/api/profiles/celeb_John Doe'));
+        $this->act(fn () => $this->client->jsonRequest('GET', '/api/profiles/celeb_John Doe'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -56,7 +56,7 @@ class ProfileGetTest extends AbstractTest
 
         $this->actingAs($user);
 
-        $this->act(fn () => $this->client->request('GET', '/api/profiles/celeb_Jane Doe'));
+        $this->act(fn () => $this->client->jsonRequest('GET', '/api/profiles/celeb_Jane Doe'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([

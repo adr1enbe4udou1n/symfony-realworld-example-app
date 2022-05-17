@@ -29,10 +29,8 @@ class UpdateUserTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/user', [
-            'json' => [
-                'user' => $data,
-            ],
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/user', [
+            'user' => $data,
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -42,12 +40,10 @@ class UpdateUserTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/user', [
-            'json' => [
-                'user' => [
-                    'email' => 'jane.doe@example.com',
-                    'bio' => 'My Bio',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/user', [
+            'user' => [
+                'email' => 'jane.doe@example.com',
+                'bio' => 'My Bio',
             ],
         ]));
 
@@ -65,7 +61,7 @@ class UpdateUserTest extends AbstractTest
 
     public function testGuestUserCannotUpdateInfos(): void
     {
-        $this->act(fn () => $this->client->request('PUT', '/api/user'));
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/user'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -80,11 +76,9 @@ class UpdateUserTest extends AbstractTest
 
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/user', [
-            'json' => [
-                'user' => [
-                    'email' => 'jane.doe@example.com',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/user', [
+            'user' => [
+                'email' => 'jane.doe@example.com',
             ],
         ]));
 

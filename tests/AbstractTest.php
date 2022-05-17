@@ -27,9 +27,7 @@ abstract class AbstractTest extends WebTestCase
     {
         static::$dbPopulated = true;
 
-        $this->client = static::createClient([], ['headers' => [
-            'Accept' => 'application/json',
-        ]]);
+        $this->client = static::createClient();
 
         $this->orm = static::getContainer()->get('doctrine');
         $this->em = $this->orm->getManager();
@@ -56,12 +54,9 @@ abstract class AbstractTest extends WebTestCase
         $this->em->flush();
 
         $this->client->setServerParameters([
-            'headers' => [
-                'Accept' => 'application/json',
-                'Authorization' => 'Token '.static::getContainer()
-                    ->get('lexik_jwt_authentication.jwt_manager')
-                    ->create($user),
-            ],
+            'HTTP_AUTHORIZATION' => 'Token '.static::getContainer()
+                ->get('lexik_jwt_authentication.jwt_manager')
+                ->create($user),
         ]);
 
         return $user;

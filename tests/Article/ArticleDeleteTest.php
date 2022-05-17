@@ -21,7 +21,7 @@ class ArticleDeleteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -30,7 +30,7 @@ class ArticleDeleteTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -52,7 +52,7 @@ class ArticleDeleteTest extends AbstractTest
 
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(400);
     }
@@ -89,7 +89,7 @@ class ArticleDeleteTest extends AbstractTest
 
         $this->actingAs($user);
 
-        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseIsSuccessful();
 

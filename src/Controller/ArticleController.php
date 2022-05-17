@@ -3,23 +3,34 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Feature\Article\DTO\NewArticleDTO;
-use App\Feature\Article\DTO\UpdateArticleDTO;
+use App\Entity\Tag;
+use App\Entity\User;
+use App\Feature\Article\Request\NewArticleRequest;
+use App\Feature\Article\Request\UpdateArticleRequest;
 use App\Feature\Article\Response\MultipleArticlesResponse;
 use App\Feature\Article\Response\SingleArticleResponse;
 use App\Repository\ArticleRepository;
+use App\Repository\TagRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[Route('/articles')]
 class ArticleController extends AbstractController
 {
-    public function __construct(private ArticleRepository $articles, private TokenStorageInterface $token)
-    {
+    public function __construct(
+        private ArticleRepository $articles,
+        private TagRepository $tags,
+        private TokenStorageInterface $token,
+        private EntityManagerInterface $em,
+    ) {
     }
 
     #[Route('', methods: ['GET'])]
@@ -70,16 +81,25 @@ class ArticleController extends AbstractController
             ),
         ]
     )]
-    public function list(): Response
+    public function list(Request $request): Response
     {
-        $this->articles->findBy([], ['createdAt' => 'DESC'], 20, 0);
+        $paginator = $this->articles->list(
+            (int) $request->query->get('limit', (string) ArticleRepository::MAX_ITEMS_PER_PAGE),
+            (int) $request->query->get('offset', '0'),
+            $request->query->get('author'),
+            $request->query->get('tag'),
+            $request->query->get('favorited'),
+        );
 
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-        ]);
+        return $this->json(
+            MultipleArticlesResponse::make(
+                $paginator->getIterator()->getArrayCopy(), $paginator->count(), $this->token
+            )
+        );
     }
 
     #[Route('/feed', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Get(
         operationId: 'GetArticlesFeed',
         summary: 'Get recent articles from users you follow.',
@@ -110,11 +130,22 @@ class ArticleController extends AbstractController
             ),
         ]
     )]
-    public function feed(): Response
+    public function feed(Request $request): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-        ]);
+        /** @var User */
+        $user = $this->getUser();
+
+        $paginator = $this->articles->feed(
+            $user,
+            (int) $request->query->get('limit', (string) ArticleRepository::MAX_ITEMS_PER_PAGE),
+            (int) $request->query->get('offset', '0'),
+        );
+
+        return $this->json(
+            MultipleArticlesResponse::make(
+                $paginator->getIterator()->getArrayCopy(), $paginator->count(), $this->token
+            )
+        );
     }
 
     #[Route('/{slug}', methods: ['GET'])]
@@ -147,6 +178,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Post(
         operationId: 'CreateArticle',
         summary: 'Create an article.',
@@ -155,7 +187,7 @@ class ArticleController extends AbstractController
         security: [['Bearer' => []]],
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
-                ref: new Model(type: NewArticleDTO::class)
+                ref: new Model(type: NewArticleRequest::class)
             )
         ),
         responses: [
@@ -168,12 +200,46 @@ class ArticleController extends AbstractController
             ),
         ]
     )]
-    public function create(NewArticleDTO $data): Response
+    public function create(NewArticleRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
-        return $this->json([]);
+        if (count($validationErrors) > 0) {
+            return $this->json($validationErrors, 422);
+        }
+
+        if ($this->articles->findOneBy(['title' => $data->article->title])) {
+            return $this->json(['message' => 'Article with this title already exist'], 400);
+        }
+
+        /** @var User */
+        $user = $this->getUser();
+
+        $article = new Article();
+        $article->title = $data->article->title;
+        $article->description = $data->article->description;
+        $article->body = $data->article->body;
+        $article->author = $user;
+
+        $existingTags = $this->tags->byNames($data->article->tagList);
+
+        foreach ($data->article->tagList as $tagName) {
+            $tags = array_filter($existingTags, fn (Tag $t) => $t->name === $tagName);
+
+            if (empty($tags)) {
+                $article->addTag((new Tag())->setName($tagName));
+                continue;
+            }
+
+            $article->addTag(reset($tags));
+        }
+
+        $this->em->persist($article);
+        $this->em->flush();
+
+        return $this->json(SingleArticleResponse::make($article, $this->token));
     }
 
     #[Route('/{slug}', methods: ['PUT'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Put(
         operationId: 'UpdateArticle',
         summary: 'Update an article.',
@@ -190,7 +256,7 @@ class ArticleController extends AbstractController
         ],
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
-                ref: new Model(type: UpdateArticleDTO::class)
+                ref: new Model(type: UpdateArticleRequest::class)
             )
         ),
         responses: [
@@ -203,12 +269,35 @@ class ArticleController extends AbstractController
             ),
         ]
     )]
-    public function update(Article $article, UpdateArticleDTO $data): Response
+    public function update(Article $article, UpdateArticleRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
-        return $this->json([]);
+        if (count($validationErrors) > 0) {
+            return $this->json($validationErrors, 422);
+        }
+
+        if (
+            ($existingArticle = $this->articles->findOneBy(['title' => $data->article->title])) &&
+            $existingArticle->id !== $article->id
+        ) {
+            return $this->json(['message' => 'Article with this title already exist'], 400);
+        }
+
+        if ($this->getUser()->getUserIdentifier() !== $article->author->getUserIdentifier()) {
+            return $this->json(['message' => 'You cannot not edit article of other authors'], 400);
+        }
+
+        $article->title = $data->article->title ?? $article->title;
+        $article->description = $data->article->description ?? $article->description;
+        $article->body = $data->article->body ?? $article->body;
+
+        $this->em->persist($article);
+        $this->em->flush();
+
+        return $this->json(SingleArticleResponse::make($article, $this->token));
     }
 
     #[Route('/{slug}', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Delete(
         operationId: 'DeleteArticle',
         summary: 'Delete an article.',
@@ -235,10 +324,21 @@ class ArticleController extends AbstractController
     )]
     public function delete(Article $article): Response
     {
-        return $this->json([]);
+        /** @var User */
+        $user = $this->getUser();
+
+        if ($article->author->id !== $user->id) {
+            return $this->json(['message' => 'You cannot delete this article'], 400);
+        }
+
+        $this->em->remove($article);
+        $this->em->flush();
+
+        return $this->json([])->setStatusCode(204);
     }
 
     #[Route('/{slug}/favorite', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Post(
         operationId: 'CreateArticleFavorite',
         summary: 'Favorite an article.',
@@ -265,10 +365,17 @@ class ArticleController extends AbstractController
     )]
     public function favorite(Article $article): Response
     {
-        return $this->json([]);
+        /** @var User */
+        $user = $this->getUser();
+
+        $user->favorite($article);
+        $this->em->flush();
+
+        return $this->json(SingleArticleResponse::make($article, $this->token));
     }
 
     #[Route('/{slug}/favorite', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Delete(
         operationId: 'DeleteArticleFavorite',
         summary: 'Unfavorite an article.',
@@ -295,6 +402,12 @@ class ArticleController extends AbstractController
     )]
     public function unfavorite(Article $article): Response
     {
-        return $this->json([]);
+        /** @var User */
+        $user = $this->getUser();
+
+        $user->unfavorite($article);
+        $this->em->flush();
+
+        return $this->json(SingleArticleResponse::make($article, $this->token));
     }
 }

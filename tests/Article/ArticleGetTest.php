@@ -10,7 +10,7 @@ class ArticleGetTest extends AbstractTest
 {
     public function testCannotGetNonExistentArticle()
     {
-        $this->act(fn () => $this->client->request('GET', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -30,7 +30,7 @@ class ArticleGetTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('GET', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/test-title'));
 
         $this->assertResponseIsSuccessful();
 

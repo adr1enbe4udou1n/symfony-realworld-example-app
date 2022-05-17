@@ -14,7 +14,7 @@ class TagListTest extends AbstractTest
         $this->em->persist((new Tag())->setName('Tag1'));
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('GET', '/api/tags'));
+        $this->act(fn () => $this->client->jsonRequest('GET', '/api/tags'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([

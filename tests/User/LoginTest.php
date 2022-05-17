@@ -34,10 +34,8 @@ class LoginTest extends AbstractTest
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('POST', '/api/users/login', [
-            'json' => [
-                'user' => $credentials,
-            ],
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/users/login', [
+            'user' => $credentials,
         ]));
 
         $this->assertResponseStatusCodeSame(400);
@@ -54,12 +52,10 @@ class LoginTest extends AbstractTest
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('POST', '/api/users/login', [
-            'json' => [
-                'user' => [
-                    'email' => 'john.doe@example.com',
-                    'password' => 'password',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/users/login', [
+            'user' => [
+                'email' => 'john.doe@example.com',
+                'password' => 'password',
             ],
         ]));
 

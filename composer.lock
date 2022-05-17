@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d84ceb77c3a64370e548a7094a0feaaf",
+    "content-hash": "c5eaae71515a726007eb9e5f53599182",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1463,6 +1463,112 @@
                 }
             ],
             "time": "2022-05-05T09:31:05+00:00"
+        },
+        {
+            "name": "friendsofsymfony/rest-bundle",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
+                "reference": "54f5ffec4bff71b727a2aa4877915ad81358defc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/54f5ffec4bff71b727a2aa4877915ad81358defc",
+                "reference": "54f5ffec4bff71b727a2aa4877915ad81358defc",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0",
+                "symfony/config": "^4.4|^5.3|^6.0",
+                "symfony/dependency-injection": "^4.4|^5.3|^6.0",
+                "symfony/event-dispatcher": "^4.4|^5.3|^6.0",
+                "symfony/framework-bundle": "^4.4.1|^5.0|^6.0",
+                "symfony/http-foundation": "^4.4|^5.3|^6.0",
+                "symfony/http-kernel": "^4.4|^5.3|^6.0",
+                "symfony/routing": "^4.4|^5.3|^6.0",
+                "symfony/security-core": "^4.4|^5.3|^6.0",
+                "willdurand/jsonp-callback-validator": "^1.0|^2.0",
+                "willdurand/negotiation": "^2.0|^3.0"
+            },
+            "conflict": {
+                "doctrine/annotations": "<1.12",
+                "jms/serializer": "<1.13.0",
+                "jms/serializer-bundle": "<2.4.3|3.0.0",
+                "sensio/framework-extra-bundle": "<6.1",
+                "symfony/error-handler": "<4.4.1"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^1.13.2",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "jms/serializer": "^1.13|^2.0|^3.0",
+                "jms/serializer-bundle": "^2.4.3|^3.0.1|^4.0",
+                "psr/http-message": "^1.0",
+                "psr/log": "^1.0|^2.0|^3.0",
+                "sensio/framework-extra-bundle": "^6.1",
+                "symfony/asset": "^4.4|^5.3|^6.0",
+                "symfony/browser-kit": "^4.4|^5.3|^6.0",
+                "symfony/css-selector": "^4.4|^5.3|^6.0",
+                "symfony/expression-language": "^4.4|^5.3|^6.0",
+                "symfony/form": "^4.4|^5.3|^6.0",
+                "symfony/mime": "^4.4|^5.3|^6.0",
+                "symfony/phpunit-bridge": "^5.3|^6.0",
+                "symfony/security-bundle": "^4.4|^5.3|^6.0",
+                "symfony/serializer": "^4.4|^5.3|^6.0",
+                "symfony/twig-bundle": "^4.4|^5.3|^6.0",
+                "symfony/validator": "^4.4|^5.3|^6.0",
+                "symfony/web-profiler-bundle": "^4.4|^5.3|^6.0",
+                "symfony/yaml": "^4.4|^5.3|^6.0"
+            },
+            "suggest": {
+                "jms/serializer-bundle": "Add support for advanced serialization capabilities, recommended, requires ^2.0|^3.0",
+                "sensio/framework-extra-bundle": "Add support for the request body converter and the view response listener, requires ^3.0",
+                "symfony/serializer": "Add support for basic serialization capabilities and xml decoding, requires ^2.7|^3.0",
+                "symfony/validator": "Add support for validation capabilities in the ParamFetcher, requires ^2.7|^3.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "3.x-dev": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FOS\\RestBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "Resources/",
+                    "Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Kahwe Smith",
+                    "email": "smith@pooteeweet.org"
+                },
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com"
+                },
+                {
+                    "name": "FriendsOfSymfony Community",
+                    "homepage": "https://github.com/friendsofsymfony/FOSRestBundle/contributors"
+                }
+            ],
+            "description": "This Bundle provides various tools to rapidly develop RESTful API's with Symfony",
+            "homepage": "http://friendsofsymfony.github.com",
+            "keywords": [
+                "rest"
+            ],
+            "support": {
+                "issues": "https://github.com/FriendsOfSymfony/FOSRestBundle/issues",
+                "source": "https://github.com/FriendsOfSymfony/FOSRestBundle/tree/3.3.0"
+            },
+            "time": "2022-02-03T20:06:00+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -6815,6 +6921,105 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "willdurand/jsonp-callback-validator",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/JsonpCallbackValidator.git",
+                "reference": "738c36e91d4d7e0ff0cac145f77057e0fb88526e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/738c36e91d4d7e0ff0cac145f77057e0fb88526e",
+                "reference": "738c36e91d4d7e0ff0cac145f77057e0fb88526e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JsonpCallbackValidator": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "will+git@drnd.me"
+                }
+            ],
+            "description": "JSONP callback validator.",
+            "support": {
+                "issues": "https://github.com/willdurand/JsonpCallbackValidator/issues",
+                "source": "https://github.com/willdurand/JsonpCallbackValidator/tree/v2.0.0"
+            },
+            "time": "2022-01-30T20:33:09+00:00"
+        },
+        {
+            "name": "willdurand/negotiation",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/Negotiation.git",
+                "reference": "68e9ea0553ef6e2ee8db5c1d98829f111e623ec2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/68e9ea0553ef6e2ee8db5c1d98829f111e623ec2",
+                "reference": "68e9ea0553ef6e2ee8db5c1d98829f111e623ec2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Negotiation\\": "src/Negotiation"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "will+git@drnd.me"
+                }
+            ],
+            "description": "Content Negotiation tools for PHP provided as a standalone library.",
+            "homepage": "http://williamdurand.fr/Negotiation/",
+            "keywords": [
+                "accept",
+                "content",
+                "format",
+                "header",
+                "negotiation"
+            ],
+            "support": {
+                "issues": "https://github.com/willdurand/Negotiation/issues",
+                "source": "https://github.com/willdurand/Negotiation/tree/3.1.0"
+            },
+            "time": "2022-01-30T20:08:53+00:00"
         },
         {
             "name": "zircote/swagger-php",

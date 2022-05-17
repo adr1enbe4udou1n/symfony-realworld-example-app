@@ -21,7 +21,7 @@ class ArticleUpdateTest extends AbstractTest
             );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -30,13 +30,11 @@ class ArticleUpdateTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
-            'json' => [
-                'article' => [
-                    'title' => 'Test Title',
-                    'description' => 'Test Description',
-                    'body' => 'Test Body',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
+            'article' => [
+                'title' => 'Test Title',
+                'description' => 'Test Description',
+                'body' => 'Test Body',
             ],
         ]));
 
@@ -67,10 +65,8 @@ class ArticleUpdateTest extends AbstractTest
             );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
-            'json' => [
-                'article' => $article,
-            ],
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
+            'article' => $article,
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -94,13 +90,11 @@ class ArticleUpdateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
-            'json' => [
-                'article' => [
-                    'title' => 'Existing Title',
-                    'description' => 'Test Description',
-                    'body' => 'Test Body',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
+            'article' => [
+                'title' => 'Existing Title',
+                'description' => 'Test Description',
+                'body' => 'Test Body',
             ],
         ]));
 
@@ -124,13 +118,11 @@ class ArticleUpdateTest extends AbstractTest
             ->setEmail('jane.doe@example.com')
         );
 
-        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
-            'json' => [
-                'article' => [
-                    'title' => 'New Title',
-                    'description' => 'Test Description',
-                    'body' => 'Test Body',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
+            'article' => [
+                'title' => 'New Title',
+                'description' => 'Test Description',
+                'body' => 'Test Body',
             ],
         ]));
 
@@ -149,11 +141,9 @@ class ArticleUpdateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
-            'json' => [
-                'article' => [
-                    'title' => 'New Title',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
+            'article' => [
+                'title' => 'New Title',
             ],
         ]));
 

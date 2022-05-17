@@ -36,10 +36,8 @@ class ArticleCreateTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('POST', '/api/articles', [
-            'json' => [
-                'article' => $article,
-            ],
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles', [
+            'article' => $article,
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -57,13 +55,11 @@ class ArticleCreateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('POST', '/api/articles', [
-            'json' => [
-                'article' => [
-                    'title' => 'Existing Title',
-                    'description' => 'Test Description',
-                    'body' => 'Test Body',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles', [
+            'article' => [
+                'title' => 'Existing Title',
+                'description' => 'Test Description',
+                'body' => 'Test Body',
             ],
         ]));
 
@@ -72,7 +68,7 @@ class ArticleCreateTest extends AbstractTest
 
     public function testGuestCannotCreateArticle()
     {
-        $this->act(fn () => $this->client->request('POST', '/api/articles'));
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -84,14 +80,12 @@ class ArticleCreateTest extends AbstractTest
 
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('POST', '/api/articles', [
-            'json' => [
-                'article' => [
-                    'title' => 'Test Title',
-                    'description' => 'Test Description',
-                    'body' => 'Test Body',
-                    'tagList' => ['Test Tag 1', 'Test Tag 2', 'Existing Tag'],
-                ],
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles', [
+            'article' => [
+                'title' => 'Test Title',
+                'description' => 'Test Description',
+                'body' => 'Test Body',
+                'tagList' => ['Test Tag 1', 'Test Tag 2', 'Existing Tag'],
             ],
         ]));
 

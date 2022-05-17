@@ -4,15 +4,24 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Feature\Profile\Response\ProfileResponse;
+use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[Route('/profiles/celeb_{username}')]
 class ProfileController extends AbstractController
 {
+    public function __construct(
+        private TokenStorageInterface $token,
+        private EntityManagerInterface $em,
+    ) {
+    }
+
     #[Route('', methods: ['GET'])]
     #[OA\Get(
         operationId: 'GetProfileByUsername',
@@ -37,12 +46,13 @@ class ProfileController extends AbstractController
             ),
         ]
     )]
-    public function get(User $username): Response
+    public function get(User $user): Response
     {
-        return $this->json([]);
+        return $this->json(ProfileResponse::make($user, $this->token));
     }
 
     #[Route('/follow', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Post(
         operationId: 'FollowUserByUsername',
         summary: 'Follow a user.',
@@ -67,12 +77,18 @@ class ProfileController extends AbstractController
             ),
         ]
     )]
-    public function follow(User $username): Response
+    public function follow(User $user): Response
     {
-        return $this->json([]);
+        /** @var User */
+        $currentUser = $this->getUser();
+        $currentUser->follow($user);
+        $this->em->flush();
+
+        return $this->json(ProfileResponse::make($user, $this->token));
     }
 
     #[Route('/follow', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Delete(
         operationId: 'UnfollowUserByUsername',
         summary: 'Unfollow a user.',
@@ -97,8 +113,13 @@ class ProfileController extends AbstractController
             ),
         ]
     )]
-    public function unfollow(User $username): Response
+    public function unfollow(User $user): Response
     {
-        return $this->json([]);
+        /** @var User */
+        $currentUser = $this->getUser();
+        $currentUser->unfollow($user);
+        $this->em->flush();
+
+        return $this->json(ProfileResponse::make($user, $this->token));
     }
 }

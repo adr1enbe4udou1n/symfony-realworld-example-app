@@ -3,19 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Feature\User\DTO\UpdateUserDTO;
+use App\Feature\User\Request\LoginUserRequest;
 use App\Feature\User\Request\NewUserRequest;
+use App\Feature\User\Request\UpdateUserRequest;
 use App\Feature\User\Response\UserResponse;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class UserController extends AbstractController
 {
@@ -23,7 +26,6 @@ class UserController extends AbstractController
         private EntityManagerInterface $em,
         private UserRepository $users,
         private JWTTokenManagerInterface $jwtManager,
-        private ValidatorInterface $validator,
         private UserPasswordHasherInterface $userPasswordHasher
     ) {
     }
@@ -49,9 +51,12 @@ class UserController extends AbstractController
             ),
         ]
     )]
-    public function register(NewUserRequest $data): Response
+    #[ParamConverter('data', converter: 'fos_rest.request_body')]
+    public function register(NewUserRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
-        $this->validator->validate($data->user);
+        if (count($validationErrors) > 0) {
+            return $this->json($validationErrors, 422);
+        }
 
         $user = new User();
         $user->name = $data->user->username;
@@ -59,7 +64,9 @@ class UserController extends AbstractController
         $user->email = $data->user->email;
 
         if ($this->users->findOneBy(['email' => $data->user->email])) {
-            return $this->json('User with this email already exist', 400);
+            return $this->json([
+                'message' => 'User with this email already exist',
+            ], 400);
         }
 
         $this->em->persist($user);
@@ -74,6 +81,11 @@ class UserController extends AbstractController
         summary: 'Existing user login.',
         description: 'Login for existing user',
         tags: ['User and Authentication'],
+        requestBody: new OA\RequestBody(
+            content: new OA\JsonContent(
+                ref: new Model(type: LoginUserRequest::class)
+            )
+        ),
         responses: [
             '200' => new OA\Response(
                 response: 200,
@@ -84,12 +96,23 @@ class UserController extends AbstractController
             ),
         ]
     )]
-    public function login(): Response
+    public function login(LoginUserRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
-        return $this->json([]);
+        if (count($validationErrors) > 0) {
+            return $this->json($validationErrors, 422);
+        }
+
+        $user = $this->users->findOneBy(['email' => $data->user->email]);
+
+        if (null === $user || !$this->userPasswordHasher->isPasswordValid($user, $data->user->password)) {
+            return $this->json(['message' => 'Bad credentials'], 400);
+        }
+
+        return $this->json(UserResponse::make($user, $this->jwtManager->create($user)));
     }
 
     #[Route('/user', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Get(
         operationId: 'GetCurrentUser',
         summary: 'Get current user.',
@@ -117,6 +140,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user', methods: ['PUT'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Put(
         operationId: 'UpdateCurrentUser',
         summary: 'Update current user.',
@@ -125,7 +149,7 @@ class UserController extends AbstractController
         security: [['Bearer' => []]],
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
-                ref: new Model(type: UpdateUserDTO::class)
+                ref: new Model(type: UpdateUserRequest::class)
             )
         ),
         responses: [
@@ -138,8 +162,22 @@ class UserController extends AbstractController
             ),
         ]
     )]
-    public function update(UpdateUserDTO $data): Response
+    public function update(UpdateUserRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
-        return $this->json([]);
+        if (count($validationErrors) > 0) {
+            return $this->json($validationErrors, 422);
+        }
+
+        /** @var User */
+        $currentUser = $this->getUser();
+
+        if (($user = $this->users->findOneBy(['email' => $data->user->email])) && $user->id !== $currentUser->id) {
+            return $this->json(['message' => 'User with this email already exist'], 400);
+        }
+
+        $this->em->persist($data);
+        $this->em->flush();
+
+        return $this->json(UserResponse::make($user, $this->jwtManager->create($user)));
     }
 }

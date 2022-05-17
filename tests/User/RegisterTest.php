@@ -29,12 +29,10 @@ class RegisterTest extends AbstractTest
     /**
      * @dataProvider getInvalidData
      */
-    public function testUserCannotLoginWithInvalidData($data)
+    public function testUserCannotRegisterWithInvalidData($data)
     {
-        $this->act(fn () => $this->client->request('POST', '/api/users', [
-            'json' => [
-                'user' => $data,
-            ],
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/users', [
+            'user' => $data,
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -42,13 +40,11 @@ class RegisterTest extends AbstractTest
 
     public function testUserCanRegister(): void
     {
-        $this->act(fn () => $this->client->request('POST', '/api/users', [
-            'json' => [
-                'user' => [
-                    'email' => 'john.doe@example.com',
-                    'password' => 'password',
-                    'username' => 'John Doe',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/users', [
+            'user' => [
+                'email' => 'john.doe@example.com',
+                'password' => 'password',
+                'username' => 'John Doe',
             ],
         ]));
 
@@ -67,13 +63,11 @@ class RegisterTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('POST', '/api/users', [
-            'json' => [
-                'user' => [
-                    'email' => 'john.doe@example.com',
-                    'password' => 'password',
-                    'username' => 'John Doe',
-                ],
+        $this->act(fn () => $this->client->jsonRequest('POST', '/api/users', [
+            'user' => [
+                'email' => 'john.doe@example.com',
+                'password' => 'password',
+                'username' => 'John Doe',
             ],
         ]));
 

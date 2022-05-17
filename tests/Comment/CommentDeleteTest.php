@@ -25,7 +25,7 @@ class CommentDeleteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -34,7 +34,7 @@ class CommentDeleteTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title/comments/1'));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title/comments/1'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -57,7 +57,7 @@ class CommentDeleteTest extends AbstractTest
 
         $this->em->persist($comment);
 
-        $this->act(fn () => $this->client->request('DELETE', "/api/articles/other-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/other-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -88,7 +88,7 @@ class CommentDeleteTest extends AbstractTest
         $this->em->persist($comment);
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(400);
     }
@@ -114,7 +114,7 @@ class CommentDeleteTest extends AbstractTest
 
         $this->actingAs();
 
-        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(400);
     }
@@ -138,7 +138,7 @@ class CommentDeleteTest extends AbstractTest
         $this->em->persist($comment);
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseIsSuccessful();
 
@@ -170,7 +170,7 @@ class CommentDeleteTest extends AbstractTest
         $this->em->persist($comment);
         $this->em->flush();
 
-        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseIsSuccessful();
 

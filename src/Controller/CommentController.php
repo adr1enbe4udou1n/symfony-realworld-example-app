@@ -4,19 +4,32 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Comment;
-use App\Feature\Comment\DTO\NewCommentDTO;
+use App\Entity\User;
+use App\Feature\Comment\Request\NewCommentRequest;
 use App\Feature\Comment\Response\MultipleCommentsResponse;
 use App\Feature\Comment\Response\SingleCommentResponse;
+use App\Repository\CommentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[Route('/articles/{slug}/comments')]
 class CommentController extends AbstractController
 {
+    public function __construct(
+        private CommentRepository $comments,
+        private TokenStorageInterface $token,
+        private EntityManagerInterface $em,
+    ) {
+    }
+
     #[Route('', methods: ['GET'])]
     #[OA\Get(
         operationId: 'GetArticleComments',
@@ -43,10 +56,13 @@ class CommentController extends AbstractController
     )]
     public function list(Article $article): Response
     {
-        return $this->json([]);
+        return $this->json(
+            MultipleCommentsResponse::make($this->comments->findByArticle($article), $this->token)
+        );
     }
 
     #[Route('', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     #[OA\Post(
         operationId: 'CreateArticleComment',
         summary: 'Create a comment for an article.',
@@ -63,7 +79,7 @@ class CommentController extends AbstractController
         ],
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
-                ref: new Model(type: NewCommentDTO::class)
+                ref: new Model(type: NewCommentRequest::class)
             )
         ),
         responses: [
@@ -76,12 +92,28 @@ class CommentController extends AbstractController
             ),
         ]
     )]
-    public function create(Article $article, NewCommentDTO $data): Response
+    public function create(Article $article, NewCommentRequest $data, ConstraintViolationListInterface $validationErrors): Response
     {
-        return $this->json([]);
+        if (count($validationErrors) > 0) {
+            return $this->json($validationErrors, 422);
+        }
+
+        /** @var User */
+        $user = $this->getUser();
+
+        $comment = new Comment();
+        $comment->body = $data->comment->body;
+        $comment->author = $user;
+        $comment->article = $article;
+
+        $this->em->persist($comment);
+        $this->em->flush();
+
+        return $this->json(SingleCommentResponse::make($comment, $this->token));
     }
 
     #[Route('/{commentId}', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
     #[Entity('comment', options: ['commentId' => 'id'])]
     #[OA\Delete(
         operationId: 'DeleteArticleComment',
@@ -113,8 +145,26 @@ class CommentController extends AbstractController
             ),
         ]
     )]
-    public function delete(Article $article, Comment $commentId): Response
+    public function delete(Article $article, Comment $comment): Response
     {
-        return $this->json([]);
+        if ($comment->article->id !== $article->id) {
+            return $this->json([
+                'message' => 'This comment is not associate with requested article',
+            ], 400);
+        }
+
+        /** @var User */
+        $user = $this->getUser();
+
+        if ($comment->author->id !== $user->id && $article->author->id !== $user->id) {
+            return $this->json([
+                'message' => 'You cannot delete this comment',
+            ], 400);
+        }
+
+        $this->em->remove($comment);
+        $this->em->flush();
+
+        return $this->json([])->setStatusCode(204);
     }
 }
