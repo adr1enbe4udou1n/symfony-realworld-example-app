@@ -16,7 +16,7 @@ class MultipleCommentsResponse
     /**
      * @param array<Comment> $comments
      */
-    public static function make(array $comments, User $currentUser)
+    public static function make(array $comments, ?User $currentUser)
     {
         $response = new self();
         $response->comments = array_map(fn (Comment $comment) => new CommentDTO($comment, $currentUser), $comments);
