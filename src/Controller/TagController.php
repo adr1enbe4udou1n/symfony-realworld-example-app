@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Feature\Tag\Response\TagResponse;
+use App\Repository\TagRepository;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/tags')]
 class TagController extends AbstractController
 {
+    public function __construct(private TagRepository $tags)
+    {
+    }
+
     #[Route('', methods: ['GET'])]
     #[OA\Get(
         operationId: 'GetTags',
@@ -30,6 +35,6 @@ class TagController extends AbstractController
     )]
     public function list(): Response
     {
-        return $this->json([]);
+        return $this->json(TagResponse::make($this->tags->list()));
     }
 }
