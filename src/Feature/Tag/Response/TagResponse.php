@@ -5,12 +5,15 @@ namespace App\Feature\Tag\Response;
 class TagResponse
 {
     /**
-     * @var string[]
+     * @var array<string>
      */
     public array $tags;
 
-    public function __construct($tags)
+    public static function make(array $tags)
     {
-        $this->tags = $tags;
+        $response = new self();
+        $response->tags = $tags;
+
+        return $response;
     }
 }

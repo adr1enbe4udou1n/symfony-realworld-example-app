@@ -4,16 +4,20 @@ namespace App\Feature\Profile\Response;
 
 use App\Entity\User;
 use App\Feature\Profile\DTO\ProfileDTO;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ProfileResponse
 {
     /**
-     * @var ProfileDTO|User
+     * @var ProfileDTO
      */
     public $profile;
 
-    public function __construct(User $profile)
+    public static function make(User $user, TokenStorageInterface $token)
     {
-        $this->profile = $profile;
+        $response = new self();
+        $response->profile = $user->getProfile($token);
+
+        return $response;
     }
 }

@@ -4,16 +4,20 @@ namespace App\Feature\Comment\Response;
 
 use App\Entity\Comment;
 use App\Feature\Comment\DTO\CommentDTO;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SingleCommentResponse
 {
     /**
-     * @var CommentDTO|Comment
+     * @var CommentDTO
      */
     public $comment;
 
-    public function __construct(Comment $comment)
+    public static function make(Comment $comment, TokenStorageInterface $token)
     {
-        $this->comment = $comment;
+        $response = new self();
+        $response->comment = new CommentDTO($comment, $token);
+
+        return $response;
     }
 }

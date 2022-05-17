@@ -152,8 +152,11 @@ class ArticleController extends AbstractController
         summary: 'Create an article.',
         description: 'Create an article. Auth is required',
         tags: ['Articles'],
+        security: [['Bearer' => []]],
         requestBody: new OA\RequestBody(
-            ref: new OA\Schema(type: 'string', ref: new Model(type: NewArticleDTO::class))
+            content: new OA\JsonContent(
+                ref: new Model(type: NewArticleDTO::class)
+            )
         ),
         responses: [
             '200' => new OA\Response(
@@ -176,6 +179,7 @@ class ArticleController extends AbstractController
         summary: 'Update an article.',
         description: 'Update an article. Auth is required',
         tags: ['Articles'],
+        security: [['Bearer' => []]],
         parameters: [
             new OA\Parameter(
                 name: 'slug',
@@ -185,7 +189,9 @@ class ArticleController extends AbstractController
             ),
         ],
         requestBody: new OA\RequestBody(
-            ref: new OA\Schema(type: 'string', ref: new Model(type: UpdateArticleDTO::class))
+            content: new OA\JsonContent(
+                ref: new Model(type: UpdateArticleDTO::class)
+            )
         ),
         responses: [
             '200' => new OA\Response(
@@ -208,6 +214,7 @@ class ArticleController extends AbstractController
         summary: 'Delete an article.',
         description: 'Delete an article. Auth is required',
         tags: ['Articles'],
+        security: [['Bearer' => []]],
         parameters: [
             new OA\Parameter(
                 name: 'slug',
@@ -236,7 +243,8 @@ class ArticleController extends AbstractController
         operationId: 'CreateArticleFavorite',
         summary: 'Favorite an article.',
         description: 'Favorite an article. Auth is required',
-        tags: ['Articles'],
+        tags: ['Favorites'],
+        security: [['Bearer' => []]],
         parameters: [
             new OA\Parameter(
                 name: 'slug',
@@ -265,7 +273,8 @@ class ArticleController extends AbstractController
         operationId: 'DeleteArticleFavorite',
         summary: 'Unfavorite an article.',
         description: 'Unfavorite an article. Auth is required',
-        tags: ['Articles'],
+        tags: ['Favorites'],
+        security: [['Bearer' => []]],
         parameters: [
             new OA\Parameter(
                 name: 'slug',

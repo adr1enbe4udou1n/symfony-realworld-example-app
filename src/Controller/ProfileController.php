@@ -48,6 +48,7 @@ class ProfileController extends AbstractController
         summary: 'Follow a user.',
         description: 'Follow a user by username',
         tags: ['Profile'],
+        security: [['Bearer' => []]],
         parameters: [
             new OA\Parameter(
                 name: 'username',
@@ -77,6 +78,7 @@ class ProfileController extends AbstractController
         summary: 'Unfollow a user.',
         description: 'Unfollow a user by username',
         tags: ['Profile'],
+        security: [['Bearer' => []]],
         parameters: [
             new OA\Parameter(
                 name: 'username',

@@ -52,6 +52,7 @@ class CommentController extends AbstractController
         summary: 'Create a comment for an article.',
         description: 'Create a comment for an article. Auth is required',
         tags: ['Comments'],
+        security: [['Bearer' => []]],
         parameters: [
             new OA\Parameter(
                 name: 'slug',
@@ -61,7 +62,9 @@ class CommentController extends AbstractController
             ),
         ],
         requestBody: new OA\RequestBody(
-            ref: new OA\Schema(type: 'string', ref: new Model(type: NewCommentDTO::class))
+            content: new OA\JsonContent(
+                ref: new Model(type: NewCommentDTO::class)
+            )
         ),
         responses: [
             '200' => new OA\Response(
@@ -78,13 +81,14 @@ class CommentController extends AbstractController
         return $this->json([]);
     }
 
-    #[Route('/{commentId}', methods: ['GET'])]
+    #[Route('/{commentId}', methods: ['DELETE'])]
     #[Entity('comment', options: ['commentId' => 'id'])]
     #[OA\Delete(
         operationId: 'DeleteArticleComment',
         summary: 'Delete a comment for an article.',
         description: 'Delete a comment for an article. Auth is required',
         tags: ['Comments'],
+        security: [['Bearer' => []]],
         parameters: [
             new OA\Parameter(
                 name: 'slug',

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Feature\User\DTO\NewUserDTO;
 use App\Feature\User\DTO\UpdateUserDTO;
 use App\Feature\User\Response\UserResponse;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
+    public function __construct(
+        private JWTTokenManagerInterface $jwtManager,
+    ) {
+    }
+
     #[Route('/users', methods: ['POST'])]
     #[OA\Post(
         operationId: 'CreateUser',
@@ -20,7 +27,9 @@ class UserController extends AbstractController
         description: 'Register a new user',
         tags: ['User and Authentication'],
         requestBody: new OA\RequestBody(
-            ref: new OA\Schema(type: 'string', ref: new Model(type: NewUserDTO::class))
+            content: new OA\JsonContent(
+                ref: new Model(type: NewUserDTO::class)
+            )
         ),
         responses: [
             '200' => new OA\Response(
@@ -64,6 +73,7 @@ class UserController extends AbstractController
         summary: 'Get current user.',
         description: 'Gets the currently logged-in user',
         tags: ['User and Authentication'],
+        security: [['Bearer' => []]],
         responses: [
             '200' => new OA\Response(
                 response: 200,
@@ -76,7 +86,12 @@ class UserController extends AbstractController
     )]
     public function current(): Response
     {
-        return $this->json([]);
+        /** @var User */
+        $user = $this->getUser();
+
+        return $this->json(
+            UserResponse::make($user, $this->jwtManager->create($user)),
+        );
     }
 
     #[Route('/user', methods: ['PUT'])]
@@ -85,8 +100,11 @@ class UserController extends AbstractController
         summary: 'Update current user.',
         description: 'Updated user information for current user',
         tags: ['User and Authentication'],
+        security: [['Bearer' => []]],
         requestBody: new OA\RequestBody(
-            ref: new OA\Schema(type: 'string', ref: new Model(type: UpdateUserDTO::class))
+            content: new OA\JsonContent(
+                ref: new Model(type: UpdateUserDTO::class)
+            )
         ),
         responses: [
             '200' => new OA\Response(

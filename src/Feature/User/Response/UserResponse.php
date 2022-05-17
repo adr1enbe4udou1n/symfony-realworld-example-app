@@ -8,12 +8,22 @@ use App\Feature\User\DTO\UserDTO;
 class UserResponse
 {
     /**
-     * @var UserDTO|User
+     * @var UserDTO
      */
     public $user;
 
-    public function __construct(User $user)
+    public static function make(User $user, string $token)
     {
-        $this->user = $user;
+        $response = new self();
+
+        $dto = new UserDTO();
+        $dto->email = $user->email;
+        $dto->username = $user->name;
+        $dto->bio = $user->bio;
+        $dto->image = $user->image;
+        $dto->token = $token;
+        $response->user = $dto;
+
+        return $response;
     }
 }
