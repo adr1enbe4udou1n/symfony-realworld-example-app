@@ -39,7 +39,7 @@ class CommentListTest extends AbstractTest
 
         $this->assertResponseIsSuccessful();
 
-        $this->assertCount(20, $response->toArray()['comments']);
+        $this->assertCount(20, $response['comments']);
 
         $this->assertJsonContains([
             'comments' => [

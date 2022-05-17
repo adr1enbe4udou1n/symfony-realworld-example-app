@@ -71,8 +71,8 @@ class ArticleListTest extends AbstractTest
 
         $this->assertResponseIsSuccessful();
 
-        $this->assertCount(20, $response->toArray()['articles']);
-        $this->assertEquals(50, $response->toArray()['articlesCount']);
+        $this->assertCount(20, $response['articles']);
+        $this->assertEquals(50, $response['articlesCount']);
 
         $this->assertJsonContains(['articles' => [
             0 => [
@@ -95,8 +95,8 @@ class ArticleListTest extends AbstractTest
 
         $this->assertResponseIsSuccessful();
 
-        $this->assertCount(10, $response->toArray()['articles']);
-        $this->assertEquals(30, $response->toArray()['articlesCount']);
+        $this->assertCount(10, $response['articles']);
+        $this->assertEquals(30, $response['articlesCount']);
 
         $this->assertJsonContains(['articles' => [
             0 => [
@@ -119,8 +119,8 @@ class ArticleListTest extends AbstractTest
 
         $this->assertResponseIsSuccessful();
 
-        $this->assertCount(10, $response->toArray()['articles']);
-        $this->assertEquals(20, $response->toArray()['articlesCount']);
+        $this->assertCount(10, $response['articles']);
+        $this->assertEquals(20, $response['articlesCount']);
 
         $this->assertJsonContains(['articles' => [
             0 => [
@@ -143,8 +143,8 @@ class ArticleListTest extends AbstractTest
 
         $this->assertResponseIsSuccessful();
 
-        $this->assertCount(5, $response->toArray()['articles']);
-        $this->assertEquals(5, $response->toArray()['articlesCount']);
+        $this->assertCount(5, $response['articles']);
+        $this->assertEquals(5, $response['articlesCount']);
 
         $this->assertJsonContains(['articles' => [
             0 => [
@@ -176,8 +176,8 @@ class ArticleListTest extends AbstractTest
 
         $this->assertResponseIsSuccessful();
 
-        $this->assertCount(10, $response->toArray()['articles']);
-        $this->assertEquals(30, $response->toArray()['articlesCount']);
+        $this->assertCount(10, $response['articles']);
+        $this->assertEquals(30, $response['articlesCount']);
 
         $this->assertJsonContains(['articles' => [
             0 => [

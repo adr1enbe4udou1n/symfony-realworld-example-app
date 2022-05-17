@@ -2,24 +2,26 @@
 
 namespace App\Tests;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Response;
 use App\Entity\User;
 use Closure;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\Persistence\ObjectManager;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-abstract class AbstractTest extends ApiTestCase
+abstract class AbstractTest extends WebTestCase
 {
     use RefreshDatabaseTrait;
+    use ArraySubsetAsserts;
 
-    protected ?Client $client = null;
+    protected ?KernelBrowser $client = null;
     protected ?Registry $orm = null;
     protected ?ObjectManager $em = null;
     protected ?DebugStack $debugStack = null;
+    protected ?array $response = null;
 
     public function setUp(): void
     {
@@ -53,7 +55,7 @@ abstract class AbstractTest extends ApiTestCase
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->client->setDefaultOptions([
+        $this->client->setServerParameters([
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => 'Token '.static::getContainer()
@@ -65,7 +67,7 @@ abstract class AbstractTest extends ApiTestCase
         return $user;
     }
 
-    public function act(Closure $act): Response
+    public function act(Closure $act): ?array
     {
         $this->orm->getManager()->clear();
 
@@ -73,10 +75,15 @@ abstract class AbstractTest extends ApiTestCase
             ->getConfiguration()
             ->setSQLLogger($this->debugStack);
 
-        $response = $act();
+        $act();
 
         echo sprintf("Number of SQL queries : %d\n\n", count($this->debugStack->queries));
 
-        return $response;
+        return $this->response = json_decode($this->client->getResponse()->getContent(), true);
+    }
+
+    public function assertJsonContains(array $data)
+    {
+        $this->assertArraySubset($data, $this->response, true);
     }
 }

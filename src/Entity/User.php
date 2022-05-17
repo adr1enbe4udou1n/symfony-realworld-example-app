@@ -2,27 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Feature\Profile\Action\ProfileFollowAction;
-use App\Feature\Profile\Action\ProfileGetAction;
-use App\Feature\Profile\Action\ProfileUnfollowAction;
 use App\Feature\Profile\DTO\ProfileDTO;
-use App\Feature\Profile\Response\ProfileResponse;
-use App\Feature\User\Action\CurrentUserAction;
-use App\Feature\User\Action\LoginUserAction;
-use App\Feature\User\Action\RegisterUserAction;
-use App\Feature\User\Action\UpdateUserAction;
-use App\Feature\User\Request\LoginUserRequest;
-use App\Feature\User\Request\NewUserRequest;
-use App\Feature\User\Request\UpdateUserRequest;
-use App\Feature\User\Response\UserResponse;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,85 +15,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity('email', message: 'user.email.unique')]
-#[ApiResource(
-    collectionOperations: [
-        'register' => [
-            'method' => 'POST',
-            'status' => Response::HTTP_OK,
-            'path' => '/users',
-            'controller' => RegisterUserAction::class,
-            'input' => NewUserRequest::class,
-            'output' => UserResponse::class,
-            'read' => false,
-            'write' => false,
-        ],
-        'login' => [
-            'method' => 'POST',
-            'status' => Response::HTTP_OK,
-            'path' => '/users/login',
-            'controller' => LoginUserAction::class,
-            'input' => LoginUserRequest::class,
-            'output' => UserResponse::class,
-            'read' => false,
-            'write' => false,
-        ],
-    ],
-    itemOperations: [
-        'current' => [
-            'method' => 'GET',
-            'path' => '/user',
-            'controller' => CurrentUserAction::class,
-            'output' => UserResponse::class,
-            'read' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-        'update' => [
-            'method' => 'PUT',
-            'path' => '/user',
-            'controller' => UpdateUserAction::class,
-            'input' => UpdateUserRequest::class,
-            'output' => UserResponse::class,
-            'read' => false,
-            'write' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-        'profile' => [
-            'method' => 'GET',
-            'path' => '/profiles/celeb_{name}',
-            'controller' => ProfileGetAction::class,
-            'output' => ProfileResponse::class,
-        ],
-        'follow' => [
-            'method' => 'POST',
-            'status' => Response::HTTP_OK,
-            'path' => '/profiles/celeb_{name}/follow',
-            'controller' => ProfileFollowAction::class,
-            'output' => ProfileResponse::class,
-            'write' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-        'unfollow' => [
-            'method' => 'DELETE',
-            'status' => Response::HTTP_OK,
-            'path' => '/profiles/celeb_{name}/follow',
-            'controller' => ProfileUnfollowAction::class,
-            'output' => ProfileResponse::class,
-            'write' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-    ],
-)]
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[ApiProperty(identifier: false)]
     public ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[ApiProperty(identifier: true)]
     public string $name;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]

@@ -2,24 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Feature\Tag\Action\TagListAction;
-use App\Feature\Tag\Response\TagResponse;
 use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
-#[ApiResource(
-    collectionOperations: [
-        'list' => [
-            'method' => 'GET',
-            'path' => '/tags',
-            'controller' => TagListAction::class,
-            'output' => TagResponse::class,
-        ],
-    ],
-)]
 class Tag
 {
     #[ORM\Id]

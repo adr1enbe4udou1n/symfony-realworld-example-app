@@ -1,18 +1,4 @@
 {
-    "api-platform/core": {
-        "version": "2.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.5",
-            "ref": "05b57782a78c21a664a42055dc11cf1954ca36bb"
-        },
-        "files": [
-            "./config/routes/api_platform.yaml",
-            "./config/packages/api_platform.yaml",
-            "./src/Entity/.gitignore"
-        ]
-    },
     "composer/pcre": {
         "version": "1.0.0"
     },
@@ -21,6 +7,9 @@
     },
     "composer/xdebug-handler": {
         "version": "2.0.2"
+    },
+    "dms/phpunit-arraysubset-asserts": {
+        "version": "v0.4.0"
     },
     "doctrine/annotations": {
         "version": "1.13",
@@ -108,9 +97,6 @@
     "fakerphp/faker": {
         "version": "v1.16.0"
     },
-    "fig/link-util": {
-        "version": "1.2.0"
-    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.2",
         "recipe": {
@@ -178,6 +164,19 @@
         "files": [
             "./config/packages/dev/nelmio_alice.yaml",
             "./config/packages/test/nelmio_alice.yaml"
+        ]
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "4.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "./config/packages/nelmio_api_doc.yaml",
+            "./config/routes/nelmio_api_doc.yaml"
         ]
     },
     "nelmio/cors-bundle": {
@@ -269,9 +268,6 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
-    "psr/link": {
-        "version": "1.1.1"
-    },
     "psr/log": {
         "version": "2.0.0"
     },
@@ -322,6 +318,18 @@
     },
     "sebastian/version": {
         "version": "3.0.2"
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "6.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.2",
+            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
+        },
+        "files": [
+            "./config/packages/sensio_framework_extra.yaml"
+        ]
     },
     "stella-maris/clock": {
         "version": "0.1.4"
@@ -604,9 +612,6 @@
     "symfony/var-exporter": {
         "version": "v5.3.8"
     },
-    "symfony/web-link": {
-        "version": "v5.3.4"
-    },
     "symfony/yaml": {
         "version": "v5.3.6"
     },
@@ -628,7 +633,7 @@
     "webmozart/assert": {
         "version": "1.10.0"
     },
-    "willdurand/negotiation": {
-        "version": "3.0.0"
+    "zircote/swagger-php": {
+        "version": "4.4.2"
     }
 }

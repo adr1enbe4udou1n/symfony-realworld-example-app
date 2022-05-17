@@ -94,7 +94,7 @@ class CommentCreateTest extends AbstractTest
         ]]);
 
         $this->assertNotNull(
-            $this->em->getRepository(Comment::class)->find($response->toArray()['comment']['id'])
+            $this->em->getRepository(Comment::class)->find($response['comment']['id'])
         );
     }
 }

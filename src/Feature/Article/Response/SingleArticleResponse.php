@@ -4,16 +4,17 @@ namespace App\Feature\Article\Response;
 
 use App\Entity\Article;
 use App\Feature\Article\DTO\ArticleDTO;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SingleArticleResponse
 {
-    /**
-     * @var ArticleDTO|Article
-     */
-    public $article;
+    public ArticleDTO $article;
 
-    public function __construct(Article $article)
+    public static function make(Article $article, TokenStorageInterface $token)
     {
-        $this->article = $article;
+        $response = new self();
+        $response->article = new ArticleDTO($article, $token);
+
+        return $response;
     }
 }

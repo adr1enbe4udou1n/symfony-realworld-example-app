@@ -2,104 +2,19 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Feature\Article\Action\ArticleCreateAction;
-use App\Feature\Article\Action\ArticleDeleteAction;
-use App\Feature\Article\Action\ArticleFavoriteAction;
-use App\Feature\Article\Action\ArticleFeedAction;
-use App\Feature\Article\Action\ArticleGetAction;
-use App\Feature\Article\Action\ArticleListAction;
-use App\Feature\Article\Action\ArticleUnfavoriteAction;
-use App\Feature\Article\Action\ArticleUpdateAction;
-use App\Feature\Article\Request\NewArticleRequest;
-use App\Feature\Article\Request\UpdateArticleRequest;
-use App\Feature\Article\Response\MultipleArticlesResponse;
-use App\Feature\Article\Response\SingleArticleResponse;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ApiResource(
-    collectionOperations: [
-        'list' => [
-            'method' => 'GET',
-            'path' => '/articles',
-            'controller' => ArticleListAction::class,
-            'output' => MultipleArticlesResponse::class,
-        ],
-        'feed' => [
-            'method' => 'GET',
-            'path' => '/articles/feed',
-            'controller' => ArticleFeedAction::class,
-            'output' => MultipleArticlesResponse::class,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-        'create' => [
-            'method' => 'POST',
-            'path' => '/articles',
-            'controller' => ArticleCreateAction::class,
-            'input' => NewArticleRequest::class,
-            'output' => SingleArticleResponse::class,
-            'read' => false,
-            'write' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'method' => 'GET',
-            'path' => '/articles/{slug}',
-            'controller' => ArticleGetAction::class,
-            'output' => SingleArticleResponse::class,
-        ],
-        'update' => [
-            'method' => 'PUT',
-            'path' => '/articles/{slug}',
-            'controller' => ArticleUpdateAction::class,
-            'input' => UpdateArticleRequest::class,
-            'output' => SingleArticleResponse::class,
-            'write' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-        'delete' => [
-            'method' => 'DELETE',
-            'path' => '/articles/{slug}',
-            'controller' => ArticleDeleteAction::class,
-            'write' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-        'favorite' => [
-            'method' => 'POST',
-            'status' => Response::HTTP_OK,
-            'path' => '/articles/{slug}/favorite',
-            'controller' => ArticleFavoriteAction::class,
-            'output' => SingleArticleResponse::class,
-            'write' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-        'unfavorite' => [
-            'method' => 'DELETE',
-            'status' => Response::HTTP_OK,
-            'path' => '/articles/{slug}/favorite',
-            'controller' => ArticleUnfavoriteAction::class,
-            'output' => SingleArticleResponse::class,
-            'write' => false,
-            'security' => "is_granted('IS_AUTHENTICATED_FULLY')",
-        ],
-    ]
-)]
 class Article
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[ApiProperty(identifier: false)]
     public $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -112,7 +27,6 @@ class Article
     public string $body;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[ApiProperty(identifier: true)]
     public ?string $slug = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
