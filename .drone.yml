@@ -73,7 +73,7 @@ services:
       POSTGRES_DB: main_test
 
 image_pull_secrets:
-  - dockerconfig
+  - docker_config
 
 trigger:
   event:
