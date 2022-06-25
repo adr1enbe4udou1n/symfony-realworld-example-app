@@ -47,16 +47,17 @@ steps:
       mount:
         - ./vendor
 
-  - name: deploy
-    image: appleboy/drone-ssh
-    settings:
-      host: front.okami101.io
-      port: 2222
-      username: okami
-      key:
-        from_secret: swarm_ssh_key
-      script:
-        - docker service update --image registry.okami101.io/adr1enbe4udou1n/symfony-realworld:latest symfonyrealworld_app --with-registry-auth
+  # - name: deploy
+  #   image: sinlead/drone-kubectl
+  #   settings:
+  #     kubernetes_server:
+  #       from_secret: kube_server
+  #     kubernetes_cert:
+  #       from_secret: kube_ca
+  #     kubernetes_token:
+  #       from_secret: kube_token
+  #   commands:
+  #     - kubectl rollout restart deployments/symfony -n conduit
 
 volumes:
   - name: cache
