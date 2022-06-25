@@ -26,6 +26,16 @@ steps:
       - php bin/console lexik:jwt:generate-keypair -n
       - php bin/phpunit
 
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./vendor
+
   - name: image
     image: plugins/docker
     settings:
@@ -37,27 +47,17 @@ steps:
       password:
         from_secret: registry_password
 
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
+  - name: deploy
+    image: sinlead/drone-kubectl
     settings:
-      rebuild: true
-      mount:
-        - ./vendor
-
-  # - name: deploy
-  #   image: sinlead/drone-kubectl
-  #   settings:
-  #     kubernetes_server:
-  #       from_secret: kube_server
-  #     kubernetes_cert:
-  #       from_secret: kube_ca
-  #     kubernetes_token:
-  #       from_secret: kube_token
-  #   commands:
-  #     - kubectl rollout restart deployments/symfony -n conduit
+      kubernetes_server:
+        from_secret: kube_server
+      kubernetes_cert:
+        from_secret: kube_ca
+      kubernetes_token:
+        from_secret: kube_token
+    commands:
+      - kubectl rollout restart deployments/symfony -n conduit
 
 volumes:
   - name: cache
