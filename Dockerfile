@@ -1,4 +1,5 @@
-FROM registry.okami101.io/adr1enbe4udou1n/php-apache:8.1
+ARG base_image
+FROM ${base_image} as base
 
 ENV APACHE_DOCUMENT_ROOT /app/public
 
