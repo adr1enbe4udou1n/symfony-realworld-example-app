@@ -29,7 +29,7 @@ class Article
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     public ?string $slug = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     public User $author;
 

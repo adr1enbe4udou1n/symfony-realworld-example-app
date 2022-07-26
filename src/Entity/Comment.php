@@ -17,11 +17,11 @@ class Comment
     #[ORM\Column(type: 'text')]
     public string $body;
 
-    #[ORM\ManyToOne(targetEntity: Article::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'comments', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     public Article $article;
 
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     public User $author;
 

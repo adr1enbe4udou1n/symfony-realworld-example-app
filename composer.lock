@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2d240ce1041328fa23aec04a2e55f38",
+    "content-hash": "19b2e0c0e3cfcf73bd18b38c6f8b4731",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -10008,16 +10008,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.44.0",
+            "version": "v1.45.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "fa535d792e9261ae7a78481f643c00991e1d1588"
+                "reference": "7ae4ff28ac1b6d6d55591999026040d58b8a3967"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/fa535d792e9261ae7a78481f643c00991e1d1588",
-                "reference": "fa535d792e9261ae7a78481f643c00991e1d1588",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/7ae4ff28ac1b6d6d55591999026040d58b8a3967",
+                "reference": "7ae4ff28ac1b6d6d55591999026040d58b8a3967",
                 "shasum": ""
             },
             "require": {
@@ -10081,7 +10081,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/maker-bundle/issues",
-                "source": "https://github.com/symfony/maker-bundle/tree/v1.44.0"
+                "source": "https://github.com/symfony/maker-bundle/tree/v1.45.0"
             },
             "funding": [
                 {
@@ -10097,7 +10097,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-13T17:37:04+00:00"
+            "time": "2022-07-26T12:31:45+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
@@ -10321,6 +10321,84 @@
                 }
             ],
             "time": "2022-05-11T12:12:29+00:00"
+        },
+        {
+            "name": "symfony/web-profiler-bundle",
+            "version": "v6.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/web-profiler-bundle.git",
+                "reference": "6589c2ee4b94d7df2f8ca160ec41265fee3f33eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/6589c2ee4b94d7df2f8ca160ec41265fee3f33eb",
+                "reference": "6589c2ee4b94d7df2f8ca160ec41265fee3f33eb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/config": "^5.4|^6.0",
+                "symfony/framework-bundle": "^5.4|^6.0",
+                "symfony/http-kernel": "^6.1",
+                "symfony/routing": "^5.4|^6.0",
+                "symfony/twig-bundle": "^5.4|^6.0",
+                "twig/twig": "^2.13|^3.0.4"
+            },
+            "conflict": {
+                "symfony/form": "<5.4",
+                "symfony/mailer": "<5.4",
+                "symfony/messenger": "<5.4"
+            },
+            "require-dev": {
+                "symfony/browser-kit": "^5.4|^6.0",
+                "symfony/console": "^5.4|^6.0",
+                "symfony/css-selector": "^5.4|^6.0",
+                "symfony/stopwatch": "^5.4|^6.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bundle\\WebProfilerBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides a development tool that gives detailed information about the execution of any request",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/web-profiler-bundle/tree/v6.1.2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-06-12T09:53:37+00:00"
         },
         {
             "name": "theofidry/alice-data-fixtures",
