@@ -1,4 +1,9 @@
 doctrine:
+    dbal:
+        url: "%env(resolve:DATABASE_URL)%"
+        slaves:
+            replica:
+                url: "%env(resolve:DATABASE_REPLICA_URL)%"
     orm:
         auto_generate_proxy_classes: false
         query_cache_driver:
