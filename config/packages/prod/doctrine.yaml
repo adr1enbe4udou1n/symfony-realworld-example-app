@@ -8,7 +8,7 @@ doctrine:
         password: "%env(resolve:DATABASE_PASSWORD)%"
         replicas:
             replica1:
-                host: "%env(resolve:DATABASE_REPLICA_HOST)%"
+                host: "%env(resolve:DATABASE_RO_HOST)%"
                 dbname: "%env(resolve:DATABASE_NAME)%"
                 port: "%env(resolve:DATABASE_PORT)%"
                 user: "%env(resolve:DATABASE_USER)%"
