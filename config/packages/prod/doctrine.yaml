@@ -1,12 +1,14 @@
 doctrine:
     dbal:
-        default_connection: default
-        connections:
-            default:
-                url: "%env(resolve:DATABASE_URL)%"
-                replicas:
-                    replica1:
-                        url: "%env(resolve:DATABASE_REPLICA_URL)%"
+        driver: pdo_mysql
+        host: "%env(resolve:DATABASE_HOST)%"
+        dbname: "%env(resolve:DATABASE_NAME)%"
+        port: "%env(resolve:DATABASE_PORT)%"
+        user: "%env(resolve:DATABASE_USER)%"
+        password: "%env(resolve:DATABASE_PASSWORD)%"
+        replicas:
+            replica1:
+                host: "%env(resolve:DATABASE_REPLICA_HOST)%"
     orm:
         auto_generate_proxy_classes: false
         query_cache_driver:
