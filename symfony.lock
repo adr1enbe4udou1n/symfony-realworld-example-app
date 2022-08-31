@@ -212,9 +212,6 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
-    "php-cs-fixer/diff": {
-        "version": "v2.0.2"
-    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },
@@ -223,9 +220,6 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.5.1"
-    },
-    "phpspec/prophecy": {
-        "version": "1.14.0"
     },
     "phpstan/extension-installer": {
         "version": "1.1.0"
