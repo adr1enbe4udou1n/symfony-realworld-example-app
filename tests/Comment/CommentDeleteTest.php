@@ -62,7 +62,7 @@ class CommentDeleteTest extends AbstractTest
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testCanDeleteCommentWithBadArticle()
+    public function testCannotDeleteCommentWithBadArticle()
     {
         $user = $this->actingAs();
 
