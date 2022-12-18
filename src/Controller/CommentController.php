@@ -12,12 +12,11 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[Route('/articles/{slug}/comments')]
@@ -117,7 +116,6 @@ class CommentController extends AbstractController
 
     #[Route('/{commentId}', methods: ['DELETE'])]
     #[IsGranted('ROLE_USER')]
-    #[Entity('comment', options: ['commentId' => 'id'])]
     #[OA\Delete(
         operationId: 'DeleteArticleComment',
         summary: 'Delete a comment for an article.',
