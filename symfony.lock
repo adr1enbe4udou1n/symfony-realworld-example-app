@@ -337,9 +337,6 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
-    "stella-maris/clock": {
-        "version": "0.1.4"
-    },
     "symfony/apache-pack": {
         "version": "1.0",
         "recipe": {
