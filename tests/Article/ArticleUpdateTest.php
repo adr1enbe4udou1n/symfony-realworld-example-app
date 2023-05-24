@@ -18,7 +18,7 @@ class ArticleUpdateTest extends AbstractTest
                     ->setName('John Doe')
                     ->setEmail('john.doe@example.com')
                 )
-            );
+        );
         $this->em->flush();
 
         $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title'));
@@ -62,7 +62,7 @@ class ArticleUpdateTest extends AbstractTest
                 ->setDescription('Test Description')
                 ->setBody('Test Body')
                 ->setAuthor($user)
-            );
+        );
         $this->em->flush();
 
         $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [

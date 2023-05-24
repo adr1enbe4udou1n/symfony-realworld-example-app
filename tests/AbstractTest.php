@@ -3,7 +3,6 @@
 namespace App\Tests;
 
 use App\Entity\User;
-use Closure;
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Logging\DebugStack;
@@ -62,7 +61,7 @@ abstract class AbstractTest extends WebTestCase
         return $user;
     }
 
-    public function act(Closure $act): ?array
+    public function act(\Closure $act): ?array
     {
         $this->orm->getManager()->clear();
 

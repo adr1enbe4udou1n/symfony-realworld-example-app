@@ -283,8 +283,8 @@ class ArticleController extends AbstractController
         }
 
         if (
-            ($existingArticle = $this->articles->findOneBy(['title' => $data->article->title])) &&
-            $existingArticle->id !== $article->id
+            ($existingArticle = $this->articles->findOneBy(['title' => $data->article->title]))
+            && $existingArticle->id !== $article->id
         ) {
             return $this->json(['message' => 'Article with this title already exist'], 400);
         }
