@@ -1,7 +1,4 @@
 {
-    "dms/phpunit-arraysubset-asserts": {
-        "version": "v0.4.0"
-    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -306,9 +303,6 @@
     },
     "sebastian/recursion-context": {
         "version": "4.0.4"
-    },
-    "sebastian/resource-operations": {
-        "version": "3.0.3"
     },
     "sebastian/type": {
         "version": "2.3.4"
