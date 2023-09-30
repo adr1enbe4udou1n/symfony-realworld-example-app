@@ -7,6 +7,7 @@ use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\Persistence\ObjectManager;
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseState;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -24,7 +25,7 @@ abstract class AbstractTest extends WebTestCase
 
     public function setUp(): void
     {
-        static::$dbPopulated = true;
+        RefreshDatabaseState::setDbPopulated(true);
 
         $this->client = static::createClient();
 
