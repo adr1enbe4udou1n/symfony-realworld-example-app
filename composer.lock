@@ -1054,16 +1054,16 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "3.7.1",
+            "version": "3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "e4e0855ea993d169c8adb50e19b014e64bbdda46"
+                "reference": "47af29eef49f29ebee545947e8b2a4b3be318c8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/e4e0855ea993d169c8adb50e19b014e64bbdda46",
-                "reference": "e4e0855ea993d169c8adb50e19b014e64bbdda46",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/47af29eef49f29ebee545947e8b2a4b3be318c8a",
+                "reference": "47af29eef49f29ebee545947e8b2a4b3be318c8a",
                 "shasum": ""
             },
             "require": {
@@ -1136,7 +1136,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/migrations/issues",
-                "source": "https://github.com/doctrine/migrations/tree/3.7.1"
+                "source": "https://github.com/doctrine/migrations/tree/3.7.2"
             },
             "funding": [
                 {
@@ -1152,7 +1152,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-19T06:55:22+00:00"
+            "time": "2023-12-05T11:35:05+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -1794,16 +1794,16 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.20.1",
+            "version": "v2.20.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "8a13662c4e9bed0b1257ab34b193cac3f763c8ae"
+                "reference": "3df8317555ea899a81b5c6b7558e421838f2f926"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/8a13662c4e9bed0b1257ab34b193cac3f763c8ae",
-                "reference": "8a13662c4e9bed0b1257ab34b193cac3f763c8ae",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/3df8317555ea899a81b5c6b7558e421838f2f926",
+                "reference": "3df8317555ea899a81b5c6b7558e421838f2f926",
                 "shasum": ""
             },
             "require": {
@@ -1897,7 +1897,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lexik/LexikJWTAuthenticationBundle/issues",
-                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.20.1"
+                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.20.2"
             },
             "funding": [
                 {
@@ -1909,7 +1909,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-01T12:06:26+00:00"
+            "time": "2023-12-05T22:22:51+00:00"
         },
         {
             "name": "namshi/jose",
@@ -3959,16 +3959,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.4.1",
+            "version": "v2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "ae6dea68771c5fca9d172e0c0910bdd06199f6f4"
+                "reference": "67ee785f1aedada76461de7a7ec10cd7f8ff8d36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/ae6dea68771c5fca9d172e0c0910bdd06199f6f4",
-                "reference": "ae6dea68771c5fca9d172e0c0910bdd06199f6f4",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/67ee785f1aedada76461de7a7ec10cd7f8ff8d36",
+                "reference": "67ee785f1aedada76461de7a7ec10cd7f8ff8d36",
                 "shasum": ""
             },
             "require": {
@@ -4004,7 +4004,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v2.4.1"
+                "source": "https://github.com/symfony/flex/tree/v2.4.2"
             },
             "funding": [
                 {
@@ -4020,7 +4020,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-30T18:35:17+00:00"
+            "time": "2023-12-05T14:09:35+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -7144,20 +7144,19 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.7.16",
+            "version": "4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "21366a8c43819457d458e772a4e86d0df9233b5e"
+                "reference": "8ea52e3542133faf364bd9295d1a69406b465220"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/21366a8c43819457d458e772a4e86d0df9233b5e",
-                "reference": "21366a8c43819457d458e772a4e86d0df9233b5e",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/8ea52e3542133faf364bd9295d1a69406b465220",
+                "reference": "8ea52e3542133faf364bd9295d1a69406b465220",
                 "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "^1.7 || ^2.0",
                 "ext-json": "*",
                 "php": ">=7.2",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
@@ -7167,10 +7166,14 @@
             },
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11",
+                "doctrine/annotations": "^1.7 || ^2.0",
                 "friendsofphp/php-cs-fixer": "^2.17 || ^3.0",
                 "phpstan/phpstan": "^1.6",
                 "phpunit/phpunit": ">=8",
                 "vimeo/psalm": "^4.23"
+            },
+            "suggest": {
+                "doctrine/annotations": "^1.7 || ^2.0"
             },
             "bin": [
                 "bin/openapi"
@@ -7216,9 +7219,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.7.16"
+                "source": "https://github.com/zircote/swagger-php/tree/4.8.0"
             },
-            "time": "2023-11-30T21:47:39+00:00"
+            "time": "2023-12-04T19:43:43+00:00"
         }
     ],
     "packages-dev": [
@@ -7638,16 +7641,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.40.0",
+            "version": "v3.41.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "27d2b3265b5d550ec411b4319967ae7cfddfb2e0"
+                "reference": "7d8d18e19095a939b8a3b8046f57108feaad6134"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/27d2b3265b5d550ec411b4319967ae7cfddfb2e0",
-                "reference": "27d2b3265b5d550ec411b4319967ae7cfddfb2e0",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/7d8d18e19095a939b8a3b8046f57108feaad6134",
+                "reference": "7d8d18e19095a939b8a3b8046f57108feaad6134",
                 "shasum": ""
             },
             "require": {
@@ -7677,8 +7680,6 @@
                 "php-cs-fixer/accessible-object": "^1.1",
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.4",
                 "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.4",
-                "phpspec/prophecy": "^1.17",
-                "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.6",
                 "symfony/phpunit-bridge": "^6.3.8 || ^7.0",
                 "symfony/yaml": "^5.4 || ^6.0 || ^7.0"
@@ -7719,7 +7720,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.40.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.41.0"
             },
             "funding": [
                 {
@@ -7727,20 +7728,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-26T09:25:53+00:00"
+            "time": "2023-12-08T22:54:33+00:00"
         },
         {
             "name": "hautelook/alice-bundle",
-            "version": "2.12.2",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/AliceBundle.git",
-                "reference": "76485f14618725c3555e3c2737c68088d06104fb"
+                "reference": "7b8cf62973853ec406ecb27f3b90b91a1b525a05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/AliceBundle/zipball/76485f14618725c3555e3c2737c68088d06104fb",
-                "reference": "76485f14618725c3555e3c2737c68088d06104fb",
+                "url": "https://api.github.com/repos/theofidry/AliceBundle/zipball/7b8cf62973853ec406ecb27f3b90b91a1b525a05",
+                "reference": "7b8cf62973853ec406ecb27f3b90b91a1b525a05",
                 "shasum": ""
             },
             "require": {
@@ -7748,17 +7749,18 @@
                 "doctrine/doctrine-bundle": "^2.5",
                 "doctrine/orm": "^2.10.0",
                 "doctrine/persistence": "^2.2 || ^3.0",
-                "php": "^8.1",
+                "php": "^8.2",
                 "psr/log": "^1.0 || ^2.0 || ^3.0",
-                "symfony/finder": "^5.4.2 || ^6.0",
-                "symfony/framework-bundle": "^5.4.2 || ^6.0",
+                "symfony/finder": "^6.4 || ^7.0",
+                "symfony/framework-bundle": "^6.4 || ^7.0",
                 "theofidry/alice-data-fixtures": "^1.5"
             },
             "require-dev": {
+                "monolog/monolog": "^3.5",
                 "phpspec/prophecy": "^1.7",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.5",
-                "symfony/phpunit-bridge": "^6.0"
+                "symfony/phpunit-bridge": "^6.4 || ^7.0"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -7798,9 +7800,9 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/AliceBundle/issues",
-                "source": "https://github.com/theofidry/AliceBundle/tree/2.12.2"
+                "source": "https://github.com/theofidry/AliceBundle/tree/2.13.0"
             },
-            "time": "2023-11-22T23:06:15+00:00"
+            "time": "2023-12-03T23:53:29+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -7930,16 +7932,16 @@
         },
         {
             "name": "nelmio/alice",
-            "version": "3.13.0",
+            "version": "3.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/alice.git",
-                "reference": "48bf285f9b535322b730dd41727a0783185ba542"
+                "reference": "f495b126eb6f1d275c16a698e489cf3d96ab37e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/alice/zipball/48bf285f9b535322b730dd41727a0783185ba542",
-                "reference": "48bf285f9b535322b730dd41727a0783185ba542",
+                "url": "https://api.github.com/repos/nelmio/alice/zipball/f495b126eb6f1d275c16a698e489cf3d96ab37e6",
+                "reference": "f495b126eb6f1d275c16a698e489cf3d96ab37e6",
                 "shasum": ""
             },
             "require": {
@@ -7948,7 +7950,7 @@
                 "php": "^8.1",
                 "sebastian/comparator": "^3.0 || ^4.0 || ^5.0",
                 "symfony/property-access": "^6.4 || ^7.0",
-                "symfony/yaml": "^5.4 || ^6.0"
+                "symfony/yaml": "^6.0 || ^7.0"
             },
             "conflict": {
                 "symfony/framework-bundle": "<6.4.0"
@@ -8013,7 +8015,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/alice/issues",
-                "source": "https://github.com/nelmio/alice/tree/3.13.0"
+                "source": "https://github.com/nelmio/alice/tree/3.13.3"
             },
             "funding": [
                 {
@@ -8021,7 +8023,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-30T09:09:35+00:00"
+            "time": "2023-12-03T23:12:39+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -8236,16 +8238,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.47",
+            "version": "1.10.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "84dbb33b520ea28b6cf5676a3941f4bae1c1ff39"
+                "reference": "087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/84dbb33b520ea28b6cf5676a3941f4bae1c1ff39",
-                "reference": "84dbb33b520ea28b6cf5676a3941f4bae1c1ff39",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6",
+                "reference": "087ed4b5f4a7a6e8f3bbdfbfe98ce5c181380bc6",
                 "shasum": ""
             },
             "require": {
@@ -8294,7 +8296,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-01T15:19:17+00:00"
+            "time": "2023-12-08T14:34:28+00:00"
         },
         {
             "name": "phpstan/phpstan-doctrine",
@@ -10473,30 +10475,31 @@
         },
         {
             "name": "theofidry/alice-data-fixtures",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/AliceDataFixtures.git",
-                "reference": "798ea2b5b8c6b2b938470d5330dc4beee77f4aff"
+                "reference": "34e4751103f869da06163d91a9a7ace1b47d5d06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/AliceDataFixtures/zipball/798ea2b5b8c6b2b938470d5330dc4beee77f4aff",
-                "reference": "798ea2b5b8c6b2b938470d5330dc4beee77f4aff",
+                "url": "https://api.github.com/repos/theofidry/AliceDataFixtures/zipball/34e4751103f869da06163d91a9a7ace1b47d5d06",
+                "reference": "34e4751103f869da06163d91a9a7ace1b47d5d06",
                 "shasum": ""
             },
             "require": {
                 "nelmio/alice": "^3.10",
-                "php": "^8.1",
+                "php": "^8.2",
                 "psr/log": "^1 || ^2 || ^3",
                 "webmozart/assert": "^1.10"
             },
             "conflict": {
+                "doctrine/dbal": "<3.0",
                 "doctrine/orm": "<2.6.3",
                 "doctrine/persistence": "<2.0",
                 "illuminate/database": "<8.12",
                 "ocramius/proxy-manager": "<2.1",
-                "symfony/framework-bundle": "<5.4",
+                "symfony/framework-bundle": "<5.4 || >=6.0 <6.4",
                 "zendframework/zend-code": "<3.3.1"
             },
             "require-dev": {
@@ -10505,7 +10508,7 @@
                 "phpspec/prophecy": "^1.14.0",
                 "phpspec/prophecy-phpunit": "^2.0.1",
                 "phpunit/phpunit": "^9.5.10",
-                "symfony/phpunit-bridge": "^5.3.8 || ^6.0"
+                "symfony/phpunit-bridge": "^5.3.8 || ^6.4"
             },
             "suggest": {
                 "alcaeus/mongo-php-adapter": "To use Doctrine with the MongoDB flavour",
@@ -10522,7 +10525,8 @@
             "type": "library",
             "extra": {
                 "bamarni-bin": {
-                    "bin-links": false
+                    "bin-links": false,
+                    "forward-command": false
                 },
                 "branch-alias": {
                     "dev-master": "1.x-dev"
@@ -10555,7 +10559,7 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/AliceDataFixtures/issues",
-                "source": "https://github.com/theofidry/AliceDataFixtures/tree/1.6.0"
+                "source": "https://github.com/theofidry/AliceDataFixtures/tree/1.7.0"
             },
             "funding": [
                 {
@@ -10563,7 +10567,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-07-03T13:30:00+00:00"
+            "time": "2023-12-03T21:49:12+00:00"
         },
         {
             "name": "theseer/tokenizer",
