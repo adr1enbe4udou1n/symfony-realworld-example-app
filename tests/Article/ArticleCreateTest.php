@@ -4,11 +4,11 @@ namespace App\Tests\Article;
 
 use App\Entity\Article;
 use App\Entity\Tag;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class ArticleCreateTest extends AbstractTest
+class ArticleCreateTest extends ApiBaseTestCase
 {
-    public function getInvalidData()
+    public static function getInvalidData()
     {
         yield [[
             'title' => '',
@@ -36,8 +36,10 @@ class ArticleCreateTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles', [
-            'article' => $article,
+        $this->act(fn () => $this->client->request('POST', '/api/articles', [
+            'json' => [
+                'article' => $article,
+            ],
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -47,7 +49,8 @@ class ArticleCreateTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Existing Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -55,11 +58,13 @@ class ArticleCreateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles', [
-            'article' => [
-                'title' => 'Existing Title',
-                'description' => 'Test Description',
-                'body' => 'Test Body',
+        $this->act(fn () => $this->client->request('POST', '/api/articles', [
+            'json' => [
+                'article' => [
+                    'title' => 'Existing Title',
+                    'description' => 'Test Description',
+                    'body' => 'Test Body',
+                ],
             ],
         ]));
 
@@ -68,7 +73,7 @@ class ArticleCreateTest extends AbstractTest
 
     public function testGuestCannotCreateArticle()
     {
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles'));
+        $this->act(fn () => $this->client->request('POST', '/api/articles'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -80,12 +85,14 @@ class ArticleCreateTest extends AbstractTest
 
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles', [
-            'article' => [
-                'title' => 'Test Title',
-                'description' => 'Test Description',
-                'body' => 'Test Body',
-                'tagList' => ['Test Tag 1', 'Test Tag 2', 'Existing Tag'],
+        $this->act(fn () => $this->client->request('POST', '/api/articles', [
+            'json' => [
+                'article' => [
+                    'title' => 'Test Title',
+                    'description' => 'Test Description',
+                    'body' => 'Test Body',
+                    'tagList' => ['Test Tag 1', 'Test Tag 2', 'Existing Tag'],
+                ],
             ],
         ]));
 
@@ -108,7 +115,8 @@ class ArticleCreateTest extends AbstractTest
         );
 
         $this->assertCount(
-            3, $this->orm->getRepository(Tag::class)->findAll()
+            3,
+            $this->orm->getRepository(Tag::class)->findAll()
         );
     }
 }

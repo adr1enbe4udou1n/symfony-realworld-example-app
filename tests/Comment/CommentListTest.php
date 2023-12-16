@@ -4,13 +4,13 @@ namespace App\Tests\Comment;
 
 use App\Entity\Article;
 use App\Entity\Comment;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class CommentListTest extends AbstractTest
+class CommentListTest extends ApiBaseTestCase
 {
     public function testCannotListCommentsOfNonExistentArticle()
     {
-        $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/test-title/comments'));
+        $this->act(fn () => $this->client->request('GET', '/api/articles/test-title/comments'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -19,7 +19,8 @@ class CommentListTest extends AbstractTest
     {
         $user = $this->createDefaultUser();
 
-        $this->em->persist(($article = new Article())
+        $this->em->persist(
+            ($article = new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -35,7 +36,7 @@ class CommentListTest extends AbstractTest
 
         $this->em->flush();
 
-        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/test-title/comments'));
+        $response = $this->act(fn () => $this->client->request('GET', '/api/articles/test-title/comments'));
 
         $this->assertResponseIsSuccessful();
 

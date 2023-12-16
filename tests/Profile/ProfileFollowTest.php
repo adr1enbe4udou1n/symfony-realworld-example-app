@@ -3,19 +3,20 @@
 namespace App\Tests\Profile;
 
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class ProfileFollowTest extends AbstractTest
+class ProfileFollowTest extends ApiBaseTestCase
 {
     public function testGuestCannotFollowProfile()
     {
-        $this->em->persist((new User())
+        $this->em->persist(
+            (new User())
             ->setName('John Doe')
             ->setEmail('john.doe@example.com')
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/profiles/John Doe/follow'));
+        $this->act(fn () => $this->client->request('POST', '/api/profiles/John Doe/follow'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -24,19 +25,21 @@ class ProfileFollowTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->em->persist((new User())
+        $this->em->persist(
+            (new User())
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com')
         );
 
-        $this->em->persist((new User())
+        $this->em->persist(
+            (new User())
             ->setName('Alice Doe')
             ->setEmail('alice@example.com')
         );
 
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/profiles/Jane Doe/follow'));
+        $this->act(fn () => $this->client->request('POST', '/api/profiles/Jane Doe/follow'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -60,7 +63,7 @@ class ProfileFollowTest extends AbstractTest
 
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/profiles/Jane Doe/follow'));
+        $this->act(fn () => $this->client->request('DELETE', '/api/profiles/Jane Doe/follow'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([

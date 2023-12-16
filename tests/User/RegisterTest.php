@@ -3,11 +3,11 @@
 namespace App\Tests\User;
 
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class RegisterTest extends AbstractTest
+class RegisterTest extends ApiBaseTestCase
 {
-    public function getInvalidData()
+    public static function getInvalidData()
     {
         yield [[
             'email' => 'john.doe',
@@ -31,8 +31,10 @@ class RegisterTest extends AbstractTest
      */
     public function testUserCannotRegisterWithInvalidData($data)
     {
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/users', [
-            'user' => $data,
+        $this->act(fn () => $this->client->request('POST', '/api/users', [
+            'json' => [
+                'user' => $data,
+            ],
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -40,11 +42,13 @@ class RegisterTest extends AbstractTest
 
     public function testUserCanRegister(): void
     {
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/users', [
-            'user' => [
-                'email' => 'john.doe@example.com',
-                'password' => 'password',
-                'username' => 'John Doe',
+        $this->act(fn () => $this->client->request('POST', '/api/users', [
+            'json' => [
+                'user' => [
+                    'email' => 'john.doe@example.com',
+                    'password' => 'password',
+                    'username' => 'John Doe',
+                ],
             ],
         ]));
 
@@ -63,11 +67,13 @@ class RegisterTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/users', [
-            'user' => [
-                'email' => 'john.doe@example.com',
-                'password' => 'password',
-                'username' => 'John Doe',
+        $this->act(fn () => $this->client->request('POST', '/api/users', [
+            'json' => [
+                'user' => [
+                    'email' => 'john.doe@example.com',
+                    'password' => 'password',
+                    'username' => 'John Doe',
+                ],
             ],
         ]));
 

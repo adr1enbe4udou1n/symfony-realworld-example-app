@@ -5,9 +5,9 @@ namespace App\Test\Comment;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class CommentCreateTest extends AbstractTest
+class CommentCreateTest extends ApiBaseTestCase
 {
     private function createArticle()
     {
@@ -18,7 +18,8 @@ class CommentCreateTest extends AbstractTest
             ->setImage('https://randomuser.me/api/portraits/women/1.jpg');
         $this->em->persist($user);
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -27,7 +28,7 @@ class CommentCreateTest extends AbstractTest
         $this->em->flush();
     }
 
-    public function getInvalidData()
+    public static function getInvalidData()
     {
         yield [[
             'body' => '',
@@ -42,8 +43,10 @@ class CommentCreateTest extends AbstractTest
         $this->createArticle();
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles/test-title/comments', [
-            'comment' => $comment,
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
+            'json' => [
+                'comment' => $comment,
+            ],
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -53,7 +56,13 @@ class CommentCreateTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles/test-title/comments'));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
+            'json' => [
+                'comment' => [
+                    'body' => 'New Comment',
+                ],
+            ],
+        ]));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -62,7 +71,13 @@ class CommentCreateTest extends AbstractTest
     {
         $this->createArticle();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles/test-title/comments'));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
+            'json' => [
+                'comment' => [
+                    'body' => 'New Comment',
+                ],
+            ],
+        ]));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -72,9 +87,11 @@ class CommentCreateTest extends AbstractTest
         $this->createArticle();
         $this->actingAs();
 
-        $response = $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles/test-title/comments', [
-            'comment' => [
-                'body' => 'New Comment',
+        $response = $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/comments', [
+            'json' => [
+                'comment' => [
+                    'body' => 'New Comment',
+                ],
             ],
         ]));
 

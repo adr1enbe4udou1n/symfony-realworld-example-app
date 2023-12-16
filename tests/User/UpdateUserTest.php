@@ -3,11 +3,11 @@
 namespace App\Tests\User;
 
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class UpdateUserTest extends AbstractTest
+class UpdateUserTest extends ApiBaseTestCase
 {
-    public function getInvalidData()
+    public static function getInvalidData()
     {
         yield [[
             'email' => 'john.doe',
@@ -29,8 +29,10 @@ class UpdateUserTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/user', [
-            'user' => $data,
+        $this->act(fn () => $this->client->request('PUT', '/api/user', [
+            'json' => [
+                'user' => $data,
+            ],
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -40,10 +42,12 @@ class UpdateUserTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/user', [
-            'user' => [
-                'email' => 'jane.doe@example.com',
-                'bio' => 'My Bio',
+        $this->act(fn () => $this->client->request('PUT', '/api/user', [
+            'json' => [
+                'user' => [
+                    'email' => 'jane.doe@example.com',
+                    'bio' => 'My Bio',
+                ],
             ],
         ]));
 
@@ -61,14 +65,15 @@ class UpdateUserTest extends AbstractTest
 
     public function testGuestUserCannotUpdateInfos(): void
     {
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/user'));
+        $this->act(fn () => $this->client->request('PUT', '/api/user'));
 
         $this->assertResponseStatusCodeSame(401);
     }
 
     public function testLoggedUserCannotUpdateWithAlreadyUsedEmail(): void
     {
-        $this->em->persist((new User())
+        $this->em->persist(
+            (new User())
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com')
         );
@@ -76,9 +81,11 @@ class UpdateUserTest extends AbstractTest
 
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/user', [
-            'user' => [
-                'email' => 'jane.doe@example.com',
+        $this->act(fn () => $this->client->request('PUT', '/api/user', [
+            'json' => [
+                'user' => [
+                    'email' => 'jane.doe@example.com',
+                ],
             ],
         ]));
 

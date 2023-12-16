@@ -5,9 +5,9 @@ namespace App\Tests\Article;
 use App\Entity\Article;
 use App\Entity\Tag;
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class ArticleListTest extends AbstractTest
+class ArticleListTest extends ApiBaseTestCase
 {
     private function createArticles()
     {
@@ -16,13 +16,15 @@ class ArticleListTest extends AbstractTest
         $johnTag = (new Tag())->setName('Tag John Doe');
         $janeTag = (new Tag())->setName('Tag Jane Doe');
 
-        $johnArticles = $this->createArticlesForAuthor((new User())
+        $johnArticles = $this->createArticlesForAuthor(
+            (new User())
             ->setName('John Doe')
             ->setEmail('john.doe@example.com'),
             30,
             [$tag1, $tag2, $johnTag]
         );
-        $janeArticles = $this->createArticlesForAuthor((new User())
+        $janeArticles = $this->createArticlesForAuthor(
+            (new User())
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com'),
             20,
@@ -49,7 +51,8 @@ class ArticleListTest extends AbstractTest
         $articles = [];
 
         for ($i = 1; $i <= $count; ++$i) {
-            $this->em->persist($articles[] = (new Article())
+            $this->em->persist(
+                $articles[] = (new Article())
                 ->setTitle("{$user->name} - Test Title {$i}")
                 ->setDescription('Test Description')
                 ->setBody('Test Body')
@@ -67,7 +70,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles?limit=20&offset=10'));
+        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=20&offset=10'));
 
         $this->assertResponseIsSuccessful();
 
@@ -91,7 +94,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles?limit=10&offset=0&author=john'));
+        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=10&offset=0&author=john'));
 
         $this->assertResponseIsSuccessful();
 
@@ -115,7 +118,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles?limit=10&offset=0&tag=jane'));
+        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=10&offset=0&tag=jane'));
 
         $this->assertResponseIsSuccessful();
 
@@ -139,7 +142,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles?limit=10&offset=0&favorited=jane'));
+        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=10&offset=0&favorited=jane'));
 
         $this->assertResponseIsSuccessful();
 
@@ -163,7 +166,7 @@ class ArticleListTest extends AbstractTest
 
     public function testGuestCannotPaginateArticlesOfFollowedAuthors()
     {
-        $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/feed'));
+        $this->act(fn () => $this->client->request('GET', '/api/articles/feed'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -172,7 +175,7 @@ class ArticleListTest extends AbstractTest
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/feed?limit=10&offset=0'));
+        $response = $this->act(fn () => $this->client->request('GET', '/api/articles/feed?limit=10&offset=0'));
 
         $this->assertResponseIsSuccessful();
 

@@ -3,15 +3,16 @@
 namespace App\Tests\Article;
 
 use App\Entity\Article;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class ArticleFavoriteTest extends AbstractTest
+class ArticleFavoriteTest extends ApiBaseTestCase
 {
     public function testGuestCannotFavoriteArticle()
     {
         $user = $this->createDefaultUser();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -19,7 +20,7 @@ class ArticleFavoriteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles/test-title/favorite'));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -28,7 +29,7 @@ class ArticleFavoriteTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles/test-title/favorite'));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -37,7 +38,8 @@ class ArticleFavoriteTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -45,7 +47,7 @@ class ArticleFavoriteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('POST', '/api/articles/test-title/favorite'));
+        $this->act(fn () => $this->client->request('POST', '/api/articles/test-title/favorite'));
 
         $this->assertResponseIsSuccessful();
 
@@ -63,7 +65,8 @@ class ArticleFavoriteTest extends AbstractTest
         ]]);
 
         $this->assertCount(
-            1, $this->orm->getRepository(Article::class)->findOneBy(['slug' => 'test-title'])->favoritedBy
+            1,
+            $this->orm->getRepository(Article::class)->findOneBy(['slug' => 'test-title'])->favoritedBy
         );
     }
 
@@ -71,7 +74,8 @@ class ArticleFavoriteTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $user->favorite((new Article())
+        $user->favorite(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -79,7 +83,7 @@ class ArticleFavoriteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title/favorite'));
+        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title/favorite'));
 
         $this->assertResponseIsSuccessful();
 
@@ -97,7 +101,8 @@ class ArticleFavoriteTest extends AbstractTest
         ]]);
 
         $this->assertCount(
-            0, $this->orm->getRepository(Article::class)->findOneBy(['slug' => 'test-title'])->favoritedBy
+            0,
+            $this->orm->getRepository(Article::class)->findOneBy(['slug' => 'test-title'])->favoritedBy
         );
     }
 }

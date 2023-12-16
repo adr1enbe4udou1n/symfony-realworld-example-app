@@ -3,9 +3,9 @@
 namespace App\Tests\Profile;
 
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class ProfileGetTest extends AbstractTest
+class ProfileGetTest extends ApiBaseTestCase
 {
     public function testCanGetProfile()
     {
@@ -16,7 +16,7 @@ class ProfileGetTest extends AbstractTest
             ->setImage('https://randomuser.me/api/portraits/men/1.jpg'));
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('GET', '/api/profiles/John Doe'));
+        $this->act(fn () => $this->client->request('GET', '/api/profiles/John Doe'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -31,7 +31,7 @@ class ProfileGetTest extends AbstractTest
 
     public function testCannotGetNonExistentProfile()
     {
-        $this->act(fn () => $this->client->jsonRequest('GET', '/api/profiles/John Doe'));
+        $this->act(fn () => $this->client->request('GET', '/api/profiles/John Doe'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -56,7 +56,7 @@ class ProfileGetTest extends AbstractTest
 
         $this->actingAs($user);
 
-        $this->act(fn () => $this->client->jsonRequest('GET', '/api/profiles/Jane Doe'));
+        $this->act(fn () => $this->client->request('GET', '/api/profiles/Jane Doe'));
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([

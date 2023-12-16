@@ -4,13 +4,13 @@ namespace App\Tests\Article;
 
 use App\Entity\Article;
 use App\Entity\Tag;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class ArticleGetTest extends AbstractTest
+class ArticleGetTest extends ApiBaseTestCase
 {
     public function testCannotGetNonExistentArticle()
     {
-        $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->request('GET', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -19,7 +19,8 @@ class ArticleGetTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -30,7 +31,7 @@ class ArticleGetTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('GET', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->request('GET', '/api/articles/test-title'));
 
         $this->assertResponseIsSuccessful();
 

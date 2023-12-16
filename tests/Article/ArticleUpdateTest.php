@@ -4,24 +4,26 @@ namespace App\Tests\Article;
 
 use App\Entity\Article;
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class ArticleUpdateTest extends AbstractTest
+class ArticleUpdateTest extends ApiBaseTestCase
 {
     public function testGuestCannotUpdateArticle()
     {
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
                 ->setTitle('Test Title')
                 ->setDescription('Test Description')
                 ->setBody('Test Body')
-                ->setAuthor((new User())
+                ->setAuthor(
+                    (new User())
                     ->setName('John Doe')
                     ->setEmail('john.doe@example.com')
                 )
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -30,18 +32,20 @@ class ArticleUpdateTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
-            'article' => [
-                'title' => 'Test Title',
-                'description' => 'Test Description',
-                'body' => 'Test Body',
+        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
+            'json' => [
+                'article' => [
+                    'title' => 'Test Title',
+                    'description' => 'Test Description',
+                    'body' => 'Test Body',
+                ],
             ],
         ]));
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function getInvalidData()
+    public static function getInvalidData()
     {
         yield [[
             'title' => 'Test Title',
@@ -57,7 +61,8 @@ class ArticleUpdateTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
                 ->setTitle('Test Title')
                 ->setDescription('Test Description')
                 ->setBody('Test Body')
@@ -65,8 +70,10 @@ class ArticleUpdateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
-            'article' => $article,
+        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
+            'json' => [
+                'article' => $article,
+            ],
         ]));
 
         $this->assertResponseStatusCodeSame(422);
@@ -76,13 +83,15 @@ class ArticleUpdateTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Existing Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
             ->setAuthor($user)
         );
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -90,11 +99,13 @@ class ArticleUpdateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
-            'article' => [
-                'title' => 'Existing Title',
-                'description' => 'Test Description',
-                'body' => 'Test Body',
+        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
+            'json' => [
+                'article' => [
+                    'title' => 'Existing Title',
+                    'description' => 'Test Description',
+                    'body' => 'Test Body',
+                ],
             ],
         ]));
 
@@ -105,7 +116,8 @@ class ArticleUpdateTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -113,16 +125,19 @@ class ArticleUpdateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $user = $this->actingAs((new User())
+        $user = $this->actingAs(
+            (new User())
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com')
         );
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
-            'article' => [
-                'title' => 'New Title',
-                'description' => 'Test Description',
-                'body' => 'Test Body',
+        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
+            'json' => [
+                'article' => [
+                    'title' => 'New Title',
+                    'description' => 'Test Description',
+                    'body' => 'Test Body',
+                ],
             ],
         ]));
 
@@ -133,7 +148,8 @@ class ArticleUpdateTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -141,9 +157,11 @@ class ArticleUpdateTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('PUT', '/api/articles/test-title', [
-            'article' => [
-                'title' => 'New Title',
+        $this->act(fn () => $this->client->request('PUT', '/api/articles/test-title', [
+            'json' => [
+                'article' => [
+                    'title' => 'New Title',
+                ],
             ],
         ]));
 

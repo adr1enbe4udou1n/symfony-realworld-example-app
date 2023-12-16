@@ -3,7 +3,6 @@
 namespace App\EntityListener;
 
 use App\Entity\Article;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ArticleEntityListener
@@ -13,12 +12,12 @@ class ArticleEntityListener
     ) {
     }
 
-    public function prePersist(Article $article, LifecycleEventArgs $event)
+    public function prePersist(Article $article)
     {
         $article->computeSlug($this->slugger);
     }
 
-    public function preUpdate(Article $article, LifecycleEventArgs $event)
+    public function preUpdate(Article $article)
     {
         $article->computeSlug($this->slugger);
     }

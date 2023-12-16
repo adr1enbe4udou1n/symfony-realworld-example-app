@@ -5,18 +5,20 @@ namespace App\Tests\Comment;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class CommentDeleteTest extends AbstractTest
+class CommentDeleteTest extends ApiBaseTestCase
 {
     public function testGuestCannotDeleteComment()
     {
         $user = $this->createDefaultUser();
 
-        $this->em->persist($comment = (new Comment())
+        $this->em->persist(
+            $comment = (new Comment())
             ->setBody('Test Body John')
             ->setAuthor($user)
-            ->setArticle((new Article())
+            ->setArticle(
+                (new Article())
                 ->setTitle('Test Title')
                 ->setDescription('Test Description')
                 ->setBody('Test Body')
@@ -25,7 +27,7 @@ class CommentDeleteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -34,7 +36,7 @@ class CommentDeleteTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title/comments/1'));
+        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title/comments/1'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -43,7 +45,8 @@ class CommentDeleteTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist($article = (new Article())
+        $this->em->persist(
+            $article = (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -57,7 +60,7 @@ class CommentDeleteTest extends AbstractTest
 
         $this->em->persist($comment);
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/other-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->request('DELETE', "/api/articles/other-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -66,14 +69,16 @@ class CommentDeleteTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
             ->setAuthor($user)
         );
 
-        $this->em->persist($article = (new Article())
+        $this->em->persist(
+            $article = (new Article())
             ->setTitle('Other Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -88,7 +93,7 @@ class CommentDeleteTest extends AbstractTest
         $this->em->persist($comment);
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(400);
     }
@@ -99,14 +104,16 @@ class CommentDeleteTest extends AbstractTest
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com'));
 
-        $this->em->persist($article = (new Article())
+        $this->em->persist(
+            $article = (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
             ->setAuthor($otherUser)
         );
 
-        $this->em->persist($comment = (new Comment())
+        $this->em->persist(
+            $comment = (new Comment())
             ->setBody('Test Body Jane')
             ->setAuthor($otherUser)
             ->setArticle($article)
@@ -114,7 +121,7 @@ class CommentDeleteTest extends AbstractTest
 
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseStatusCodeSame(400);
     }
@@ -123,7 +130,8 @@ class CommentDeleteTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist($article = (new Article())
+        $this->em->persist(
+            $article = (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -138,12 +146,13 @@ class CommentDeleteTest extends AbstractTest
         $this->em->persist($comment);
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseIsSuccessful();
 
         $this->assertCount(
-            0, $this->orm->getRepository(Comment::class)->findAll()
+            0,
+            $this->orm->getRepository(Comment::class)->findAll()
         );
     }
 
@@ -151,7 +160,8 @@ class CommentDeleteTest extends AbstractTest
     {
         $user = $this->actingAs();
 
-        $this->em->persist($article = (new Article())
+        $this->em->persist(
+            $article = (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -170,12 +180,13 @@ class CommentDeleteTest extends AbstractTest
         $this->em->persist($comment);
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
+        $this->act(fn () => $this->client->request('DELETE', "/api/articles/test-title/comments/{$comment->id}"));
 
         $this->assertResponseIsSuccessful();
 
         $this->assertCount(
-            0, $this->orm->getRepository(Comment::class)->findAll()
+            0,
+            $this->orm->getRepository(Comment::class)->findAll()
         );
     }
 }

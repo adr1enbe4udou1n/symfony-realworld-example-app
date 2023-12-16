@@ -5,15 +5,16 @@ namespace App\Tests\Article;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
-use App\Tests\AbstractTest;
+use App\Tests\ApiBaseTestCase;
 
-class ArticleDeleteTest extends AbstractTest
+class ArticleDeleteTest extends ApiBaseTestCase
 {
     public function testGuestCannotDeleteArticle()
     {
         $user = $this->createDefaultUser();
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -21,7 +22,7 @@ class ArticleDeleteTest extends AbstractTest
         );
         $this->em->flush();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(401);
     }
@@ -30,7 +31,7 @@ class ArticleDeleteTest extends AbstractTest
     {
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(404);
     }
@@ -42,7 +43,8 @@ class ArticleDeleteTest extends AbstractTest
             ->setEmail('jane.doe@example.com');
         $this->em->persist($user);
 
-        $this->em->persist((new Article())
+        $this->em->persist(
+            (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
@@ -52,7 +54,7 @@ class ArticleDeleteTest extends AbstractTest
 
         $this->actingAs();
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseStatusCodeSame(400);
     }
@@ -62,14 +64,16 @@ class ArticleDeleteTest extends AbstractTest
         $user = $this->createDefaultUser();
         $this->em->persist($user);
 
-        $this->em->persist($article = (new Article())
+        $this->em->persist(
+            $article = (new Article())
             ->setTitle('Test Title')
             ->setDescription('Test Description')
             ->setBody('Test Body')
             ->setAuthor($user)
         );
 
-        $this->em->persist((new Comment())
+        $this->em->persist(
+            (new Comment())
             ->setBody('Test Body John')
             ->setAuthor($user)
             ->setArticle($article)
@@ -79,7 +83,8 @@ class ArticleDeleteTest extends AbstractTest
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com'));
 
-        $this->em->persist((new Comment())
+        $this->em->persist(
+            (new Comment())
             ->setBody('Test Body Jane')
             ->setAuthor($otherUser)
             ->setArticle($article)
@@ -89,16 +94,18 @@ class ArticleDeleteTest extends AbstractTest
 
         $this->actingAs($user);
 
-        $this->act(fn () => $this->client->jsonRequest('DELETE', '/api/articles/test-title'));
+        $this->act(fn () => $this->client->request('DELETE', '/api/articles/test-title'));
 
         $this->assertResponseIsSuccessful();
 
         $this->assertCount(
-            0, $this->orm->getRepository(Article::class)->findAll()
+            0,
+            $this->orm->getRepository(Article::class)->findAll()
         );
 
         $this->assertCount(
-            0, $this->orm->getRepository(Comment::class)->findAll()
+            0,
+            $this->orm->getRepository(Comment::class)->findAll()
         );
     }
 }
