@@ -15,7 +15,6 @@ COPY migrations migrations/
 COPY public public/
 COPY src src/
 COPY templates templates/
-COPY translations translations/
 COPY vendor vendor/
 COPY .env composer.json composer.lock ./
 
