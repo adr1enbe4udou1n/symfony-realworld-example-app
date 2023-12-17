@@ -2,10 +2,13 @@
 
 namespace App\Controller\Comment;
 
+use App\Entity\Article;
+use App\Entity\Comment;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommentDeleteController extends AbstractController
@@ -17,20 +20,10 @@ class CommentDeleteController extends AbstractController
     ) {
     }
 
-    public function __invoke($slug, $id)
-    {
-        $article = $this->articles->findOneBy(['slug' => $slug]);
-
-        if (!$article) {
-            throw $this->createNotFoundException();
-        }
-
-        $comment = $this->comments->findOneBy(['id' => $id]);
-
-        if (!$comment) {
-            throw $this->createNotFoundException();
-        }
-
+    public function __invoke(
+        Article $article,
+        #[MapEntity(mapping: ['commentId' => 'id'])] Comment $comment
+    ) {
         if ($comment->article->id !== $article->id) {
             return $this->json([
                 'message' => 'This comment is not associate with requested article',

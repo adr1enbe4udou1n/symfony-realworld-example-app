@@ -3,6 +3,7 @@
 namespace App\Controller\Article;
 
 use App\Dto\Article\SingleArticleResponse;
+use App\Entity\Article;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,14 +15,8 @@ class ArticleGetController extends AbstractController
     ) {
     }
 
-    public function __invoke($slug)
+    public function __invoke(Article $article)
     {
-        $article = $this->articles->findOneBy(['slug' => $slug]);
-
-        if (!$article) {
-            throw $this->createNotFoundException();
-        }
-
         /** @var User */
         $user = $this->getUser();
 

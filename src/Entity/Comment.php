@@ -63,7 +63,7 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 #[Delete(
     name: 'DeleteArticleComment',
-    uriTemplate: '/articles/{slug}/comments/{id}',
+    uriTemplate: '/articles/{slug}/comments/{commentId}',
     controller: CommentDeleteController::class,
     security: 'is_granted("ROLE_USER")',
     output: false,

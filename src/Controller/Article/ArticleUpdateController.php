@@ -5,6 +5,7 @@ namespace App\Controller\Article;
 use ApiPlatform\Validator\ValidatorInterface;
 use App\Dto\Article\SingleArticleResponse;
 use App\Dto\Article\UpdateArticleRequest;
+use App\Entity\Article;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,15 +19,9 @@ class ArticleUpdateController extends AbstractController
     ) {
     }
 
-    public function __invoke($slug, UpdateArticleRequest $data, ValidatorInterface $validator)
+    public function __invoke(Article $article, UpdateArticleRequest $data, ValidatorInterface $validator)
     {
         $validator->validate($data);
-
-        $article = $this->articles->findOneBy(['slug' => $slug]);
-
-        if (!$article) {
-            throw $this->createNotFoundException();
-        }
 
         if (
             ($existingArticle = $this->articles->findOneBy(['title' => $data->article->title]))

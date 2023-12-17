@@ -6,6 +6,7 @@ use App\Dto\Profile\ProfileResponse;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProfileUnfollowController extends AbstractController
@@ -16,14 +17,8 @@ class ProfileUnfollowController extends AbstractController
     ) {
     }
 
-    public function __invoke($username)
+    public function __invoke(#[MapEntity(mapping: ['username' => 'name'])] User $user)
     {
-        $user = $this->users->findOneBy(['name' => $username]);
-
-        if (!$user) {
-            throw $this->createNotFoundException();
-        }
-
         /** @var User */
         $currentUser = $this->getUser();
         $currentUser->unfollow($user);

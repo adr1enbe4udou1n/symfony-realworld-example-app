@@ -5,6 +5,7 @@ namespace App\Controller\Comment;
 use ApiPlatform\Validator\ValidatorInterface;
 use App\Dto\Comment\NewCommentRequest;
 use App\Dto\Comment\SingleCommentResponse;
+use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
@@ -19,15 +20,9 @@ class CommentCreateController extends AbstractController
     ) {
     }
 
-    public function __invoke($slug, NewCommentRequest $data, ValidatorInterface $validator)
+    public function __invoke(Article $article, NewCommentRequest $data, ValidatorInterface $validator)
     {
         $validator->validate($data);
-
-        $article = $this->articles->findOneBy(['slug' => $slug]);
-
-        if (!$article) {
-            throw $this->createNotFoundException();
-        }
 
         /** @var User */
         $user = $this->getUser();

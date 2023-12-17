@@ -2,6 +2,7 @@
 
 namespace App\Controller\Article;
 
+use App\Entity\Article;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,14 +16,8 @@ class ArticleDeleteController extends AbstractController
     ) {
     }
 
-    public function __invoke($slug)
+    public function __invoke(Article $article)
     {
-        $article = $this->articles->findOneBy(['slug' => $slug]);
-
-        if (!$article) {
-            throw $this->createNotFoundException();
-        }
-
         /** @var User */
         $user = $this->getUser();
 
