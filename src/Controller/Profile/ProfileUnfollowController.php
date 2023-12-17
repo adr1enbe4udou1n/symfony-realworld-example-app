@@ -4,7 +4,6 @@ namespace App\Controller\Profile;
 
 use App\Dto\Profile\ProfileResponse;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +12,6 @@ class ProfileUnfollowController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private UserRepository $users,
     ) {
     }
 

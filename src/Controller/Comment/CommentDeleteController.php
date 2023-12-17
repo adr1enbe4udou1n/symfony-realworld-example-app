@@ -5,8 +5,6 @@ namespace App\Controller\Comment;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
-use App\Repository\ArticleRepository;
-use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,8 +13,6 @@ class CommentDeleteController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private ArticleRepository $articles,
-        private CommentRepository $comments,
     ) {
     }
 

@@ -4,7 +4,6 @@ namespace App\Controller\Article;
 
 use App\Entity\Article;
 use App\Entity\User;
-use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -12,7 +11,6 @@ class ArticleDeleteController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private ArticleRepository $articles,
     ) {
     }
 
