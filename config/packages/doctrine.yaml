@@ -31,7 +31,7 @@ when@test:
 when@prod:
     doctrine:
         dbal:
-            driver: pdo_pgsql
+            driver: '%env(resolve:DATABASE_DRIVER)%'
             url: '%env(resolve:DATABASE_URL)%'
             replicas:
                 replica1:
