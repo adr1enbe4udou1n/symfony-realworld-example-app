@@ -20,4 +20,4 @@ COPY vendor vendor/
 COPY .env.prod .env
 COPY composer.json composer.lock ./
 
-RUN chown -R www-data:www-data var
+RUN mkdir var && chown www-data:www-data var
