@@ -11,4 +11,4 @@ COPY public public/
 COPY src src/
 COPY templates templates/
 COPY vendor vendor/
-COPY .env composer.json composer.lock ./
+COPY composer.json composer.lock ./
