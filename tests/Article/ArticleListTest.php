@@ -118,7 +118,7 @@ class ArticleListTest extends ApiBaseTestCase
     {
         $this->createArticles();
 
-        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=10&offset=0&tag=jane'));
+        $response = $this->act(fn () => $this->client->request('GET', '/api/articles?limit=10&offset=0&tag=Tag Jane Doe'));
 
         $this->assertResponseIsSuccessful();
 

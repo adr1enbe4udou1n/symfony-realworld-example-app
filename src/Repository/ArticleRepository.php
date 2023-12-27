@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -23,45 +24,37 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function createQuery($alias)
-    {
-        return $this->createQueryBuilder($alias)
-            ->leftJoin("$alias.author", 'u')
-            ->leftJoin("$alias.favoritedBy", 'fu')
-            ->leftJoin("$alias.tags", 't')
-            ->addSelect('u', 'fu', 't');
-    }
-
     public function list(int $limit = 20, int $offset = 0, $author = null, $tag = null, $favorited = null)
     {
-        $subQuery = $this->createQueryBuilder('a2')
-            ->select('a2.id')
-            ->leftJoin('a2.author', 'u2')
-            ->leftJoin('a2.tags', 't2')
-            ->leftJoin('a2.favoritedBy', 'fu2');
-
-        $query = $this->createQuery('a');
+        $query = $this->createQueryBuilder('a')
+            ->addSelect('u', 't', 'fu')
+            ->leftJoin('a.author', 'u')
+            ->leftJoin('a.tags', 't')
+            ->leftJoin('a.favoritedBy', 'fu');
 
         if ($author) {
-            $subQuery->where('LOWER(u2.name) LIKE :author');
-            $query->setParameter('author', "%{$author}%");
+            $query
+                ->andWhere('LOWER(u.name) LIKE :author')
+                ->setParameter('author', "%{$author}%");
         }
 
         if ($tag) {
-            $subQuery->where('LOWER(t2.name) LIKE :tag');
-            $query->setParameter('tag', "%{$tag}%");
+            $tagEntity = $this->getEntityManager()
+                ->getRepository(Tag::class)
+                ->findOneBy(['name' => $tag]);
+
+            $query
+                ->andWhere(':tag MEMBER OF a.tags')
+                ->setParameter('tag', $tagEntity);
         }
 
         if ($favorited) {
-            $subQuery->where('LOWER(fu2.name) LIKE :user');
-            $query->setParameter('user', "%{$favorited}%");
+            $query
+                ->andWhere('LOWER(fu.name) LIKE :user')
+                ->setParameter('user', "%{$favorited}%");
         }
 
         return new Paginator($query
-            ->where($this->getEntityManager()->getExpressionBuilder()->in(
-                'a.id',
-                $subQuery->getDQL()
-            ))
             ->orderBy('a.id', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults(min(self::MAX_ITEMS_PER_PAGE, $limit)));
@@ -69,7 +62,11 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function feed(User $user, int $limit = 20, int $offset = 0)
     {
-        $queryBuilder = $this->createQuery('a')
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->addSelect('u', 't', 'fu')
+            ->leftJoin('a.author', 'u')
+            ->leftJoin('a.tags', 't')
+            ->leftJoin('a.favoritedBy', 'fu')
             ->where(':user MEMBER OF u.followers')
             ->setParameter('user', $user);
 
