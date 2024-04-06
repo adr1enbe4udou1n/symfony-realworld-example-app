@@ -59,6 +59,7 @@ class CommentDeleteTest extends ApiBaseTestCase
             ->setArticle($article);
 
         $this->em->persist($comment);
+        $this->em->flush();
 
         $this->act(fn () => $this->client->request('DELETE', "/api/articles/other-title/comments/{$comment->id}"));
 
