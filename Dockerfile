@@ -1,5 +1,4 @@
-ARG base_image
-FROM ${base_image} as base
+FROM gitea.okami101.io/okami101/frankenphp as base
 
 WORKDIR /app
 
