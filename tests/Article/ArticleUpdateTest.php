@@ -125,7 +125,7 @@ class ArticleUpdateTest extends ApiBaseTestCase
         );
         $this->em->flush();
 
-        $user = $this->actingAs(
+        $this->actingAs(
             (new User())
             ->setName('Jane Doe')
             ->setEmail('jane.doe@example.com')
