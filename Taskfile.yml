@@ -16,4 +16,4 @@ tasks:
       - php bin/console lexik:jwt:generate-keypair -n
   test:
     cmds:
-      - php bin/phpunit --coverage-clover=coverage.xml
+      - php bin/phpunit
