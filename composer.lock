@@ -1560,16 +1560,16 @@
         },
         {
             "name": "hautelook/alice-bundle",
-            "version": "2.14.0",
+            "version": "2.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/AliceBundle.git",
-                "reference": "9b648956ffe4c39318dc61cbe8c2a7e209e9ab58"
+                "reference": "fe47c6d1d68f1d97b124784bc9266ae7a1b75ca0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/AliceBundle/zipball/9b648956ffe4c39318dc61cbe8c2a7e209e9ab58",
-                "reference": "9b648956ffe4c39318dc61cbe8c2a7e209e9ab58",
+                "url": "https://api.github.com/repos/theofidry/AliceBundle/zipball/fe47c6d1d68f1d97b124784bc9266ae7a1b75ca0",
+                "reference": "fe47c6d1d68f1d97b124784bc9266ae7a1b75ca0",
                 "shasum": ""
             },
             "require": {
@@ -1628,9 +1628,9 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/AliceBundle/issues",
-                "source": "https://github.com/theofidry/AliceBundle/tree/2.14.0"
+                "source": "https://github.com/theofidry/AliceBundle/tree/2.14.1"
             },
-            "time": "2024-03-08T19:55:04+00:00"
+            "time": "2024-07-05T13:48:26+00:00"
         },
         {
             "name": "lcobucci/clock",
@@ -1771,16 +1771,16 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v3.0.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "b20c4ae7fdfe1d7422c7099a141cc9eb64627310"
+                "reference": "4f1a638289cf9282bad1b82b8df56d3bd4e0743c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/b20c4ae7fdfe1d7422c7099a141cc9eb64627310",
-                "reference": "b20c4ae7fdfe1d7422c7099a141cc9eb64627310",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/4f1a638289cf9282bad1b82b8df56d3bd4e0743c",
+                "reference": "4f1a638289cf9282bad1b82b8df56d3bd4e0743c",
                 "shasum": ""
             },
             "require": {
@@ -1870,7 +1870,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lexik/LexikJWTAuthenticationBundle/issues",
-                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v3.0.0"
+                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v3.1.0"
             },
             "funding": [
                 {
@@ -1882,7 +1882,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-05T17:49:24+00:00"
+            "time": "2024-07-03T20:49:59+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1946,16 +1946,16 @@
         },
         {
             "name": "nelmio/alice",
-            "version": "3.13.5",
+            "version": "3.13.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/alice.git",
-                "reference": "f05bd9740f8513da8a9ca78df6a08451a1dea787"
+                "reference": "76caab8675c68956d56a2dd03f66384251e0aa7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/alice/zipball/f05bd9740f8513da8a9ca78df6a08451a1dea787",
-                "reference": "f05bd9740f8513da8a9ca78df6a08451a1dea787",
+                "url": "https://api.github.com/repos/nelmio/alice/zipball/76caab8675c68956d56a2dd03f66384251e0aa7c",
+                "reference": "76caab8675c68956d56a2dd03f66384251e0aa7c",
                 "shasum": ""
             },
             "require": {
@@ -2029,7 +2029,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/alice/issues",
-                "source": "https://github.com/nelmio/alice/tree/3.13.5"
+                "source": "https://github.com/nelmio/alice/tree/3.13.6"
             },
             "funding": [
                 {
@@ -2037,7 +2037,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-02T09:07:42+00:00"
+            "time": "2024-07-03T17:54:12+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -6859,16 +6859,16 @@
         },
         {
             "name": "theofidry/alice-data-fixtures",
-            "version": "1.7.1",
+            "version": "1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/AliceDataFixtures.git",
-                "reference": "c05882a3ba35f8858de189aec0029b0598de7dce"
+                "reference": "39a2fb2d83d683bec58e9fa0c1e22feceb17056e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/AliceDataFixtures/zipball/c05882a3ba35f8858de189aec0029b0598de7dce",
-                "reference": "c05882a3ba35f8858de189aec0029b0598de7dce",
+                "url": "https://api.github.com/repos/theofidry/AliceDataFixtures/zipball/39a2fb2d83d683bec58e9fa0c1e22feceb17056e",
+                "reference": "39a2fb2d83d683bec58e9fa0c1e22feceb17056e",
                 "shasum": ""
             },
             "require": {
@@ -6943,7 +6943,7 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/AliceDataFixtures/issues",
-                "source": "https://github.com/theofidry/AliceDataFixtures/tree/1.7.1"
+                "source": "https://github.com/theofidry/AliceDataFixtures/tree/1.7.2"
             },
             "funding": [
                 {
@@ -6951,7 +6951,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-18T12:41:21+00:00"
+            "time": "2024-07-05T21:18:40+00:00"
         },
         {
             "name": "twig/twig",
@@ -7710,16 +7710,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.0.2",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13"
+                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/139676794dc1e9231bf7bcd123cfc0c99182cb13",
-                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/683130c2ff8c2739f4822ff7ac5c873ec529abd1",
+                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1",
                 "shasum": ""
             },
             "require": {
@@ -7730,7 +7730,7 @@
             },
             "require-dev": {
                 "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^9.0"
             },
             "bin": [
                 "bin/php-parse"
@@ -7762,9 +7762,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.0.2"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.1.0"
             },
-            "time": "2024-03-05T20:51:40+00:00"
+            "time": "2024-07-01T20:03:41+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -7930,16 +7930,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.5",
+            "version": "1.11.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "490f0ae1c92b082f154681d7849aee776a7c1443"
+                "reference": "6ac78f1165346c83b4a753f7e4186d969c6ad0ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/490f0ae1c92b082f154681d7849aee776a7c1443",
-                "reference": "490f0ae1c92b082f154681d7849aee776a7c1443",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6ac78f1165346c83b4a753f7e4186d969c6ad0ee",
+                "reference": "6ac78f1165346c83b4a753f7e4186d969c6ad0ee",
                 "shasum": ""
             },
             "require": {
@@ -7984,20 +7984,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-17T15:10:54+00:00"
+            "time": "2024-07-01T15:33:06+00:00"
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "1.4.3",
+            "version": "1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "dd27a3e83777ba0d9e9cedfaf4ebf95ff67b271f"
+                "reference": "c87ee295de7573d9c015c492693e7af7f8cd85dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/dd27a3e83777ba0d9e9cedfaf4ebf95ff67b271f",
-                "reference": "dd27a3e83777ba0d9e9cedfaf4ebf95ff67b271f",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/c87ee295de7573d9c015c492693e7af7f8cd85dc",
+                "reference": "c87ee295de7573d9c015c492693e7af7f8cd85dc",
                 "shasum": ""
             },
             "require": {
@@ -8054,9 +8054,9 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.4.3"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.4.5"
             },
-            "time": "2024-06-08T05:48:50+00:00"
+            "time": "2024-07-02T17:02:12+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -8184,16 +8184,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "10.1.14",
+            "version": "10.1.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "e3f51450ebffe8e0efdf7346ae966a656f7d5e5b"
+                "reference": "5da8b1728acd1e6ffdf2ff32ffbdfd04307f26ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/e3f51450ebffe8e0efdf7346ae966a656f7d5e5b",
-                "reference": "e3f51450ebffe8e0efdf7346ae966a656f7d5e5b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/5da8b1728acd1e6ffdf2ff32ffbdfd04307f26ae",
+                "reference": "5da8b1728acd1e6ffdf2ff32ffbdfd04307f26ae",
                 "shasum": ""
             },
             "require": {
@@ -8250,7 +8250,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.14"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.15"
             },
             "funding": [
                 {
@@ -8258,7 +8258,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-12T15:33:41+00:00"
+            "time": "2024-06-29T08:25:15+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -8505,16 +8505,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.24",
+            "version": "10.5.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "5f124e3e3e561006047b532fd0431bf5bb6b9015"
+                "reference": "831bf82312be6037e811833ddbea0b8de60ea314"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5f124e3e3e561006047b532fd0431bf5bb6b9015",
-                "reference": "5f124e3e3e561006047b532fd0431bf5bb6b9015",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/831bf82312be6037e811833ddbea0b8de60ea314",
+                "reference": "831bf82312be6037e811833ddbea0b8de60ea314",
                 "shasum": ""
             },
             "require": {
@@ -8586,7 +8586,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.24"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.25"
             },
             "funding": [
                 {
@@ -8602,7 +8602,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-20T13:09:54+00:00"
+            "time": "2024-07-03T05:49:17+00:00"
         },
         {
             "name": "react/cache",
