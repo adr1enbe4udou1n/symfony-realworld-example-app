@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "sonarqube-okami101",
+        "projectKey": "symfony-realworld"
+    }
+}

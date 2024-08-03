@@ -1,0 +1,38 @@
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      COMPOSER_ALLOW_SUPERUSER: 1
+      DATABASE_URL: postgresql://test:test@${{ vars.POSTGRESQL_HOST }}/conduit_symfony?serverVersion=16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: intl, pdo_pgsql, pcov
+          coverage: pcov
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - uses: https://gitea.okami101.io/okami101/actions/task@main
+      - uses: sonarsource/sonarqube-scan-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      - uses: https://gitea.okami101.io/okami101/actions/docker@main
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
