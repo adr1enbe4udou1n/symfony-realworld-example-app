@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      COMPOSER_ALLOW_SUPERUSER: 1
-      DATABASE_URL: postgresql://test:test@${{ vars.POSTGRESQL_HOST }}/conduit_symfony?serverVersion=16
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -28,6 +25,8 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - uses: https://gitea.okami101.io/okami101/actions/task@main
+        env:
+          DATABASE_URL: postgresql://test:test@${{ vars.POSTGRESQL_HOST }}/conduit_symfony?serverVersion=16
       - uses: sonarsource/sonarqube-scan-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
