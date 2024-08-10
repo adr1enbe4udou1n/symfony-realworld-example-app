@@ -2,7 +2,7 @@
 
 Symfony codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
 
-[![CI](https://concourse.okami101.io/api/v1/teams/main/pipelines/conduit-symfony/badge)](https://concourse.okami101.io/teams/main/pipelines/conduit-symfony)
+![CI](https://gitea.okami101.io/conduit/symfony/actions/workflows/build.yaml/badge.svg)
 
 ## [RealWorld](https://github.com/gothinkster/realworld)
 
