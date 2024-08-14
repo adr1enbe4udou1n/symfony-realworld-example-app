@@ -9,10 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProfileGetController extends AbstractController
 {
-    public function __construct(
-    ) {
-    }
-
     public function __invoke(#[MapEntity(mapping: ['username' => 'name'])] User $user)
     {
         /** @var User */

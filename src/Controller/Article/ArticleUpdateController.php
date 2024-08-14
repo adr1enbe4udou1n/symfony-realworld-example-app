@@ -9,6 +9,7 @@ use App\Entity\Article;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleUpdateController extends AbstractController
@@ -19,7 +20,7 @@ class ArticleUpdateController extends AbstractController
     ) {
     }
 
-    public function __invoke(Article $article, UpdateArticleRequest $data, ValidatorInterface $validator)
+    public function __invoke(#[MapEntity(mapping: ['slug'])] Article $article, UpdateArticleRequest $data, ValidatorInterface $validator)
     {
         $validator->validate($data);
 

@@ -9,6 +9,7 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommentCreateController extends AbstractController
@@ -18,7 +19,7 @@ class CommentCreateController extends AbstractController
     ) {
     }
 
-    public function __invoke(Article $article, NewCommentRequest $data, ValidatorInterface $validator)
+    public function __invoke(#[MapEntity(mapping: ['slug'])] Article $article, NewCommentRequest $data, ValidatorInterface $validator)
     {
         $validator->validate($data);
 

@@ -6,6 +6,7 @@ use App\Dto\Comment\MultipleCommentsResponse;
 use App\Entity\Article;
 use App\Entity\User;
 use App\Repository\CommentRepository;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommentListController extends AbstractController
@@ -15,7 +16,7 @@ class CommentListController extends AbstractController
     ) {
     }
 
-    public function __invoke(Article $article)
+    public function __invoke(#[MapEntity(mapping: ['slug'])] Article $article)
     {
         /** @var User */
         $user = $this->getUser();

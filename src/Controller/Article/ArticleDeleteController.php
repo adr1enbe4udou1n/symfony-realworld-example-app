@@ -5,6 +5,7 @@ namespace App\Controller\Article;
 use App\Entity\Article;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleDeleteController extends AbstractController
@@ -14,7 +15,7 @@ class ArticleDeleteController extends AbstractController
     ) {
     }
 
-    public function __invoke(Article $article)
+    public function __invoke(#[MapEntity(mapping: ['slug'])] Article $article)
     {
         /** @var User */
         $user = $this->getUser();
