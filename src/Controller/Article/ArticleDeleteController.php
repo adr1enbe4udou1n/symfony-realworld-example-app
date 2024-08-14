@@ -15,7 +15,7 @@ class ArticleDeleteController extends AbstractController
     ) {
     }
 
-    public function __invoke(#[MapEntity(mapping: ['slug'])] Article $article)
+    public function __invoke(#[MapEntity(mapping: ['slug' => 'slug'])] Article $article)
     {
         /** @var User */
         $user = $this->getUser();

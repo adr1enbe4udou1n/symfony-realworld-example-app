@@ -19,7 +19,7 @@ class CommentCreateController extends AbstractController
     ) {
     }
 
-    public function __invoke(#[MapEntity(mapping: ['slug'])] Article $article, NewCommentRequest $data, ValidatorInterface $validator)
+    public function __invoke(#[MapEntity(mapping: ['slug' => 'slug'])] Article $article, NewCommentRequest $data, ValidatorInterface $validator)
     {
         $validator->validate($data);
 

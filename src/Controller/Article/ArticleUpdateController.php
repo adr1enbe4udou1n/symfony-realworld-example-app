@@ -20,7 +20,7 @@ class ArticleUpdateController extends AbstractController
     ) {
     }
 
-    public function __invoke(#[MapEntity(mapping: ['slug'])] Article $article, UpdateArticleRequest $data, ValidatorInterface $validator)
+    public function __invoke(#[MapEntity(mapping: ['slug' => 'slug'])] Article $article, UpdateArticleRequest $data, ValidatorInterface $validator)
     {
         $validator->validate($data);
 
