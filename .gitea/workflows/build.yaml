@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: shivammathur/node:latest
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
