@@ -8,7 +8,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ArticleEntityListener
 {
     public function __construct(
-        private SluggerInterface $slugger
+        private SluggerInterface $slugger,
     ) {
     }
 

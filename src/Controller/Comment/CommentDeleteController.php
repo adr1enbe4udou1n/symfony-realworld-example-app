@@ -18,7 +18,7 @@ class CommentDeleteController extends AbstractController
 
     public function __invoke(
         #[MapEntity(mapping: ['slug' => 'slug'])] Article $article,
-        #[MapEntity(mapping: ['commentId' => 'id'])] Comment $comment
+        #[MapEntity(mapping: ['commentId' => 'id'])] Comment $comment,
     ) {
         if ($comment->article->id !== $article->id) {
             return $this->json([

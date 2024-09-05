@@ -15,7 +15,7 @@ class LoginController extends AbstractController
     public function __construct(
         private UserRepository $users,
         private JWTTokenManagerInterface $jwtManager,
-        private UserPasswordHasherInterface $userPasswordHasher
+        private UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 

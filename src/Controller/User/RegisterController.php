@@ -18,7 +18,7 @@ class RegisterController extends AbstractController
         private EntityManagerInterface $em,
         private UserRepository $users,
         private JWTTokenManagerInterface $jwtManager,
-        private UserPasswordHasherInterface $userPasswordHasher
+        private UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
