@@ -22,4 +22,3 @@ api_platform:
             standard_put: true
             rfc_7807_compliant_errors: true
     use_symfony_listeners: true
-    keep_legacy_inflector: false
