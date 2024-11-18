@@ -27,3 +27,7 @@
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 coverage.xml
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
