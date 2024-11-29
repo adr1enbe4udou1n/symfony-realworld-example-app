@@ -37,6 +37,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - uses: https://gitea.okami101.io/okami101/actions/task@main
         env:
+          PHP_CS_FIXER_IGNORE_ENV: true
           DATABASE_URL: postgresql://test:test@postgres/test?serverVersion=16
       - name: Cache sonar
         uses: actions/cache@v4
