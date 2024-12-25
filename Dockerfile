@@ -22,3 +22,7 @@ RUN \
     mkdir var && chown ${USER}:${USER} var;
 
 USER ${USER}
+
+ENV SERVER_NAME=:80
+ENV APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime
+ENV FRANKENPHP_CONFIG="worker ./public/index.php"
