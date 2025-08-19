@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: shivammathur/node:latest
+    container: https://github.com/shivammathur/node:latest
     services:
       postgres:
         image: postgres:16
