@@ -35,7 +35,7 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-      - uses: https://gitea.okami101.io/okami101/actions/task@main
+      - uses: https://forge.okami101.io/okami101/actions/task@main
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
           DATABASE_URL: postgresql://test:test@postgres/test?serverVersion=16
@@ -48,7 +48,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-      - uses: https://gitea.okami101.io/okami101/actions/docker@main
+      - uses: https://forge.okami101.io/okami101/actions/docker@main
         with:
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
           gitea-token: ${{ secrets.RELEASE_TOKEN }}
