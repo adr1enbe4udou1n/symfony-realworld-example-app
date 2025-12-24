@@ -3,6 +3,7 @@
 namespace App\Tests\User;
 
 use App\Tests\ApiBaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoginTest extends ApiBaseTestCase
@@ -20,9 +21,7 @@ class LoginTest extends ApiBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getInvalidData
-     */
+    #[DataProvider('getInvalidData')]
     public function testUserCannotLoginWithInvalidData($credentials)
     {
         $user = $this->createDefaultUser();

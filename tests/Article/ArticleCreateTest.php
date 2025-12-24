@@ -5,6 +5,7 @@ namespace App\Tests\Article;
 use App\Entity\Article;
 use App\Entity\Tag;
 use App\Tests\ApiBaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ArticleCreateTest extends ApiBaseTestCase
 {
@@ -29,9 +30,7 @@ class ArticleCreateTest extends ApiBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getInvalidData
-     */
+    #[DataProvider('getInvalidData')]
     public function testCannotCreateArticleWithInvalidData($article)
     {
         $this->actingAs();

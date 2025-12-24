@@ -4,6 +4,7 @@ namespace App\Tests\User;
 
 use App\Entity\User;
 use App\Tests\ApiBaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class RegisterTest extends ApiBaseTestCase
 {
@@ -26,9 +27,7 @@ class RegisterTest extends ApiBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getInvalidData
-     */
+    #[DataProvider('getInvalidData')]
     public function testUserCannotRegisterWithInvalidData($data)
     {
         $this->act(fn () => $this->client->request('POST', '/api/users', [

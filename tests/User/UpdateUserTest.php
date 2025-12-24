@@ -4,6 +4,7 @@ namespace App\Tests\User;
 
 use App\Entity\User;
 use App\Tests\ApiBaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class UpdateUserTest extends ApiBaseTestCase
 {
@@ -22,9 +23,7 @@ class UpdateUserTest extends ApiBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getInvalidData
-     */
+    #[DataProvider('getInvalidData')]
     public function testCannotUpdateInfosWithInvalidData($data)
     {
         $this->actingAs();

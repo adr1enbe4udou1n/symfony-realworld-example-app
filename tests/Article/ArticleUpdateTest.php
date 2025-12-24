@@ -5,6 +5,7 @@ namespace App\Tests\Article;
 use App\Entity\Article;
 use App\Entity\User;
 use App\Tests\ApiBaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ArticleUpdateTest extends ApiBaseTestCase
 {
@@ -54,9 +55,7 @@ class ArticleUpdateTest extends ApiBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getInvalidData
-     */
+    #[DataProvider('getInvalidData')]
     public function testCannotUpdateArticleWithInvalidData($article)
     {
         $user = $this->actingAs();

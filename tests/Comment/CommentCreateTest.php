@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Tests\ApiBaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class CommentCreateTest extends ApiBaseTestCase
 {
@@ -35,9 +36,7 @@ class CommentCreateTest extends ApiBaseTestCase
         ]];
     }
 
-    /**
-     * @dataProvider getInvalidData
-     */
+    #[DataProvider('getInvalidData')]
     public function testCannotCreateCommentWithInvalidData($comment)
     {
         $this->createArticle();
