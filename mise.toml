@@ -16,5 +16,13 @@ run = [
 [tasks.test]
 run = "php bin/phpunit --coverage-clover=coverage.xml --coverage-filter=src"
 
+[tasks.ci]
+run = [
+  { task = "vendor" },
+  { task = "lint" },
+  { task = "build" },
+  { task = "test" },
+]
+
 [tools]
 php = "8.5"
