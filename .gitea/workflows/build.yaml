@@ -9,7 +9,7 @@ jobs:
     container: shivammathur/node:latest
     services:
       postgres:
-        image: postgres:16
+        image: postgres:18
         env:
           POSTGRES_PASSWORD: test
           POSTGRES_USER: test
@@ -20,31 +20,35 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: https://github.com/shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: "8.5"
           extensions: intl, pdo_pgsql, pcov
           coverage: pcov
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache composer dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-      - uses: https://gitea.okami101.io/okami101/actions/task@main
+      - uses: jdx/mise-action@v3
+        with:
+          cache: false
+          install: false
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
           DATABASE_URL: postgresql://test:test@postgres/test?serverVersion=16
+      - run: mise vendor lint build test
       - name: Cache sonar
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: /opt/sonar-scanner/.sonar/cache
           key: ${{ runner.os }}-sonar
-      - uses: https://github.com/sonarsource/sonarqube-scan-action@v5
+      - uses: https://github.com/sonarsource/sonarqube-scan-action@v7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}

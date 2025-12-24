@@ -1,0 +1,20 @@
+[tasks.vendor]
+run = "composer install"
+
+[tasks.lint]
+run = [
+  "./vendor/bin/php-cs-fixer fix --dry-run",
+  "./vendor/bin/phpstan analyse"
+]
+
+[tasks.build]
+run = [
+  "php bin/console d:m:m --env=test -n",
+  "php bin/console lexik:jwt:generate-keypair -n"
+]
+
+[tasks.test]
+run = "php bin/phpunit --coverage-clover=coverage.xml --coverage-filter=src"
+
+[tools]
+php = "8.5"
