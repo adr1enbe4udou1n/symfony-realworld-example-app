@@ -38,12 +38,11 @@ jobs:
       - uses: jdx/mise-action@v3
         with:
           install: false
-        env:
-          PHP_CS_FIXER_IGNORE_ENV: true
-          DATABASE_URL: postgresql://test:test@postgres/test?serverVersion=16
       - run: mise ci
         env:
           MISE_TASK_RUN_AUTO_INSTALL: false
+          PHP_CS_FIXER_IGNORE_ENV: true
+          DATABASE_URL: postgresql://test:test@postgres/test?serverVersion=16
       - name: Cache sonar
         uses: actions/cache@v5
         with:
