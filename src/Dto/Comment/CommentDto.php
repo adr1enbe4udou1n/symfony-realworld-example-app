@@ -5,7 +5,7 @@ namespace App\Dto\Comment;
 use App\Dto\Profile\ProfileDto;
 use App\Entity\Comment;
 use App\Entity\User;
-use Symfony\Component\Serializer\Annotation\Context;
+use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 class CommentDto

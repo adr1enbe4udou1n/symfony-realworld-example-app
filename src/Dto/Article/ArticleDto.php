@@ -6,7 +6,7 @@ use App\Dto\Profile\ProfileDto;
 use App\Entity\Article;
 use App\Entity\Tag;
 use App\Entity\User;
-use Symfony\Component\Serializer\Annotation\Context;
+use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 class ArticleDto
