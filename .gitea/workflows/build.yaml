@@ -37,7 +37,6 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - uses: jdx/mise-action@v3
         with:
-          cache: false
           install: false
         env:
           PHP_CS_FIXER_IGNORE_ENV: true
