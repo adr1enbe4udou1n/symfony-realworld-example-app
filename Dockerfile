@@ -1,4 +1,4 @@
-FROM gitea.okami101.io/okami101/frankenphp:8.4
+FROM gitea.okami101.io/okami101/frankenphp:8.5
 
 ARG USER=www-data
 

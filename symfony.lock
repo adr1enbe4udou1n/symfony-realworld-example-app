@@ -37,7 +37,7 @@
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
-        "version": "3.3",
+        "version": "4.0",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -45,8 +45,8 @@
             "ref": "1d01ec03c6ecbd67c3375c5478c9a423ae5d6a33"
         },
         "files": [
-            "./config/packages/doctrine_migrations.yaml",
-            "./migrations/.gitignore"
+            "config/packages/doctrine_migrations.yaml",
+            "migrations/.gitignore"
         ]
     },
     "friendsofphp/php-cs-fixer": {
