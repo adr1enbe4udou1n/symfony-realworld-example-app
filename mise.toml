@@ -10,7 +10,7 @@ run = [
 [tasks.build]
 run = [
   "php bin/console d:m:m --env=test -n",
-  "php bin/console lexik:jwt:generate-keypair -n"
+  "php bin/console lexik:jwt:generate-keypair -n --overwrite"
 ]
 
 [tasks.test]
