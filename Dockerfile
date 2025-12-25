@@ -1,5 +1,6 @@
 FROM gitea.okami101.io/okami101/frankenphp:8.5
 
+ENV APP_ENV=prod
 ARG USER=www-data
 
 WORKDIR /app
