@@ -4,6 +4,10 @@ ARG USER=www-data
 
 WORKDIR /app
 
+COPY .env.prod .env
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+
 COPY bin bin/
 COPY config config/
 COPY fixtures fixtures/
@@ -11,8 +15,6 @@ COPY migrations migrations/
 COPY public public/
 COPY src src/
 COPY templates templates/
-COPY .env.prod .env
-COPY composer.json composer.lock ./
 
 RUN \
     composer install --no-dev --optimize-autoloader; \
