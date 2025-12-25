@@ -12,7 +12,7 @@ COPY migrations migrations/
 COPY public public/
 COPY src src/
 COPY templates templates/
-COPY .env.prod .env
+COPY .env.prod ./
 COPY composer.json composer.lock ./
 
 RUN \
