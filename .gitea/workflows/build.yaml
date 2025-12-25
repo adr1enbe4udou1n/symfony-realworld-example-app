@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: gitea.okami101.io/okami101/frankenphp:8.5
+      image: gitea.okami101.io/okami101/phpci:8.5
     services:
       postgres:
         image: postgres:18
