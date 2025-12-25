@@ -15,14 +15,14 @@ run = [
 
 [tasks.test]
 run = "php bin/phpunit --coverage-clover=coverage.xml --coverage-filter=src"
+depends = ["prepare"]
 
 [tasks.scan]
 run = "sonar-scanner"
 
 [tasks.ci]
 run = [
-  { tasks = ["lint", "prepare"] },
-  { tasks = ["test"] },
+  { tasks = ["lint", "test"] },
 ]
 depends = ["vendor"]
 
