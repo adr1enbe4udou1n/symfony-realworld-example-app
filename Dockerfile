@@ -17,7 +17,6 @@ COPY src src/
 COPY templates templates/
 
 RUN \
-    composer install --no-dev --optimize-autoloader; \
     useradd -D ${USER}; \
     setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
     chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy; \
