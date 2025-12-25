@@ -1,6 +1,5 @@
 FROM gitea.okami101.io/okami101/frankenphp:8.5
 
-ENV APP_ENV=prod
 ARG USER=www-data
 
 WORKDIR /app
@@ -12,7 +11,7 @@ COPY migrations migrations/
 COPY public public/
 COPY src src/
 COPY templates templates/
-COPY .env.prod ./
+COPY .env.prod .env
 COPY composer.json composer.lock ./
 
 RUN \
