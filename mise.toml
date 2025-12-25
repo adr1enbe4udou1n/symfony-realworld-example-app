@@ -7,7 +7,7 @@ run = [
   "./vendor/bin/phpstan analyse"
 ]
 
-[tasks.build]
+[tasks.prepare]
 run = [
   "php bin/console d:m:m --env=test -n",
   "php bin/console lexik:jwt:generate-keypair -n --overwrite"
@@ -21,7 +21,8 @@ run = "sonar-scanner"
 
 [tasks.ci]
 run = [
-  { tasks = ["lint", "build", "test"] },
+  { tasks = ["lint", "prepare"] },
+  { tasks = ["test"] },
 ]
 depends = ["vendor"]
 
