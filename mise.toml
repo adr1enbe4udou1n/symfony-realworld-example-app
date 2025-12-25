@@ -16,13 +16,15 @@ run = [
 [tasks.test]
 run = "php bin/phpunit --coverage-clover=coverage.xml --coverage-filter=src"
 
+[tasks.scan]
+run = "sonar-scanner"
+
 [tasks.ci]
 run = [
-  { task = "vendor" },
-  { task = "lint" },
-  { task = "build" },
-  { task = "test" },
+  { tasks = ["lint", "build", "test"] },
 ]
+depends = ["vendor"]
 
 [tools]
-php = "8.4"
+php = "8.5"
+sonar-scanner-cli = "8"
