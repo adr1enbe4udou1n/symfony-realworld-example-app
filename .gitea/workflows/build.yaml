@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: jdx/mise-action@v3
-        env:
+        with:
           install: false
       - name: vendor cache
         uses: actions/cache@v5
