@@ -42,7 +42,6 @@ jobs:
           DATABASE_URL: postgresql://test:test@postgres/test?serverVersion=16
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-      - run: "mise ci ::: scan"
       - uses: https://gitea.okami101.io/okami101/actions/docker@main
         with:
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
