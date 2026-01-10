@@ -1,8 +1,8 @@
 FROM gitea.okami101.io/okami101/frankenphp:8.5
 
-ENV APP_ENV=prod
 ENV SERVER_NAME=:80
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
+ENV APP_ENV=prod
 
 ARG USER=www-data
 
@@ -19,6 +19,7 @@ COPY .env.prod .env
 COPY composer.json composer.lock ./
 
 RUN \
+    mkdir var; \
     composer install --no-dev --optimize-autoloader; \
     useradd -D ${USER}; \
     setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
