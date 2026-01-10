@@ -16,6 +16,8 @@ COPY templates templates/
 COPY .env.prod .env
 COPY composer.json composer.lock ./
 
+RUN composer install --no-dev --optimize-autoloader
+
 RUN \
     composer install --no-dev --optimize-autoloader; \
     useradd -D ${USER}; \
