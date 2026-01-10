@@ -1,6 +1,9 @@
 FROM gitea.okami101.io/okami101/frankenphp:8.5
 
 ENV APP_ENV=prod
+ENV SERVER_NAME=:80
+ENV FRANKENPHP_CONFIG="worker ./public/index.php"
+
 ARG USER=www-data
 
 WORKDIR /app
@@ -24,6 +27,3 @@ RUN \
     chown ${USER}:${USER} var;
 
 USER ${USER}
-
-ENV SERVER_NAME=:80
-ENV FRANKENPHP_CONFIG="worker ./public/index.php"
