@@ -19,6 +19,7 @@ COPY .env.prod .env
 COPY composer.json composer.lock ./
 
 RUN \
+    mkdir var; \
     composer install --no-dev --optimize-autoloader; \
     useradd -D ${USER}; \
     setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
