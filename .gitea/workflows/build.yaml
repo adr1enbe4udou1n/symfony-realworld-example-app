@@ -34,7 +34,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: /root/.sonar/cache
-          key: ${{ runner.os }}-symfony-sonar
+          key: ${{ runner.os }}-sonar
       - run: "mise ci ::: scan"
         env:
           MISE_TASK_RUN_AUTO_INSTALL: false
