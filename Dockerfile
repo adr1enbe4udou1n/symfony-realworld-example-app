@@ -16,10 +16,9 @@ COPY templates templates/
 COPY .env.prod .env
 COPY composer.json composer.lock ./
 
-RUN composer install --no-dev --optimize-autoloader
-
 RUN \
-    composer install --no-dev --optimize-autoloader; \
+    composer install --no-dev --no-scripts --optimize-autoloader; \
+    php bin/console cache:clear; \
     useradd -D ${USER}; \
     setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
     chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy; \
