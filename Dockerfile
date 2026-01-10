@@ -1,11 +1,18 @@
 FROM gitea.okami101.io/okami101/frankenphp:8.5
 
+ARG USER=www-data
+
+RUN \
+    useradd ${USER}; \
+    setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
+    chown -R ${USER}:${USER} /config/caddy /data/caddy; \
+    chown -R ${USER}:${USER} /app
+
+USER ${USER}
+
 ENV APP_ENV=prod
 ENV SERVER_NAME=:80
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
-ARG USER=www-data
 
 WORKDIR /app
 
@@ -19,11 +26,4 @@ COPY templates templates/
 COPY .env.prod .env
 COPY composer.json composer.lock ./
 
-RUN \
-    composer install --no-dev --optimize-autoloader; \
-    useradd -D ${USER}; \
-    setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
-    chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy; \
-    chown -R ${USER}:${USER} var;
-
-USER ${USER}
+RUN composer install --no-dev --optimize-autoloader
