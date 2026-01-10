@@ -29,12 +29,12 @@ jobs:
         uses: actions/cache@v5
         with:
           path: vendor
-          key: ${{ runner.os }}-vendor
+          key: ${{ runner.os }}-symfony-vendor
       - name: sonar cache
         uses: actions/cache@v5
         with:
           path: /root/.sonar/cache
-          key: ${{ runner.os }}-sonar
+          key: ${{ runner.os }}-symfony-sonar
       - run: "mise ci ::: scan"
         env:
           MISE_TASK_RUN_AUTO_INSTALL: false
