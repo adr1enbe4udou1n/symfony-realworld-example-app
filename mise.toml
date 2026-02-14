@@ -27,5 +27,4 @@ run = [
 depends = ["vendor"]
 
 [tools]
-php = "8.5"
 sonar-scanner-cli = "8"
