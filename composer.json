@@ -14,7 +14,7 @@
         "hautelook/alice-bundle": "^2.14",
         "lexik/jwt-authentication-bundle": "^3.0",
         "nelmio/cors-bundle": "^2.4",
-        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpdocumentor/reflection-docblock": "^6.0",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "8.0.*",
         "symfony/console": "8.0.*",
