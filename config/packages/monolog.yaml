@@ -1,0 +1,11 @@
+when@test:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: "%kernel.cache_dir%/test.log"
+                level: error
+            console:
+                type: console
+                process_psr_3_messages: false
+                channels: ["!event", "!doctrine"]
