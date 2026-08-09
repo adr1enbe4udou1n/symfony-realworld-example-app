@@ -31,3 +31,4 @@ coverage.xml
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+.scannerwork/
